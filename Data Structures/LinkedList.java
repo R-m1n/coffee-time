@@ -64,6 +64,8 @@ toArray(): int[]
     Convert list to an array.
 reverse(): void
     Reverse the array inplace.
+middle(): int[]
+    Return the middle of the list.
 }
 
 private {
@@ -234,6 +236,38 @@ public class LinkedList {
         }
 
         first = node;
+    }
+
+    public int[] middle() {
+        // Return the middle of the list.
+
+        Node n1 = first;
+        Node n2 = first.getNext();
+
+        int counter = 2;
+        while (true) {
+            n1 = n1.getNext();
+
+            for (int i = 0; i < counter; i++) {
+                n2 = n2.getNext();
+            }
+
+            if (n2 == null) {
+                int[] middle = new int[1];
+                middle[0] = n1.getValue();
+
+                return middle;
+            }
+
+            if (n2.getNext() == null) {
+                int[] middle = new int[2];
+                middle[0] = n1.getValue();
+                middle[1] = n1.getNext().getValue();
+
+                return middle;
+            }
+
+        }
     }
 
     private Node secondToLastNode(Node first_node, Node last_node) {
