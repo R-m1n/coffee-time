@@ -270,6 +270,26 @@ public class LinkedList {
         }
     }
 
+    public boolean hasLoop() {
+        // Check whether the list has a loop.
+
+        Node n1 = first;
+        Node n2 = first.getNext().getNext();
+
+        while (true) {
+            n1 = n1.getNext();
+            n2 = n2.getNext();
+
+            if (n1 == n2) {
+                return true;
+            }
+
+            if (n2 == null) {
+                return false;
+            }
+        }
+    }
+
     private Node secondToLastNode(Node first_node, Node last_node) {
         // Return the second to last node.
 
