@@ -2,50 +2,41 @@ import java.util.Arrays;
 import java.util.EmptyStackException;
 
 public class Stack {
-    private int[] stack = new int[0];
-    private int size = 0;
+    private int[] stack;
+    public int count = 0;
+
+    public Stack(int size) {
+        this.stack = new int[size];
+    }
 
     public int pop() {
         if (this.isEmpty())
             throw new EmptyStackException();
 
-        int top = this.stack[size - 1];
-        int[] stack = new int[--size];
-
-        for (int index = 0; index < stack.length; index++) {
-            stack[index] = this.stack[index];
-        }
-
-        this.stack = stack;
-
-        return top;
+        return this.stack[--this.count];
     }
 
     public int peek() {
         if (this.isEmpty())
             throw new EmptyStackException();
 
-        return this.stack[size - 1];
+        return this.stack[this.count - 1];
     }
 
-    public void push(int number) {
-        int[] stack = new int[++size];
+    public void push(int item) {
+        if (this.count == stack.length)
+            throw new StackOverflowError();
 
-        int index = 0;
-        for (int i : this.stack) {
-            stack[index++] = i;
-        }
-
-        stack[size - 1] = number;
-        this.stack = stack;
+        this.stack[this.count++] = item;
     }
 
     public boolean isEmpty() {
-        return size == 0;
+        return this.count == 0;
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(stack);
+        var content = Arrays.copyOfRange(this.stack, 0, this.count);
+        return Arrays.toString(content);
     }
 }
