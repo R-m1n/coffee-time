@@ -3,7 +3,8 @@ import java.util.EmptyStackException;
 
 public class Stack {
     private int[] stack;
-    public int count = 0;
+    private int count = 0;
+    private int max = 0;
 
     public Stack(int size) {
         this.stack = new int[size];
@@ -27,7 +28,32 @@ public class Stack {
         if (this.count == stack.length)
             throw new StackOverflowError();
 
+        if (item > this.max)
+            this.max = item;
+
         this.stack[this.count++] = item;
+    }
+
+    public int max() {
+        return this.max;
+    }
+
+    public int min() {
+        int count_holder = this.count;
+        int min = this.max();
+
+        if (this.isEmpty())
+            throw new EmptyStackException();
+
+        while (!this.isEmpty()) {
+            if (this.peek() < min)
+                min = this.peek();
+
+            this.pop();
+        }
+
+        this.count = count_holder;
+        return min;
     }
 
     public boolean isEmpty() {
