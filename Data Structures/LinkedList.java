@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 /* 
 Linked List implementation.
@@ -333,4 +334,16 @@ public class LinkedList {
         }
     }
 
+    @Override
+    public String toString() {
+        int[] list = new int[this.size];
+        Node node = first;
+
+        for (int i = 0; i < list.length; i++) {
+            list[i] = node.getValue();
+            node = node.getNext();
+        }
+
+        return Arrays.toString(list);
+    }
 }
