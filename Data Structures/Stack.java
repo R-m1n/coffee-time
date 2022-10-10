@@ -117,7 +117,7 @@ public class Stack {
     private void setExtremum(int item) {
         // Set the extremum values of the stack.
 
-        if (item > this.max) {
+        if (item >= this.max) {
             this.max = item;
 
             /*
@@ -127,7 +127,7 @@ public class Stack {
             max_pointer = count;
         }
 
-        if (item < this.min) {
+        if (item <= this.min) {
             this.min = item;
 
             /*
