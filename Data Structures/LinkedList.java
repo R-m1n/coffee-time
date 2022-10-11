@@ -120,16 +120,16 @@ public class LinkedList {
         // Add an item to the beginning of the list.
 
         Node node = new Node();
-        node.setNext(first);
+        node.setNext(this.first);
         node.setValue(value);
 
-        if (isEmpty()) {
-            first = node;
-            last = node;
+        if (this.isEmpty()) {
+            this.first = node;
+            this.last = node;
         }
 
-        first = node;
-        size++;
+        this.first = node;
+        this.size++;
     }
 
     public void addLast(int value) {
@@ -137,36 +137,36 @@ public class LinkedList {
 
         Node node = new Node();
         node.setValue(value);
-        last.setNext(node);
+        this.last.setNext(node);
 
         if (isEmpty()) {
-            first = node;
-            last = node;
+            this.first = node;
+            this.last = node;
         }
 
-        last = node;
-        size++;
+        this.last = node;
+        this.size++;
     }
 
     public void deleteFirst() {
         // Delete the first item in the list.
 
-        check();
-        Node second = first.getNext();
-        first = null;
-        first = second;
-        size--;
+        this.check();
+        Node second = this.first.getNext();
+        this.first = null;
+        this.first = second;
+        this.size--;
     }
 
     public void deleteLast() {
         // Delete the last item in the list.
 
-        check();
-        Node node = secondToLastNode(first, last);
+        this.check();
+        Node node = secondToLastNode(this.first, this.last);
         node.setNext(null);
-        last = null;
-        last = node;
-        size--;
+        this.last = null;
+        this.last = node;
+        this.size--;
     }
 
     public int index(int value) {
@@ -193,7 +193,8 @@ public class LinkedList {
             index = size + index;
         }
 
-        Node node = first;
+        Node node = this.first;
+
         for (int i = 0; i < index; i++) {
             node = node.getNext();
         }
@@ -210,42 +211,49 @@ public class LinkedList {
     public int[] toArray() {
         // Convert list to an array.
 
-        int[] values = new int[size];
-        Node node = first;
-        int index = 0;
+        int[] array = new int[this.size];
+        Node node = this.first;
 
-        while (index < size) {
-            values[index++] = node.getValue();
+        for (int i = 0; i < array.length; i++) {
+            array[i] = node.getValue();
             node = node.getNext();
         }
 
-        return values;
+        return array;
     }
 
     public void reverse() {
-        // Reverse the array inplace.
+        // Reverse the list inplace.
 
         Node node = new Node();
+        Node second_to_last;
         int counter = 0;
 
         while (counter++ < size - 1) {
-            last.setNext(secondToLastNode(first, last));
-            if (counter == 1) {
-                node = last;
-            }
-            last = secondToLastNode(first, last);
+            second_to_last = secondToLastNode(this.first, this.last);
+            this.last.setNext(second_to_last);
+
+            if (counter == 1)
+                node = this.last;
+
+            this.last = second_to_last;
         }
 
-        first = node;
+        this.first = node;
     }
 
     public int[] middle() {
         // Return the middle of the list.
 
-        Node n1 = first;
-        Node n2 = first.getNext();
+        if (this.size < 3) {
+            return this.toArray();
+        }
+
+        Node n1 = this.first;
+        Node n2 = this.first.getNext();
 
         int counter = 2;
+
         while (true) {
             n1 = n1.getNext();
 
@@ -274,21 +282,19 @@ public class LinkedList {
     public boolean hasLoop() {
         // Check whether the list has a loop.
 
-        Node n1 = first;
-        Node n2 = first.getNext().getNext();
+        Node n1 = this.first;
+        Node n2 = this.first.getNext().getNext();
 
-        while (true) {
+        while (n2 != null) {
             n1 = n1.getNext();
             n2 = n2.getNext();
 
             if (n1 == n2) {
                 return true;
             }
-
-            if (n2 == null) {
-                return false;
-            }
         }
+
+        return false;
     }
 
     private Node secondToLastNode(Node first_node, Node last_node) {
@@ -309,7 +315,7 @@ public class LinkedList {
     private boolean isEmpty() {
         // Check if the list is empty.
 
-        return size == 0;
+        return this.size == 0;
     }
 
     private boolean isNull(Node node) {
@@ -328,22 +334,14 @@ public class LinkedList {
             throw new NoSuchElementException();
         }
 
-        if (size == 1) {
-            first = last = null;
-            size = 0;
+        if (this.size == 1) {
+            this.first = this.last = null;
+            this.size = 0;
         }
     }
 
     @Override
     public String toString() {
-        int[] list = new int[this.size];
-        Node node = first;
-
-        for (int i = 0; i < list.length; i++) {
-            list[i] = node.getValue();
-            node = node.getNext();
-        }
-
-        return Arrays.toString(list);
+        return Arrays.toString(this.toArray());
     }
 }
