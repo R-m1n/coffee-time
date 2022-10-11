@@ -15,14 +15,12 @@ max_pointers: int[]
 min_pointers: int[]
     Array of pointers, each indicating the position at which the minimum
     value is located in the stack at a particular state.
-max_pointer: int
-    Pointer indicating the position at which the maximum value is located
-    in the stack at a particular state.
-min_pointer: int
-    Pointer indicating the position at which the minimum value is located
-    in the stack at a particular state.
 count: int
     Current pointer in the stack.
+max_count: int
+    Current pointer in the max_pointers array.
+min_count: int
+    Current pointer in the min_pointers array.
 max: int
     Maximum value in the stack.
 min: int
@@ -60,9 +58,9 @@ public class Stack {
     private int[] stack;
     private int[] max_pointers;
     private int[] min_pointers;
-    private int max_pointer = 0;
-    private int min_pointer = 0;
     private int count = 0;
+    private int max_count = 0;
+    private int min_count = 0;
     private int max = Integer.MIN_VALUE;
     private int min = Integer.MAX_VALUE;
 
@@ -91,20 +89,28 @@ public class Stack {
         // Return and remove the last item in the stack.
 
         this.checkEmpty();
-        return this.stack[--this.count];
+        int top = this.stack[--this.count];
+
+        if (top == this.max())
+            max_count--;
+
+        if (top == this.min())
+            min_count--;
+
+        return top;
     }
 
     public int max() {
         // Return the maximum value in the stack.
 
-        int pointer = max_pointers[count - 1];
+        int pointer = max_pointers[max_count - 1];
         return stack[pointer];
     }
 
     public int min() {
         // Return the minimum value in the stack.
 
-        int pointer = min_pointers[count - 1];
+        int pointer = min_pointers[min_count - 1];
         return stack[pointer];
     }
 
@@ -121,28 +127,21 @@ public class Stack {
             this.max = item;
 
             /*
-             * Set the pointer to the current index at which the value is
-             * maximum in the stack.
+             * Capture the current index at which the value is
+             * the maximum in the stack.
              */
-            max_pointer = count;
+            max_pointers[max_count++] = count;
         }
 
         if (item <= this.min) {
             this.min = item;
 
             /*
-             * Set the pointer to the current index at which the value is
-             * minimum in the stack.
+             * Capture the current index at which the value is
+             * the minimum in the stack.
              */
-            min_pointer = count;
+            min_pointers[min_count++] = count;
         }
-
-        /*
-         * Set the pointers arrays values according to where the stack pointer
-         * (count) is and which index in the stack represents an extremum value.
-         */
-        max_pointers[count] = max_pointer;
-        min_pointers[count] = min_pointer;
     }
 
     private void checkFull() {
