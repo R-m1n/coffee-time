@@ -19,7 +19,7 @@ size: int
 }
 
 Methods
-----------
+-------
 public {
 enqueue(int item): void
     Add an item to the back of the queue.

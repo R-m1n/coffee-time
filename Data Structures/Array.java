@@ -18,7 +18,7 @@ curr_index: int
 }
 
 Methods
-----------
+-------
 public {
 append(int value): void
     Add an item to the end of the array, and dynamically resizes the array if its full.
