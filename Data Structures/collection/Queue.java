@@ -1,3 +1,4 @@
+package collection;
 
 public interface Queue {
     public void enqueue(int item); // Add an item to the back of the queue.
