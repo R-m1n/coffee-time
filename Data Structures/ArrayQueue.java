@@ -43,7 +43,7 @@ checkFull(): void
 }
 */
 
-public class ArrayQueue {
+public class ArrayQueue implements Queue {
 
     private int[] queue;
     private int rear;
