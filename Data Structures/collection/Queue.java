@@ -1,7 +1,7 @@
 package collection;
 
 /**
- * A Queue data structure interface.
+ * Queue data structure interface.
  * 
  * @author R-m1n
  */
