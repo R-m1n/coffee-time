@@ -3,59 +3,11 @@ package collection;
 import java.util.Arrays;
 import java.util.EmptyStackException;
 
-/* 
-Stack implementation using Arrays.
-
-Attributes
-----------
-private {
-stack: int[]
-    Underlying array.
-max_pointers: int[]
-    Array of pointers, each indicating the position at which the maximum
-    value is located in the stack at a particular state.
-min_pointers: int[]
-    Array of pointers, each indicating the position at which the minimum
-    value is located in the stack at a particular state.
-count: int
-    Current pointer in the stack.
-max_count: int
-    Current pointer in the max_pointers array.
-min_count: int
-    Current pointer in the min_pointers array.
-max: int
-    Maximum value in the stack.
-min: int
-    Minimum value in the stack.
-}
-
-Methods
--------
-public {
-push(int item): void
-    Add an item to the top of the stack.
-peek(): int
-    Return the last item in the stack.
-pop(): int
-    Return and remove the last item in the stack.
-max(): int
-    Return the maximum value in the stack.
-min(): int
-    Return the minimum value in the stack.
-isEmpty(): boolean
-    Check if the stack is empty.
-}
-
-private {
-setExtremum(int item): void
-    Set the extremum values of the stack.
-checkFull(): void
-    Throw exception if the stack is full.
-checkEmpty(): void
-    Throw exception if the stack is empty.
-}
-*/
-
+/**
+ * A Java implementation of Stack data structure using Array.
+ * 
+ * @author R-m1n
+ */
 public class ArrayStack implements Stack {
     private int[] stack;
     private int[] max_pointers;
@@ -72,24 +24,29 @@ public class ArrayStack implements Stack {
         this.min_pointers = new int[size];
     }
 
+    /**
+     * Add an item at the top of the stack.
+     * 
+     * @param item
+     */
     public void push(int item) {
-        // Add an item at the top of the stack.
-
         this.checkFull();
         this.setExtremum(item);
         this.stack[this.count++] = item;
     }
 
+    /**
+     * @return the last item in the stack.
+     */
     public int peek() {
-        // Return the last item in the stack.
-
         this.checkEmpty();
         return this.stack[this.count - 1];
     }
 
+    /**
+     * @return and remove the last item in the stack.
+     */
     public int pop() {
-        // Return and remove the last item in the stack.
-
         this.checkEmpty();
         int top = this.stack[--this.count];
 
@@ -102,29 +59,35 @@ public class ArrayStack implements Stack {
         return top;
     }
 
+    /**
+     * @return the maximum value in the stack.
+     */
     public int max() {
-        // Return the maximum value in the stack.
-
         int pointer = max_pointers[max_count - 1];
         return stack[pointer];
     }
 
+    /**
+     * @return the minimum value in the stack.
+     */
     public int min() {
-        // Return the minimum value in the stack.
-
         int pointer = min_pointers[min_count - 1];
         return stack[pointer];
     }
 
+    /**
+     * @return true if the stack is empty, else false.
+     */
     public boolean isEmpty() {
-        // Check if the stack is empty.
-
         return this.count == 0;
     }
 
+    /**
+     * Set the extremum values of the stack.
+     * 
+     * @param item
+     */
     private void setExtremum(int item) {
-        // Set the extremum values of the stack.
-
         if (item >= this.max) {
             this.max = item;
 
@@ -146,18 +109,20 @@ public class ArrayStack implements Stack {
         }
     }
 
-    private void checkFull() {
-        // Throw exception if the stack is full.
-
-        if (this.count == stack.length)
-            throw new StackOverflowError();
-    }
-
+    /**
+     * @throws EmptyStackException if the stack is empty.
+     */
     private void checkEmpty() {
-        // Throw exception if the stack is empty.
-
         if (this.isEmpty())
             throw new EmptyStackException();
+    }
+
+    /**
+     * @throws StackOverflowError if the stack is full.
+     */
+    private void checkFull() {
+        if (this.count == stack.length)
+            throw new StackOverflowError();
     }
 
     @Override
