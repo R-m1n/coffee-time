@@ -1,11 +1,30 @@
 package collection;
 
+/**
+ * A Queue data structure interface.
+ * 
+ * @author R-m1n
+ */
 public interface Queue {
-    public void enqueue(int item); // Add an item to the back of the queue.
+    /**
+     * Add an item to the back of the queue.
+     * 
+     * @param item
+     */
+    public void enqueue(int item);
 
-    public int dequeue(); // Return and remove an item from the front of the queue.
+    /**
+     * @return and remove an item from the front of the queue.
+     */
+    public int dequeue();
 
-    public int peek(); // Return an item from the front of the queue.
+    /**
+     * @return an item from the front of the queue.
+     */
+    public int peek();
 
-    public boolean isEmpty(); // Check if the queue is empty.
+    /**
+     * @return true if the queue is empty, else false.
+     */
+    public boolean isEmpty();
 }
