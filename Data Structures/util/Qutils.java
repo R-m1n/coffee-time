@@ -3,20 +3,31 @@ package util;
 import java.util.Stack;
 import collection.Queue;
 
+/**
+ * Utilities for Queue data structure.
+ * 
+ * @author R-m1n
+ */
 public class Qutils {
-    public static void reverseFirst(int k, Queue q) {
-        Stack<Integer> s = new Stack<>();
+    /**
+     * Reverse the fist k items in the queue.
+     * 
+     * @param k
+     * @param queue
+     */
+    public static void reverseFirst(int k, Queue queue) {
+        Stack<Integer> stack = new Stack<>();
         int front;
 
         for (int i = 0; i < k; i++)
-            s.push(q.dequeue());
+            stack.push(queue.dequeue());
 
-        front = s.peek();
+        front = stack.peek();
 
-        while (!s.empty())
-            q.enqueue(s.pop());
+        while (!stack.empty())
+            queue.enqueue(stack.pop());
 
-        while (q.peek() != front)
-            q.enqueue(q.dequeue());
+        while (queue.peek() != front)
+            queue.enqueue(queue.dequeue());
     }
 }
