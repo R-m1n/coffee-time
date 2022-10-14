@@ -2,51 +2,12 @@ package collection;
 
 import java.util.Arrays;
 
-/* 
-Queue implementation using Array.
-
-Attributes
-----------
-private {
-queue: int[]
-    An queue of integers.
-rear: int
-    Current pointer in the queue.
-front: int
-    Pointer to the front of the queue.
-count: int
-    Number of items in the queue.
-size: int
-    Size of the queue.
-}
-
-Methods
--------
-public {
-enqueue(int item): void
-    Add an item to the back of the queue.
-dequeue(): int
-    Return and remove an item from the beginning of the queue.
-peek(): int
-    Return an item from the beginning of the queue.
-isEmpty(): booelean
-    Check if the queue is empty.
-isFull(): int
-    Check if the queue is full.
-toArray(): int[]
-    Convert queue to array.
-}
-
-private {
-checkEmpty(): void
-    Throw an exception if the queue is empty.
-checkFull(): void
-    Throw an exception if the queue is full.
-}
-*/
-
+/**
+ * A Java implementation of Queue data structure using Array.
+ * 
+ * @author R-m1n
+ */
 public class ArrayQueue implements Queue {
-
     private int[] queue;
     private int rear;
     private int front;
@@ -60,19 +21,21 @@ public class ArrayQueue implements Queue {
         this.size = size;
     }
 
+    /**
+     * Add an item to the back of the queue.
+     */
     public void enqueue(int item) {
-        // Add an item to the back of the queue.
-
         checkFull();
 
         queue[rear] = item;
-        rear = (rear + 1) % this.size; // change in a circle (0, size).
+        rear = (rear + 1) % this.size; // change in a circle range(0, size).
         count++;
     }
 
+    /**
+     * @return and remove an item from the beginning of the queue.
+     */
     public int dequeue() {
-        // Return and remove an item from the beginning of the queue.
-
         checkEmpty();
 
         int item = queue[front];
@@ -82,27 +45,31 @@ public class ArrayQueue implements Queue {
         return item;
     }
 
+    /**
+     * @return an item from the beginning of the queue.
+     */
     public int peek() {
-        // Return an item from the beginning of the queue.
-
         return queue[front];
     }
 
+    /**
+     * @return true if the queue is empty, else false.
+     */
     public boolean isEmpty() {
-        // Check if the queue is empty.
-
         return count == 0;
     }
 
+    /**
+     * @return true if the queue is full, else false.
+     */
     public boolean isFull() {
-        // Check if the queue is full.
-
         return count == this.size;
     }
 
+    /**
+     * @return array of the items in the queue.
+     */
     public int[] toArray() {
-        // Convert queue to array.
-
         int[] array = new int[this.size];
         int counter = 0;
         int pointer = this.front;
@@ -115,16 +82,18 @@ public class ArrayQueue implements Queue {
         return Arrays.copyOfRange(array, 0, this.count);
     }
 
+    /**
+     * @throws IllegalStateException if the queue is empty.
+     */
     private void checkEmpty() {
-        // Throw an exception if the queue is empty.
-
         if (isEmpty())
             throw new IllegalStateException();
     }
 
+    /**
+     * @throws IllegalStateException if the queue is full.
+     */
     private void checkFull() {
-        // Throw an exception if the queue is full.
-
         if (isFull())
             throw new IllegalStateException();
     }
