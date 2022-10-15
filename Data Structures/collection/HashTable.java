@@ -9,42 +9,77 @@ import java.util.LinkedList;
  * @author R-m1n
  */
 public class HashTable {
-    private Object[] ht;
-    private int size;
 
-    public HashTable(int size) {
-        this.ht = new Object[size];
-        this.size = size;
+    /**
+     * A container for holding the key - value pair.
+     */
+    private class Entry {
+        private int key;
+        private String value;
 
-        for (int i = 0; i < size; i++) {
-            ht[i] = new LinkedList<>();
+        public Entry(int key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public int getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
         }
     }
 
+    private LinkedList<Entry>[] ht;
+    private Entry entry;
+    private int size;
+    private int digest;
+
+    @SuppressWarnings("unchecked")
+    public HashTable(int size) {
+        this.ht = new LinkedList[size];
+        this.size = size;
+    }
+
     public void put(int key, String value) {
-        int digest = hash(key);
+        entry = new Entry(key, value);
+        digest = this.hash(key);
 
-        cast(ht[digest]).add(value);
+        if (ht[digest] == null)
+            ht[digest] = new LinkedList<>();
+
+        ht[digest].add(entry);
     }
 
-    public LinkedList<String> get(int key) {
-        int digest = hash(key);
+    public String get(int key) {
+        digest = this.hash(key);
 
-        return cast(ht[digest]);
+        if (ht[digest] != null)
+            for (Entry entry : ht[digest]) {
+                if (entry.getKey() == key)
+                    return entry.getValue();
+            }
+
+        return "";
     }
 
-    public void remove(int key) {
-        int digest = hash(key);
+    public String remove(int key) {
+        String value = "";
+        digest = this.hash(key);
 
-        cast(ht[digest]).clear();
+        for (Entry entry : ht[digest]) {
+            if (entry.getKey() == key) {
+                value = entry.getValue();
+                ht[digest].remove(entry);
+            }
+        }
+
+        return value;
     }
 
     public int hash(int key) {
         return key % size;
     }
 
-    @SuppressWarnings("unchecked")
-    private LinkedList<String> cast(Object obj) {
-        return (LinkedList<String>) obj;
-    }
 }
