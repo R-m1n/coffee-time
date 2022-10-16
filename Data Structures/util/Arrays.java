@@ -1,7 +1,7 @@
 package util;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
 
 public class Arrays {
     public static Integer mostFrequent(int[] numbers) {
@@ -21,5 +21,21 @@ public class Arrays {
         }
 
         return null;
+    }
+
+    public static Integer countPairsWithDiff(int[] numbers, int difference) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int pairs = 0;
+
+        for (int number : numbers) {
+            map.put(number + difference, number);
+        }
+
+        for (int number : numbers) {
+            if (map.getOrDefault(number, Integer.MIN_VALUE) == number - difference)
+                pairs++;
+        }
+
+        return pairs;
     }
 }
