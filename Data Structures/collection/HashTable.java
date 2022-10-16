@@ -8,7 +8,7 @@ import java.util.LinkedList;
  * 
  * @author R-m1n
  */
-public class HashTable {
+public class HashTable implements Map {
 
     /**
      * A container for holding the key - value pair.
