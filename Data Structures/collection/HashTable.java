@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class HashTable implements Map {
 
     /**
-     * A container for holding the key - value pair.
+     * A container for the key-value pair.
      */
     private class Entry {
         private int key;
@@ -45,6 +45,12 @@ public class HashTable implements Map {
         this.size = size;
     }
 
+    /**
+     * Add a key-value pair in the hash table.
+     * 
+     * @param key
+     * @param value
+     */
     public void put(int key, String value) {
         var entry = getEntry(key);
 
@@ -57,14 +63,28 @@ public class HashTable implements Map {
         getBucket(key).add(new Entry(key, value));
     }
 
+    /**
+     * @param key
+     * @return the value stored with the key.
+     */
     public String get(int key) {
         return (getEntry(key) == null) ? null : getEntry(key).getValue();
     }
 
+    /**
+     * @param key
+     * @param defaultValue
+     * @return the value stored with the key, defaultValue if not found.
+     */
     public String get(int key, String defaulValue) {
         return (getEntry(key) == null) ? defaulValue : getEntry(key).getValue();
     }
 
+    /**
+     * Remove the key-value pair in the hash table stored with the key.
+     * 
+     * @param key
+     */
     public void remove(int key) {
         var entry = getEntry(key);
 
@@ -74,10 +94,18 @@ public class HashTable implements Map {
         getBucket(key).remove(entry);
     }
 
+    /**
+     * @param key
+     * @return hash value of key.
+     */
     private int hash(int key) {
         return Math.abs(key) % size;
     }
 
+    /**
+     * @param key
+     * @return entry, null if not found.
+     */
     private Entry getEntry(int key) {
         var bucket = getBucket(key);
 
@@ -91,10 +119,19 @@ public class HashTable implements Map {
         return null;
     }
 
+    /**
+     * @param key
+     * @return bucket, null if not initialized.
+     */
     private LinkedList<Entry> getBucket(int key) {
         return entries[hash(key)];
     }
 
+    /**
+     * Initialize a bucket if null.
+     * 
+     * @param key
+     */
     private void initNullBucket(int key) {
         int index = hash(key);
 

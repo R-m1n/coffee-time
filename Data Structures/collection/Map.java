@@ -17,9 +17,16 @@ public interface Map {
 
     /**
      * @param key
-     * @return the value stored with the key.
+     * @return the value stored with the key, null if not found.
      */
     public String get(int key);
+
+    /**
+     * @param key
+     * @param defaultValue
+     * @return the value stored with the key, defaultValue if not found.
+     */
+    public String get(int key, String defaultValue);
 
     /**
      * Remove the key-value pair in the hash table stored with the key.
