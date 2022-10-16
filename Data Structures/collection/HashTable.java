@@ -29,57 +29,76 @@ public class HashTable {
         public String getValue() {
             return value;
         }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
     }
 
-    private LinkedList<Entry>[] ht;
-    private Entry entry;
+    private LinkedList<Entry>[] entries;
     private int size;
-    private int digest;
 
     @SuppressWarnings("unchecked")
     public HashTable(int size) {
-        this.ht = new LinkedList[size];
+        this.entries = new LinkedList[size];
         this.size = size;
     }
 
     public void put(int key, String value) {
-        entry = new Entry(key, value);
-        digest = this.hash(key);
+        var entry = getEntry(key);
 
-        if (ht[digest] == null)
-            ht[digest] = new LinkedList<>();
+        if (entry != null) {
+            entry.setValue(value);
+            return;
+        }
 
-        ht[digest].add(entry);
+        initNullBucket(key);
+        getBucket(key).add(new Entry(key, value));
     }
 
     public String get(int key) {
-        digest = this.hash(key);
-
-        if (ht[digest] != null)
-            for (Entry entry : ht[digest]) {
-                if (entry.getKey() == key)
-                    return entry.getValue();
-            }
-
-        return "";
+        return (getEntry(key) == null) ? null : getEntry(key).getValue();
     }
 
-    public String remove(int key) {
-        String value = "";
-        digest = this.hash(key);
+    public String get(int key, String defaulValue) {
+        return (getEntry(key) == null) ? defaulValue : getEntry(key).getValue();
+    }
 
-        for (Entry entry : ht[digest]) {
-            if (entry.getKey() == key) {
-                value = entry.getValue();
-                ht[digest].remove(entry);
+    public void remove(int key) {
+        var entry = getEntry(key);
+
+        if (entry == null)
+            throw new IllegalStateException();
+
+        getBucket(key).remove(entry);
+    }
+
+    private int hash(int key) {
+        return Math.abs(key) % size;
+    }
+
+    private Entry getEntry(int key) {
+        var bucket = getBucket(key);
+
+        if (bucket != null) {
+            for (Entry entry : bucket) {
+                if (entry.getKey() == key)
+                    return entry;
             }
         }
 
-        return value;
+        return null;
     }
 
-    public int hash(int key) {
-        return key % size;
+    private LinkedList<Entry> getBucket(int key) {
+        return entries[hash(key)];
     }
 
+    private void initNullBucket(int key) {
+        int index = hash(key);
+
+        if (entries[index] == null)
+            entries[index] = new LinkedList<>();
+    }
 }
