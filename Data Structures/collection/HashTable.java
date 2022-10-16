@@ -65,7 +65,7 @@ public class HashTable implements Map {
 
     /**
      * @param key
-     * @return the value stored with the key.
+     * @return the value stored with the key, null if not found.
      */
     public String get(int key) {
         return (getEntry(key) == null) ? null : getEntry(key).getValue();
@@ -81,7 +81,7 @@ public class HashTable implements Map {
     }
 
     /**
-     * Remove the key-value pair in the hash table stored with the key.
+     * Remove the key-value pair from the hash table.
      * 
      * @param key
      */
