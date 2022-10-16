@@ -1,6 +1,7 @@
 package util;
 
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Arrays {
@@ -37,5 +38,25 @@ public class Arrays {
         }
 
         return pairs;
+    }
+
+    public static Object[] twoSum(int[] numbers, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        ArrayList<Integer> indices = new ArrayList<>();
+
+        for (int number : numbers) {
+            map.put(target - number, number);
+        }
+
+        var keys = map.keySet();
+        var index = 0;
+        for (int number : numbers) {
+            if (keys.contains(number) && keys.contains(target - number))
+                indices.add(index);
+
+            index++;
+        }
+
+        return indices.toArray();
     }
 }
