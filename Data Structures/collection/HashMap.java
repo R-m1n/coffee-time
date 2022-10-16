@@ -54,24 +54,19 @@ public class HashMap implements Map {
     }
 
     public String get(int key, String defaultValue) {
-        for (Entry entry : entries) {
-            if (entry == null)
-                continue;
-
-            if (entry.getKey() == key)
-                return entry.getValue();
-        }
-
-        return defaultValue;
+        return getEntry(key) == null ? defaultValue : getEntry(key).getValue();
     }
 
     public void remove(int key) {
         for (int i = 0; i < entries.length; i++) {
-            if (entries[i] == null)
+            if (entries[i] == null) {
                 continue;
+            }
 
-            if (entries[i].getKey() == key)
+            if (entries[i].getKey() == key) {
                 entries[i] = null;
+                return;
+            }
         }
     }
 
