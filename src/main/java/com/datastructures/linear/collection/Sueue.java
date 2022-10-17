@@ -8,6 +8,12 @@ import java.util.Stack;
  * @author R-m1n
  */
 public class Sueue implements Queue {
+    private class EmptyQueueException extends IllegalStateException {
+        public EmptyQueueException(String errMessage) {
+            super(errMessage);
+        }
+    }
+
     private Stack<Integer> s1 = new Stack<>();;
     private Stack<Integer> s2 = new Stack<>();
 
@@ -54,10 +60,10 @@ public class Sueue implements Queue {
     }
 
     /**
-     * @throws IllegalStateException if the queue is empty.
+     * @throws EmptyQueueException if the queue is empty.
      */
     private void checkEmpty() {
         if (this.isEmpty())
-            throw new IllegalStateException();
+            throw new EmptyQueueException("The Queue is Empty.");
     }
 }
