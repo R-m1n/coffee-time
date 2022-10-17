@@ -7,6 +7,11 @@ package src.main.java.com.datastructures.linear.collection;
  * @author R-m1n
  */
 public class HashMap implements Map {
+    private class FullMapException extends IllegalStateException {
+        public FullMapException(String errMessage) {
+            super(errMessage);
+        }
+    }
 
     /**
      * A container for the key-value pair.
@@ -130,7 +135,7 @@ public class HashMap implements Map {
 
     /**
      * @param key
-     * @throws IllegalStateException if there's no empty slots in the hash table.
+     * @throws FullMapException if there's no empty slots in the hash table.
      * @return index of an empty slot in the hash table.
      */
     private int getIndex(int key) {
@@ -139,7 +144,7 @@ public class HashMap implements Map {
 
         while (entries[index] != null) {
             if (step == size)
-                throw new IllegalStateException();
+                throw new FullMapException("There's no empty slot in the hash table.");
 
             index = probe(key, step++);
         }
