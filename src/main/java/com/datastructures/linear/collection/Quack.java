@@ -1,6 +1,7 @@
 package src.main.java.com.datastructures.linear.collection;
 
 import java.util.ArrayDeque;
+import java.util.EmptyStackException;
 import java.util.Queue;
 
 /**
@@ -95,10 +96,10 @@ public class Quack implements Stack {
     }
 
     /**
-     * @throws IllegalStateException
+     * @throws EmptyStackException if the stack is empty.
      */
     private void checkEmpty() {
         if (this.isEmpty())
-            throw new IllegalStateException();
+            throw new EmptyStackException();
     }
 }
