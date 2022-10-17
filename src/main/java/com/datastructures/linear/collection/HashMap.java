@@ -1,4 +1,4 @@
-package collection;
+package src.main.java.com.datastructures.linear.collection;
 
 /**
  * A Java implementation of Hash Table data structure.

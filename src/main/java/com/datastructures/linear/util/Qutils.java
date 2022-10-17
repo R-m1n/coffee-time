@@ -1,7 +1,8 @@
-package util;
+package src.main.java.com.datastructures.linear.util;
 
 import java.util.Stack;
-import collection.Queue;
+
+import src.main.java.com.datastructures.linear.collection.Queue;
 
 /**
  * Utilities for Queue data structure.

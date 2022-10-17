@@ -1,4 +1,4 @@
-package util;
+package src.main.java.com.datastructures.linear.util;
 
 import java.util.Map;
 import java.util.ArrayList;

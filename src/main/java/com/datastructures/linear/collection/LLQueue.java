@@ -1,4 +1,4 @@
-package collection;
+package src.main.java.com.datastructures.linear.collection;
 
 import java.util.Arrays;
 import java.util.LinkedList;
