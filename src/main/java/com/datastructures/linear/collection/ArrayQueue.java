@@ -8,6 +8,18 @@ import java.util.Arrays;
  * @author R-m1n
  */
 public class ArrayQueue implements Queue {
+    private class EmptyQueueException extends IllegalStateException {
+        public EmptyQueueException(String errMessage) {
+            super(errMessage);
+        }
+    }
+
+    private class FullQueueException extends IllegalStateException {
+        public FullQueueException(String errMessage) {
+            super(errMessage);
+        }
+    }
+
     private int[] queue;
     private int rear;
     private int front;
@@ -85,19 +97,19 @@ public class ArrayQueue implements Queue {
     }
 
     /**
-     * @throws IllegalStateException if the queue is empty.
+     * @throws EmptyQueueException if the queue is empty.
      */
     private void checkEmpty() {
         if (isEmpty())
-            throw new IllegalStateException();
+            throw new EmptyQueueException("The Queue is Empty!");
     }
 
     /**
-     * @throws IllegalStateException if the queue is full.
+     * @throws FullQueueException if the queue is full.
      */
     private void checkFull() {
         if (isFull())
-            throw new IllegalStateException();
+            throw new FullQueueException("The Queue is Full!");
     }
 
     @Override
