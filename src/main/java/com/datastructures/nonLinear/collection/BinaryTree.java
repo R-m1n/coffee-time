@@ -1,8 +1,5 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class BinaryTree {
     private class Node {
         private int value;
@@ -108,7 +105,10 @@ public class BinaryTree {
     }
 
     public int height(Node node) {
-        if (node.getLeft() == null && node.getRight() == null)
+        if (node == null)
+            return 0;
+
+        else if (node.getLeft() == null && node.getRight() == null)
             return 0;
 
         else if (node.getLeft() == null)
@@ -117,10 +117,7 @@ public class BinaryTree {
         else if (node.getRight() == null)
             node = node.getLeft();
 
-        else
-            node = node.getLeft();
-
-        return 1 + height(node);
+        return 1 + Math.max(height(node.getLeft()), height(node.getRight()));
     }
 
     public int height() {
