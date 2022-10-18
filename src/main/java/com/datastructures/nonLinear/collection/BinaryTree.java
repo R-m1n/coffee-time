@@ -2,9 +2,9 @@ package src.main.java.com.datastructures.nonLinear.collection;
 
 public class BinaryTree {
     private class Node {
+        private int value;
         private Node right;
         private Node left;
-        private int value;
 
         public Node(int value) {
             this.value = value;
@@ -34,16 +34,18 @@ public class BinaryTree {
     private Node root;
 
     public void insert(int number) {
+        Node node = new Node(number);
+
         if (root == null) {
-            root = new Node(number);
+            root = node;
             return;
         }
 
         Node leaf = root;
-        while (leaf != null) {
+        while (true) {
             if (leaf.getValue() > number) {
                 if (leaf.getLeft() == null) {
-                    leaf.setLeft(new Node(number));
+                    leaf.setLeft(node);
                     return;
                 }
 
@@ -51,9 +53,9 @@ public class BinaryTree {
                 continue;
             }
 
-            if (leaf.getValue() < number) {
+            else {
                 if (leaf.getRight() == null) {
-                    leaf.setRight(new Node(number));
+                    leaf.setRight(node);
                     return;
                 }
 
@@ -73,80 +75,25 @@ public class BinaryTree {
         }
 
         Node leaf = root;
-        int step = 1;
-        while (leaf.getValue() != number) {
+        while (leaf != null) {
             if (leaf.getValue() > number) {
-                if (leaf.getLeft() == null) {
-                    return false;
-                }
-
                 leaf = leaf.getLeft();
-                step++;
                 continue;
             }
 
-            if (leaf.getValue() < number) {
-                if (leaf.getRight() == null) {
-                    return false;
-                }
-
+            else if (leaf.getValue() < number) {
                 leaf = leaf.getRight();
-                step++;
                 continue;
             }
+
+            else
+                return true;
         }
 
-        System.out.print("steps: " + String.valueOf(step) + " -> ");
-        return true;
+        return false;
     }
 
-    public void remove(int number) {
-        if (root == null) {
-            throw new IllegalStateException();
-        }
-
-        if (root.getValue() == number) {
-            root = null;
-            return;
-        }
-
-        Node leaf = root;
-        int step = 1;
-        while (leaf.getValue() != number) {
-            if (leaf.getValue() > number) {
-                if (leaf.getLeft() == null) {
-                    throw new IllegalStateException();
-                }
-
-                if (leaf.getLeft().getValue() == number) {
-                    leaf.setLeft(null);
-                    System.out.print("steps: " + String.valueOf(step) + " -> Remove "
-                            + String.valueOf(number));
-                    return;
-                }
-
-                leaf = leaf.getLeft();
-                step++;
-                continue;
-            }
-
-            if (leaf.getValue() < number) {
-                if (leaf.getRight() == null) {
-                    throw new IllegalStateException();
-                }
-
-                if (leaf.getRight().getValue() == number) {
-                    leaf.setRight(null);
-                    System.out.print("steps: " + String.valueOf(step) + " -> Remove "
-                            + String.valueOf(number));
-                    return;
-                }
-
-                leaf = leaf.getRight();
-                step++;
-                continue;
-            }
-        }
+    public void remove(int number) { // TODO
 
     }
 
