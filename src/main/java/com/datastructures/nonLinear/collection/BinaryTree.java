@@ -1,5 +1,8 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BinaryTree {
     private class Node {
         private int value;
@@ -65,13 +68,13 @@ public class BinaryTree {
         }
     }
 
-    public boolean find(int number) {
+    public Node find(int number) {
         if (root == null) {
             throw new IllegalStateException();
         }
 
         if (root.getValue() == number) {
-            return true;
+            return root;
         }
 
         Node leaf = root;
@@ -87,14 +90,53 @@ public class BinaryTree {
             }
 
             else
-                return true;
+                return leaf;
         }
+
+        return null;
+    }
+
+    public boolean contains(int number) {
+        if (find(number) != null)
+            return true;
 
         return false;
     }
 
     public void remove(int number) { // TODO
 
+    }
+
+    public int height(Node node) {
+        if (node.getLeft() == null && node.getRight() == null)
+            return 0;
+
+        else if (node.getLeft() == null)
+            node = node.getRight();
+
+        else if (node.getRight() == null)
+            node = node.getLeft();
+
+        else
+            node = node.getLeft();
+
+        return 1 + height(node);
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    public int height(int value) {
+        return height(find(value));
+    }
+
+    public int depth(Node node) { // TODO
+        return 0;
+    }
+
+    public int depth(int value) {
+        return depth(find(value));
     }
 
 }
