@@ -18,6 +18,10 @@ public class BinaryTree {
             this.left = left;
         }
 
+        public void setValue(int value) {
+            this.value = value;
+        }
+
         public Node getLeft() {
             return left;
         }
@@ -33,8 +37,8 @@ public class BinaryTree {
 
     private Node root;
 
-    public void insert(int number) {
-        Node node = new Node(number);
+    public void insert(Node node) {
+        int number = node.getValue();
 
         if (root == null) {
             root = node;
@@ -63,6 +67,10 @@ public class BinaryTree {
                 continue;
             }
         }
+    }
+
+    public void insert(int number) {
+        insert(new Node(number));
     }
 
     public Node find(int number) {
@@ -100,8 +108,81 @@ public class BinaryTree {
         return false;
     }
 
-    public void remove(int number) { // TODO
+    public void remove(int number) { // FIXME
 
+        if (!contains(number))
+            throw new IllegalStateException();
+
+        Node leaf = root;
+        while (leaf != null) {
+            Node left = leaf.getLeft();
+            Node right = leaf.getRight();
+
+            if (leaf.getValue() == number) {
+                if (right != null && left != null) {
+                    leaf.setValue(left.getValue());
+                    insert(left.getRight());
+                    leaf.setLeft(left.getLeft());
+                    return;
+                }
+            }
+
+            if (leaf.getValue() > number) {
+                if (left.getValue() == number) {
+                    if (left.getRight() != null && left.getLeft() != null) {
+                        leaf.setLeft(left.getLeft());
+                        insert(left.getRight());
+                        left.setValue(left.getRight().getValue());
+                        return;
+                    }
+
+                    if (left.getRight() != null) {
+                        leaf.setLeft(left.getRight());
+                        left.setValue(left.getRight().getValue());
+                        return;
+                    }
+
+                    if (left.getLeft() != null) {
+                        leaf.setLeft((left.getLeft()));
+                        left.setValue(left.getLeft().getValue());
+                        return;
+                    }
+
+                    return;
+                }
+
+                leaf = left;
+                continue;
+            }
+
+            if (leaf.getValue() < number) {
+                if (right.getValue() == number) {
+                    if (right.getRight() != null && right.getLeft() != null) {
+                        leaf.setRight(right.getRight());
+                        insert(right.getLeft());
+                        right.setValue(right.getRight().getValue());
+                        return;
+                    }
+
+                    if (right.getRight() != null) {
+                        leaf.setRight(right.getRight());
+                        right.setValue(right.getRight().getValue());
+                        return;
+                    }
+
+                    if (right.getLeft() != null) {
+                        leaf.setRight((right.getLeft()));
+                        right.setValue(right.getLeft().getValue());
+                        return;
+                    }
+
+                    return;
+                }
+
+                leaf = right;
+                continue;
+            }
+        }
     }
 
     public int height(Node node) {
