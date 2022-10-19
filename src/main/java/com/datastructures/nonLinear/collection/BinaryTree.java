@@ -101,15 +101,20 @@ public class BinaryTree {
         return null;
     }
 
-    public boolean contains(int number) {
-        if (find(number) != null)
+    public boolean contains(Node node) {
+        if (find(node.getValue()) != null)
             return true;
 
         return false;
     }
 
-    public void remove(int number) { // FIXME
+    public boolean contains(int number) {
+        return contains(new Node(number));
+    }
 
+    public void remove(Node node) { // FIXME
+
+        int number = node.getValue();
         if (!contains(number))
             throw new IllegalStateException();
 
@@ -148,6 +153,7 @@ public class BinaryTree {
                         return;
                     }
 
+                    leaf.setLeft(null);
                     return;
                 }
 
@@ -176,6 +182,7 @@ public class BinaryTree {
                         return;
                     }
 
+                    leaf.setRight(null);
                     return;
                 }
 
@@ -183,6 +190,10 @@ public class BinaryTree {
                 continue;
             }
         }
+    }
+
+    public void remove(int number) {
+        remove(new Node(number));
     }
 
     public int height(Node node) {
