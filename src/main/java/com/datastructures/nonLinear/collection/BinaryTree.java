@@ -1,5 +1,10 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
+/**
+ * A Java implementation of Binary Search Tree data structure.
+ * 
+ * @author R-m1n
+ */
 public class BinaryTree {
     private class Node {
         private int value;
@@ -10,26 +15,50 @@ public class BinaryTree {
             this.value = value;
         }
 
+        /**
+         * Set the reference of the right child of the Node.
+         * 
+         * @param right
+         */
         public void setRight(Node right) {
             this.right = right;
         }
 
+        /**
+         * Set the reference of the left child of the Node.
+         * 
+         * @param right
+         */
         public void setLeft(Node left) {
             this.left = left;
         }
 
+        /**
+         * Set the value of the Node.
+         * 
+         * @param value
+         */
         public void setValue(int value) {
             this.value = value;
         }
 
-        public Node getLeft() {
-            return left;
-        }
-
+        /**
+         * @return the reference of the right child of the Node.
+         */
         public Node getRight() {
             return right;
         }
 
+        /**
+         * @return the reference of the left child of the Node.
+         */
+        public Node getLeft() {
+            return left;
+        }
+
+        /**
+         * @return the value of the Node.
+         */
         public int getValue() {
             return value;
         }
@@ -37,30 +66,59 @@ public class BinaryTree {
 
     private Node root;
 
+    /**
+     * Insert Node with input as value in the right spot in the Tree.
+     * 
+     * @param number
+     */
     public void insert(int number) {
         insert(new Node(number));
     }
 
+    /**
+     * @param number
+     * @return Node with the input as value.
+     */
     public Node find(int number) {
         return find(new Node(number));
     }
 
+    /**
+     * @param number
+     * @return true if the Tree contains a Node with input as value, else false.
+     */
     public boolean contains(int number) {
         return contains(new Node(number));
     }
 
+    /**
+     * Remove the Node with input as value.
+     * 
+     * @param number
+     */
     public void remove(int number) {
         remove(new Node(number));
     }
 
+    /**
+     * @return the height of the Tree.
+     */
     public int height() {
         return height(root);
     }
 
+    /**
+     * @param number
+     * @return the height of the Node with input as value.
+     */
     public int height(int number) {
         return height(find(number));
     }
 
+    /**
+     * @param number
+     * @return the depth of the Node with input as value.
+     */
     public int depth(int number) {
         Node node = find(number);
         if (!contains(node))
@@ -136,7 +194,13 @@ public class BinaryTree {
         return false;
     }
 
-    private void remove(Node node) { // FIXME
+    private void remove(Node node) {
+        /*
+         * Remove the node from the Tree by replacing the node
+         * with one of its non-null children, or by setting the node
+         * to null if it doesn't any children.
+         */
+
         int number = node.getValue();
         if (!contains(number))
             throw new IllegalStateException();
