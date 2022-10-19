@@ -128,6 +128,22 @@ public class BinaryTree {
         return depth(root, node);
     }
 
+    /**
+     * @return minimum value in the Tree.
+     */
+    public int min() {
+        return min(root);
+    }
+
+    /**
+     * @return sum of all the values in the Tree.
+     */
+    public int sum() {
+        sum = 0;
+        sum(root);
+        return sum;
+    }
+
     private void insert(Node node) {
         if (root == null) {
             root = node;
@@ -311,6 +327,13 @@ public class BinaryTree {
         return 0;
     }
 
+    private int min(Node node) {
+        while (node.getLeft() != null)
+            node = node.getLeft();
+
+        return node.getValue();
+    }
+
     private void sum(Node node) { // FIXME
         if (node == null)
             return;
@@ -318,11 +341,5 @@ public class BinaryTree {
         sum += node.getValue();
         sum(node.getRight());
         sum(node.getLeft());
-    }
-
-    public int sum() {
-        sum = 0;
-        sum(root);
-        return sum;
     }
 }
