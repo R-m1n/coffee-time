@@ -37,7 +37,35 @@ public class BinaryTree {
 
     private Node root;
 
-    public void insert(Node node) {
+    public void insert(int number) {
+        insert(new Node(number));
+    }
+
+    public Node find(int number) {
+        return find(new Node(number));
+    }
+
+    public boolean contains(int number) {
+        return contains(new Node(number));
+    }
+
+    public void remove(int number) {
+        remove(new Node(number));
+    }
+
+    public int height() {
+        return height(root);
+    }
+
+    public int height(int value) {
+        return height(find(value));
+    }
+
+    public int depth(int value) {
+        return depth(find(value));
+    }
+
+    private void insert(Node node) {
         int number = node.getValue();
 
         if (root == null) {
@@ -69,11 +97,8 @@ public class BinaryTree {
         }
     }
 
-    public void insert(int number) {
-        insert(new Node(number));
-    }
-
-    public Node find(int number) {
+    private Node find(Node node) {
+        int number = node.getValue();
         if (root == null) {
             throw new IllegalStateException();
         }
@@ -101,18 +126,14 @@ public class BinaryTree {
         return null;
     }
 
-    public boolean contains(Node node) {
+    private boolean contains(Node node) {
         if (find(node.getValue()) != null)
             return true;
 
         return false;
     }
 
-    public boolean contains(int number) {
-        return contains(new Node(number));
-    }
-
-    public void remove(Node node) { // FIXME
+    private void remove(Node node) { // FIXME
 
         int number = node.getValue();
         if (!contains(number))
@@ -192,31 +213,14 @@ public class BinaryTree {
         }
     }
 
-    public void remove(int number) {
-        remove(new Node(number));
-    }
-
-    public int height(Node node) {
+    private int height(Node node) {
         if (node == null)
             return -1;
 
         return 1 + Math.max(height(node.getLeft()), height(node.getRight()));
     }
 
-    public int height() {
-        return height(root);
-    }
-
-    public int height(int value) {
-        return height(find(value));
-    }
-
-    public int depth(Node node) { // TODO
+    private int depth(Node node) { // TODO
         return 0;
     }
-
-    public int depth(int value) {
-        return depth(find(value));
-    }
-
 }
