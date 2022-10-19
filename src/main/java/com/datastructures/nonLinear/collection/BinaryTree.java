@@ -65,6 +65,7 @@ public class BinaryTree {
     }
 
     private Node root;
+    private int inital_count = 1;
 
     /**
      * Insert Node with input as value in the right spot in the Tree.
@@ -308,5 +309,20 @@ public class BinaryTree {
             return 1 + depth(root.getRight(), node);
 
         return 0;
+    }
+
+    private void cum(Node node) { // TODO
+        if (node == null)
+            return;
+
+        inital_count *= node.getValue();
+        cum(node.getLeft());
+        cum(node.getRight());
+    }
+
+    public int cum() {
+        inital_count = 1;
+        cum(root);
+        return inital_count;
     }
 }
