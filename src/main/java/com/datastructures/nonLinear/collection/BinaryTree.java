@@ -62,7 +62,11 @@ public class BinaryTree {
     }
 
     public int depth(int number) {
-        return depth(find(number));
+        Node node = find(number);
+        if (!contains(node))
+            throw new IllegalStateException();
+
+        return depth(root, node);
     }
 
     private void insert(Node node) {
@@ -138,9 +142,11 @@ public class BinaryTree {
             throw new IllegalStateException();
 
         Node leaf = root;
+        Node left;
+        Node right;
         while (leaf != null) {
-            Node left = leaf.getLeft();
-            Node right = leaf.getRight();
+            left = leaf.getLeft();
+            right = leaf.getRight();
 
             if (leaf.getValue() > number) {
                 if (left.getValue() == number) {
@@ -207,6 +213,18 @@ public class BinaryTree {
                     leaf.setLeft(left.getLeft());
                     return;
                 }
+
+                else if (right != null) {
+                    leaf.setValue(right.getValue());
+                    leaf.setRight(right.getRight());
+                    return;
+                }
+
+                else if (left != null) {
+                    leaf.setValue(left.getValue());
+                    leaf.setLeft(left.getLeft());
+                    return;
+                }
             }
         }
     }
@@ -218,7 +236,13 @@ public class BinaryTree {
         return 1 + Math.max(height(node.getLeft()), height(node.getRight()));
     }
 
-    private int depth(Node node) { // TODO
+    private int depth(Node root, Node node) {
+        if (root.getValue() > node.getValue())
+            return 1 + depth(root.getLeft(), node);
+
+        else if (root.getValue() < node.getValue())
+            return 1 + depth(root.getRight(), node);
+
         return 0;
     }
 }
