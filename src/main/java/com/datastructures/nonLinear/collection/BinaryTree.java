@@ -65,7 +65,7 @@ public class BinaryTree {
     }
 
     private Node root;
-    private int inital_count = 1;
+    private int sum = 0;
 
     /**
      * Insert Node with input as value in the right spot in the Tree.
@@ -311,18 +311,18 @@ public class BinaryTree {
         return 0;
     }
 
-    private void cum(Node node) { // TODO
+    private void sum(Node node) { // FIXME
         if (node == null)
             return;
 
-        inital_count *= node.getValue();
-        cum(node.getLeft());
-        cum(node.getRight());
+        sum += node.getValue();
+        sum(node.getRight());
+        sum(node.getLeft());
     }
 
-    public int cum() {
-        inital_count = 1;
-        cum(root);
-        return inital_count;
+    public int sum() {
+        sum = 0;
+        sum(root);
+        return sum;
     }
 }
