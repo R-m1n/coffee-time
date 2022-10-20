@@ -327,11 +327,11 @@ public class BinaryTree {
         return 0;
     }
 
-    private int min(Node node) {
-        while (node.getLeft() != null)
-            node = node.getLeft();
+    private int min(Node node) { // TODO
+        if (node.getLeft() == null || node.getRight() == null)
+            return node.getValue();
 
-        return node.getValue();
+        return Math.min(min(node.getLeft()), min(node.getRight()));
     }
 
     private void sum(Node node) { // FIXME
@@ -339,7 +339,7 @@ public class BinaryTree {
             return;
 
         sum += node.getValue();
-        sum(node.getRight());
         sum(node.getLeft());
+        sum(node.getRight());
     }
 }
