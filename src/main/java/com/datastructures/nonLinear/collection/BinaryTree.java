@@ -101,6 +101,14 @@ public class BinaryTree {
     }
 
     /**
+     * @param node
+     * @return true if input doesn't have any children, else false.
+     */
+    public boolean isLeaf(Node node) {
+        return node.getLeft() == null && node.getRight() == null;
+    }
+
+    /**
      * @return the height of the Tree.
      */
     public int height() {
@@ -141,6 +149,13 @@ public class BinaryTree {
         return sum(root);
     }
 
+    /**
+     * @return product of all the values in the Tree.
+     */
+    public double prod() {
+        return prod(root);
+    }
+
     private void insert(Node node) {
         if (root == null) {
             root = node;
@@ -148,25 +163,25 @@ public class BinaryTree {
         }
 
         int number = node.getValue();
-        Node leaf = root;
+        Node current = root;
         while (true) {
-            if (leaf.getValue() > number) {
-                if (leaf.getLeft() == null) {
-                    leaf.setLeft(node);
+            if (current.getValue() > number) {
+                if (current.getLeft() == null) {
+                    current.setLeft(node);
                     return;
                 }
 
-                leaf = leaf.getLeft();
+                current = current.getLeft();
                 continue;
             }
 
             else {
-                if (leaf.getRight() == null) {
-                    leaf.setRight(node);
+                if (current.getRight() == null) {
+                    current.setRight(node);
                     return;
                 }
 
-                leaf = leaf.getRight();
+                current = current.getRight();
                 continue;
             }
         }
@@ -182,20 +197,20 @@ public class BinaryTree {
             return root;
         }
 
-        Node leaf = root;
-        while (leaf != null) {
-            if (leaf.getValue() > number) {
-                leaf = leaf.getLeft();
+        Node current = root;
+        while (current != null) {
+            if (current.getValue() > number) {
+                current = current.getLeft();
                 continue;
             }
 
-            else if (leaf.getValue() < number) {
-                leaf = leaf.getRight();
+            else if (current.getValue() < number) {
+                current = current.getRight();
                 continue;
             }
 
             else
-                return leaf;
+                return current;
         }
 
         return null;
@@ -219,88 +234,88 @@ public class BinaryTree {
         if (!contains(number))
             throw new IllegalStateException();
 
-        Node leaf = root;
+        Node current = root;
         Node left;
         Node right;
-        while (leaf != null) {
-            left = leaf.getLeft();
-            right = leaf.getRight();
+        while (current != null) {
+            left = current.getLeft();
+            right = current.getRight();
 
-            if (leaf.getValue() > number) {
+            if (current.getValue() > number) {
                 if (left.getValue() == number) {
                     if (left.getRight() != null && left.getLeft() != null) {
-                        leaf.setLeft(left.getLeft());
+                        current.setLeft(left.getLeft());
                         insert(left.getRight());
                         left.setValue(left.getRight().getValue());
                         return;
                     }
 
                     else if (left.getRight() != null) {
-                        leaf.setLeft(left.getRight());
+                        current.setLeft(left.getRight());
                         left.setValue(left.getRight().getValue());
                         return;
                     }
 
                     else if (left.getLeft() != null) {
-                        leaf.setLeft((left.getLeft()));
+                        current.setLeft((left.getLeft()));
                         left.setValue(left.getLeft().getValue());
                         return;
                     }
 
-                    leaf.setLeft(null);
+                    current.setLeft(null);
                     return;
                 }
 
-                leaf = left;
+                current = left;
                 continue;
             }
 
-            else if (leaf.getValue() < number) {
+            else if (current.getValue() < number) {
                 if (right.getValue() == number) {
                     if (right.getRight() != null && right.getLeft() != null) {
-                        leaf.setRight(right.getRight());
+                        current.setRight(right.getRight());
                         insert(right.getLeft());
                         right.setValue(right.getRight().getValue());
                         return;
                     }
 
                     else if (right.getRight() != null) {
-                        leaf.setRight(right.getRight());
+                        current.setRight(right.getRight());
                         right.setValue(right.getRight().getValue());
                         return;
                     }
 
                     else if (right.getLeft() != null) {
-                        leaf.setRight((right.getLeft()));
+                        current.setRight((right.getLeft()));
                         right.setValue(right.getLeft().getValue());
                         return;
                     }
 
-                    leaf.setRight(null);
+                    current.setRight(null);
                     return;
                 }
 
-                leaf = right;
+                current = right;
                 continue;
             }
 
-            else if (leaf.getValue() == number) {
+            else if (current.getValue() == number) {
                 if (right != null && left != null) {
-                    leaf.setValue(left.getValue());
+                    current.setValue(left.getValue());
                     insert(left.getRight());
-                    leaf.setLeft(left.getLeft());
+                    current.setLeft(left.getLeft());
                     return;
                 }
 
                 else if (right != null) {
-                    leaf.setValue(right.getValue());
-                    leaf.setRight(right.getRight());
+                    current.setValue(right.getValue());
+                    current.setRight(right.getRight());
                     return;
                 }
 
                 else if (left != null) {
-                    leaf.setValue(left.getValue());
-                    leaf.setLeft(left.getLeft());
+                    current.setValue(left.getValue());
+                    current.setLeft(left.getLeft());
                     return;
                 }
             }
@@ -325,7 +340,6 @@ public class BinaryTree {
     }
 
     private int min(Node node) {
-        System.out.println(node.getValue());
         if (node.getLeft() == null)
             return node.getValue();
 
@@ -337,5 +351,12 @@ public class BinaryTree {
             return 0;
 
         return node.getValue() + sum(node.getLeft()) + sum(node.getRight());
+    }
+
+    private double prod(Node node) {
+        if (node == null)
+            return 1;
+
+        return node.getValue() * prod(node.getLeft()) * prod(node.getRight());
     }
 }
