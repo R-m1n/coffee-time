@@ -163,11 +163,22 @@ public class BinaryTree {
         return prod(root);
     }
 
+    /**
+     * @param other
+     * @return true if input Tree equals this Tree, else false.
+     */
+    public boolean equals(BinaryTree other) {
+        return equals(root, other.root);
+    }
+
     private void insert(Node node) {
         if (root == null) {
             root = node;
             return;
         }
+
+        if (contains(node))
+            throw new IllegalStateException();
 
         int number = node.getValue();
         Node current = root;
@@ -372,5 +383,17 @@ public class BinaryTree {
             return 1;
 
         return node.getValue() * prod(node.getLeft()) * prod(node.getRight());
+    }
+
+    private boolean equals(Node root, Node other) {
+        if (root == null && other == null)
+            return true;
+
+        if (root != null && other != null)
+            return root.getValue() == other.getValue()
+                    && equals(root.getLeft(), other.getLeft())
+                    && equals(root.getRight(), other.getRight());
+
+        return false;
     }
 }
