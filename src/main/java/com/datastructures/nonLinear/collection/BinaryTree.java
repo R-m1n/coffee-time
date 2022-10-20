@@ -1,5 +1,8 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A Java implementation of Binary Search Tree data structure.
  * 
@@ -171,8 +174,20 @@ public class BinaryTree {
         return equals(root, other.root);
     }
 
-    public void print() {
-        print(root);
+    /**
+     * @return array of the values in the Tree, with In-Order traversal.
+     */
+    public Object[] toArray() {
+        return toList().toArray();
+    }
+
+    /**
+     * @return list of the values in the Tree, with In-Order traversal.
+     */
+    public List<Integer> toList() {
+        List<Integer> list = new ArrayList<>();
+        toList(root, list);
+        return list;
     }
 
     private void insert(Node node) {
@@ -401,11 +416,16 @@ public class BinaryTree {
         return false;
     }
 
-    private void print(Node node) { // FIXME
+    private void toList(Node node, List<Integer> list) {
         if (node != null) {
-            print(node.getLeft());
-            System.out.println(node.getValue());
-            print(node.getRight());
+            toList(node.getLeft(), list);
+            list.add(node.getValue());
+            toList(node.getRight(), list);
         }
+    }
+
+    @Override
+    public String toString() {
+        return toList().toString();
     }
 }
