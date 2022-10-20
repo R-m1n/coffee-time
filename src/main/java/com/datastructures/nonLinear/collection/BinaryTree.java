@@ -67,6 +67,24 @@ public class BinaryTree {
         }
     }
 
+    private class DuplicateNodeException extends IllegalStateException {
+        public DuplicateNodeException() {
+            super();
+        }
+    }
+
+    private class NullTreeException extends IllegalStateException {
+        public NullTreeException() {
+            super();
+        }
+    }
+
+    private class NodeNotFoundException extends IllegalStateException {
+        public NodeNotFoundException() {
+            super();
+        }
+    }
+
     private Node root;
 
     /**
@@ -133,7 +151,7 @@ public class BinaryTree {
     public int depth(int number) {
         Node node = find(number);
         if (!contains(node))
-            throw new IllegalStateException();
+            throw new NodeNotFoundException();
 
         return depth(root, node);
     }
@@ -190,6 +208,11 @@ public class BinaryTree {
         return list;
     }
 
+    @Override
+    public String toString() {
+        return toList().toString();
+    }
+
     private void insert(Node node) {
         if (root == null) {
             root = node;
@@ -197,7 +220,7 @@ public class BinaryTree {
         }
 
         if (contains(node))
-            throw new IllegalStateException();
+            throw new DuplicateNodeException();
 
         int number = node.getValue();
         Node current = root;
@@ -227,7 +250,7 @@ public class BinaryTree {
     private Node find(Node node) {
         int number = node.getValue();
         if (root == null) {
-            throw new IllegalStateException();
+            throw new NullTreeException();
         }
 
         if (root.getValue() == number) {
@@ -269,7 +292,7 @@ public class BinaryTree {
 
         int number = node.getValue();
         if (!contains(number))
-            throw new IllegalStateException();
+            throw new NodeNotFoundException();
 
         Node current = root;
         Node left;
@@ -422,10 +445,5 @@ public class BinaryTree {
             list.add(node.getValue());
             toList(node.getRight(), list);
         }
-    }
-
-    @Override
-    public String toString() {
-        return toList().toString();
     }
 }
