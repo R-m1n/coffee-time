@@ -136,7 +136,14 @@ public class BinaryTree {
     }
 
     /**
-     * @return minimum value in the Tree.
+     * @return the maximum value in the Tree.
+     */
+    public int max() {
+        return max(root);
+    }
+
+    /**
+     * @return the minimum value in the Tree.
      */
     public int min() {
         return min(root);
@@ -337,6 +344,13 @@ public class BinaryTree {
             return 1 + depth(root.getRight(), node);
 
         return 0;
+    }
+
+    private int max(Node node) {
+        if (node.getRight() == null)
+            return node.getValue();
+
+        return max(node.getRight());
     }
 
     private int min(Node node) {
