@@ -171,6 +171,10 @@ public class BinaryTree {
         return equals(root, other.root);
     }
 
+    public void print() {
+        print(root);
+    }
+
     private void insert(Node node) {
         if (root == null) {
             root = node;
@@ -385,15 +389,23 @@ public class BinaryTree {
         return node.getValue() * prod(node.getLeft()) * prod(node.getRight());
     }
 
-    private boolean equals(Node root, Node other) {
-        if (root == null && other == null)
+    private boolean equals(Node node, Node other) {
+        if (node == null && other == null)
             return true;
 
-        if (root != null && other != null)
-            return root.getValue() == other.getValue()
-                    && equals(root.getLeft(), other.getLeft())
-                    && equals(root.getRight(), other.getRight());
+        if (node != null && other != null)
+            return node.getValue() == other.getValue()
+                    && equals(node.getLeft(), other.getLeft())
+                    && equals(node.getRight(), other.getRight());
 
         return false;
+    }
+
+    private void print(Node node) { // FIXME
+        if (node != null) {
+            print(node.getLeft());
+            System.out.println(node.getValue());
+            print(node.getRight());
+        }
     }
 }
