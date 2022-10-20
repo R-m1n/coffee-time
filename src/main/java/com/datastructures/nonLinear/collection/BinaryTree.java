@@ -118,6 +118,12 @@ public class BinaryTree {
         return contains(new Node(number));
     }
 
+    /**
+     * Throw NodeNotFoundException if there's no Node in the Tree with input as
+     * value.
+     * 
+     * @param number
+     */
     public void exists(int number) {
         exists(new Node(number));
     }
@@ -214,6 +220,19 @@ public class BinaryTree {
         List<Integer> list = new ArrayList<>();
         toList(root, list);
         return list;
+    }
+
+    /**
+     * @return true if the Tree is structured correctly, else false.
+     */
+    public boolean validate() {
+        Object[] numbers = this.toArray();
+
+        for (int i = 0; i < numbers.length - 1; i++)
+            if ((int) numbers[i] >= (int) numbers[i + 1])
+                return false;
+
+        return true;
     }
 
     @Override
