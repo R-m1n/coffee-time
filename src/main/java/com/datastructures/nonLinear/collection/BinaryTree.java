@@ -79,6 +79,12 @@ public class BinaryTree {
         }
     }
 
+    private class NullNodeException extends IllegalStateException {
+        public NullNodeException() {
+            super();
+        }
+    }
+
     private class NodeNotFoundException extends IllegalStateException {
         public NodeNotFoundException() {
             super();
@@ -112,6 +118,10 @@ public class BinaryTree {
         return contains(new Node(number));
     }
 
+    public void exists(int number) {
+        exists(new Node(number));
+    }
+
     /**
      * Remove the Node with input as value.
      * 
@@ -141,6 +151,7 @@ public class BinaryTree {
      * @return the height of the Node with input as value.
      */
     public int height(int number) {
+        exists(number);
         return height(find(number));
     }
 
@@ -149,11 +160,8 @@ public class BinaryTree {
      * @return the depth of the Node with input as value.
      */
     public int depth(int number) {
-        Node node = find(number);
-        if (!contains(node))
-            throw new NodeNotFoundException();
-
-        return depth(root, node);
+        exists(number);
+        return depth(root, find(number));
     }
 
     /**
@@ -214,6 +222,9 @@ public class BinaryTree {
     }
 
     private void insert(Node node) {
+        if (node == null)
+            throw new NullNodeException();
+
         if (root == null) {
             root = node;
             return;
@@ -248,11 +259,13 @@ public class BinaryTree {
     }
 
     private Node find(Node node) {
-        int number = node.getValue();
-        if (root == null) {
-            throw new NullTreeException();
-        }
+        if (node == null)
+            throw new NullNodeException();
 
+        if (root == null)
+            throw new NullTreeException();
+
+        int number = node.getValue();
         if (root.getValue() == number) {
             return root;
         }
@@ -277,10 +290,15 @@ public class BinaryTree {
     }
 
     private boolean contains(Node node) {
-        if (find(node.getValue()) != null)
+        if (find(node) != null)
             return true;
 
         return false;
+    }
+
+    private void exists(Node node) {
+        if (find(node) == null)
+            throw new NodeNotFoundException();
     }
 
     private void remove(Node node) {
@@ -289,11 +307,9 @@ public class BinaryTree {
          * with one of its non-null children, or by setting the node
          * to null if it doesn't any children.
          */
+        exists(node);
 
         int number = node.getValue();
-        if (!contains(number))
-            throw new NodeNotFoundException();
-
         Node current = root;
         Node left;
         Node right;
