@@ -65,7 +65,6 @@ public class BinaryTree {
     }
 
     private Node root;
-    private int sum = 0;
 
     /**
      * Insert Node with input as value in the right spot in the Tree.
@@ -139,9 +138,7 @@ public class BinaryTree {
      * @return sum of all the values in the Tree.
      */
     public int sum() {
-        sum = 0;
-        sum(root);
-        return sum;
+        return sum(root);
     }
 
     private void insert(Node node) {
@@ -327,19 +324,18 @@ public class BinaryTree {
         return 0;
     }
 
-    private int min(Node node) { // TODO
-        if (node.getLeft() == null || node.getRight() == null)
+    private int min(Node node) {
+        System.out.println(node.getValue());
+        if (node.getLeft() == null)
             return node.getValue();
 
-        return Math.min(min(node.getLeft()), min(node.getRight()));
+        return min(node.getLeft());
     }
 
-    private void sum(Node node) { // FIXME
+    private int sum(Node node) {
         if (node == null)
-            return;
+            return 0;
 
-        sum += node.getValue();
-        sum(node.getLeft());
-        sum(node.getRight());
+        return node.getValue() + sum(node.getLeft()) + sum(node.getRight());
     }
 }
