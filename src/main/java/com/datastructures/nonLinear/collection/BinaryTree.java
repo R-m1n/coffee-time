@@ -223,6 +223,28 @@ public class BinaryTree {
     }
 
     /**
+     * @param leftChild
+     * @param rightChild
+     * @return true if input Nodes are sibling, else false.
+     */
+    public boolean areSibling(int leftChild, int rightChild) {
+        exists(leftChild);
+        exists(rightChild);
+        return areSibling(find(leftChild), find(rightChild));
+    }
+
+    /**
+     * @param number
+     * @return list of ancestors of the Node with input as value.
+     */
+    public List<Integer> ancestorsOf(int number) {
+        List<Integer> list = new ArrayList<>();
+        ancestorsOf(root, number, list);
+
+        return list;
+    }
+
+    /**
      * @param distance
      * @return list of values of Nodes at a given distance from root.
      */
@@ -475,6 +497,10 @@ public class BinaryTree {
         return 0;
     }
 
+    private int depth(Node node) {
+        return depth(root, node);
+    }
+
     private int max(Node node) {
         if (node.getRight() == null)
             return node.getValue();
@@ -553,5 +579,30 @@ public class BinaryTree {
             return 1;
 
         return countLeaves(node.getLeft()) + countLeaves(node.getRight());
+    }
+
+    private boolean areSibling(Node left, Node right) {
+        boolean cond1 = depth(left) == depth(right);
+        boolean cond2 = left.getValue() < root.getValue() && right.getValue() < root.getValue();
+        boolean cond3 = left.getValue() > root.getValue() && right.getValue() > root.getValue();
+
+        if (cond1 && (cond2 || cond3))
+            return true;
+
+        return false;
+    }
+
+    private void ancestorsOf(Node node, int number, List<Integer> list) {
+        if (node == null || node.getValue() == number)
+            return;
+
+        list.add(node.getValue());
+
+        if (node.getValue() > number)
+            ancestorsOf(node.getLeft(), number, list);
+
+        if (node.getValue() < number)
+            ancestorsOf(node.getRight(), number, list);
+
     }
 }
