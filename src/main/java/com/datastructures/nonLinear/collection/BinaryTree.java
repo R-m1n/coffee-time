@@ -245,15 +245,18 @@ public class BinaryTree {
     }
 
     /**
-     * @param distance
-     * @return list of values of Nodes at a given distance from root.
+     * @param depth
+     * @return list of values of Nodes at a given depth.
      */
-    public List<Integer> nodesAt(int distance) {
+    public List<Integer> nodesAt(int depth) {
         List<Integer> list = new ArrayList<>();
-        nodesAt(root, distance, list);
+        nodesAt(root, depth, list);
         return list;
     }
 
+    /**
+     * @return number of leaves in the Tree.
+     */
     public int countLeaves() {
         return countLeaves(root);
     }
@@ -561,13 +564,13 @@ public class BinaryTree {
                 && validate(node.getRight(), node.getValue(), max);
     }
 
-    private void nodesAt(Node node, int distance, List<Integer> list) {
+    private void nodesAt(Node node, int depth, List<Integer> list) {
         if (node != null) {
-            if (distance == 0)
+            if (depth == 0)
                 list.add(node.getValue());
 
-            nodesAt(node.getLeft(), distance - 1, list);
-            nodesAt(node.getRight(), distance - 1, list);
+            nodesAt(node.getLeft(), depth - 1, list);
+            nodesAt(node.getRight(), depth - 1, list);
         }
     }
 
