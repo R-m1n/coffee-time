@@ -138,6 +138,13 @@ public class BinaryTree {
     }
 
     /**
+     * @return number of Nodes in the Tree.
+     */
+    public int size() {
+        return size(root) - 1; // -1 as root is counted twice.
+    }
+
+    /**
      * @param node
      * @return true if input doesn't have any children, else false.
      */
@@ -228,6 +235,16 @@ public class BinaryTree {
      */
     public boolean validate() {
         return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    /**
+     * @param distance
+     * @return list of nodes at a given distance from root.
+     */
+    public List<Integer> nodesAt(int distance) {
+        List<Integer> list = new ArrayList<>();
+        nodesAt(root, distance, list);
+        return list;
     }
 
     @Override
@@ -412,6 +429,13 @@ public class BinaryTree {
         }
     }
 
+    private int size(Node node) {
+        if (node == null)
+            return 1;
+
+        return size(node.getLeft()) + size(node.getRight());
+    }
+
     private int height(Node node) {
         if (node == null)
             return -1;
@@ -485,6 +509,17 @@ public class BinaryTree {
             return false;
         }
 
-        return validate(node.getLeft(), min, node.getValue()) && validate(node.getRight(), node.getValue(), max);
+        return validate(node.getLeft(), min, node.getValue())
+                && validate(node.getRight(), node.getValue(), max);
+    }
+
+    private void nodesAt(Node node, int distance, List<Integer> list) {
+        if (node != null) {
+            if (distance == 0)
+                list.add(node.getValue());
+
+            nodesAt(node.getLeft(), distance - 1, list);
+            nodesAt(node.getRight(), distance - 1, list);
+        }
     }
 }
