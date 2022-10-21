@@ -148,8 +148,9 @@ public class BinaryTree {
      * @param node
      * @return true if input doesn't have any children, else false.
      */
-    public boolean isLeaf(Node node) {
-        return node.getLeft() == null && node.getRight() == null;
+    public boolean isLeaf(int number) {
+        exists(number);
+        return isLeaf(find(number));
     }
 
     /**
@@ -229,6 +230,10 @@ public class BinaryTree {
         List<Integer> list = new ArrayList<>();
         nodesAt(root, distance, list);
         return list;
+    }
+
+    public int countLeaves() {
+        return countLeaves(root);
     }
 
     /**
@@ -449,6 +454,10 @@ public class BinaryTree {
         return size(node.getLeft()) + size(node.getRight());
     }
 
+    private boolean isLeaf(Node node) {
+        return node.getLeft() == null && node.getRight() == null;
+    }
+
     private int height(Node node) {
         if (node == null)
             return -1;
@@ -534,5 +543,15 @@ public class BinaryTree {
             nodesAt(node.getLeft(), distance - 1, list);
             nodesAt(node.getRight(), distance - 1, list);
         }
+    }
+
+    private int countLeaves(Node node) {
+        if (node == null)
+            return 0;
+
+        if (isLeaf(node))
+            return 1;
+
+        return countLeaves(node.getLeft()) + countLeaves(node.getRight());
     }
 }
