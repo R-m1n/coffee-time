@@ -214,6 +214,37 @@ public class BinaryTree {
     }
 
     /**
+     * @return true if the Tree is structured in accordance to Binary Search Tree
+     *         principle (Left < Root < Right), else false.
+     */
+    public boolean validate() {
+        return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    /**
+     * @param distance
+     * @return list of values of Nodes at a given distance from root.
+     */
+    public List<Integer> nodesAt(int distance) {
+        List<Integer> list = new ArrayList<>();
+        nodesAt(root, distance, list);
+        return list;
+    }
+
+    /**
+     * @return list of values of Nodes with Level-Order traversal.
+     */
+    public List<Integer> levelOrder() {
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i <= height(); i++) {
+            list.addAll(nodesAt(i));
+        }
+
+        return list;
+    }
+
+    /**
      * @return array of the values in the Tree, with In-Order traversal.
      */
     public Object[] toArray() {
@@ -226,24 +257,6 @@ public class BinaryTree {
     public List<Integer> toList() {
         List<Integer> list = new ArrayList<>();
         toList(root, list);
-        return list;
-    }
-
-    /**
-     * @return true if the Tree is structured in accordance to Binary Search Tree
-     *         principle (Left < Root < Right), else false.
-     */
-    public boolean validate() {
-        return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
-    }
-
-    /**
-     * @param distance
-     * @return list of nodes at a given distance from root.
-     */
-    public List<Integer> nodesAt(int distance) {
-        List<Integer> list = new ArrayList<>();
-        nodesAt(root, distance, list);
         return list;
     }
 
