@@ -223,16 +223,11 @@ public class BinaryTree {
     }
 
     /**
-     * @return true if the Tree is structured correctly, else false.
+     * @return true if the Tree is structured in accordance to Binary Search Tree
+     *         principle (Left < Root < Right), else false.
      */
     public boolean validate() {
-        Object[] numbers = this.toArray();
-
-        for (int i = 0; i < numbers.length - 1; i++)
-            if ((int) numbers[i] >= (int) numbers[i + 1])
-                return false;
-
-        return true;
+        return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     @Override
@@ -480,5 +475,16 @@ public class BinaryTree {
             list.add(node.getValue());
             toList(node.getRight(), list);
         }
+    }
+
+    private boolean validate(Node node, int min, int max) {
+        if (node == null)
+            return true;
+
+        if (min >= node.getValue() || node.getValue() >= max) {
+            return false;
+        }
+
+        return validate(node.getLeft(), min, node.getValue()) && validate(node.getRight(), node.getValue(), max);
     }
 }
