@@ -1,6 +1,6 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
-public class AVL extends BinaryTree {
+public class ARM extends BinaryTree {
 
     public void insert(int number) {
         if (super.root == null)
