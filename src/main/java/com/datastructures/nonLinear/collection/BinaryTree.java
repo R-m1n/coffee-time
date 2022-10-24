@@ -9,7 +9,7 @@ import java.util.List;
  * @author R-m1n
  */
 public class BinaryTree {
-    private class Node {
+    protected class Node {
         private int value;
         private Node right;
         private Node left;
@@ -67,25 +67,25 @@ public class BinaryTree {
         }
     }
 
-    private class DuplicateNodeException extends IllegalStateException {
+    protected class DuplicateNodeException extends IllegalStateException {
         public DuplicateNodeException() {
             super();
         }
     }
 
-    private class NullTreeException extends NullPointerException {
+    protected class NullTreeException extends NullPointerException {
         public NullTreeException() {
             super();
         }
     }
 
-    private class NullNodeException extends NullPointerException {
+    protected class NullNodeException extends NullPointerException {
         public NullNodeException() {
             super();
         }
     }
 
-    private class NodeNotFoundException extends NullPointerException {
+    protected class NodeNotFoundException extends NullPointerException {
         public NodeNotFoundException() {
             super();
         }
