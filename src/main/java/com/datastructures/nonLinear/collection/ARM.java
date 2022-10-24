@@ -7,7 +7,6 @@ public class ARM extends BinaryTree {
             super.root = new Node(number);
 
         insert(super.root, number);
-        reshape();
     }
 
     public boolean isBalanced(int number) {
@@ -15,6 +14,7 @@ public class ARM extends BinaryTree {
     }
 
     private void insert(Node node, int number) {
+
         if (node.getValue() > number) {
             if (node.getLeft() == null) {
                 node.setLeft(new Node(number));
@@ -39,15 +39,6 @@ public class ARM extends BinaryTree {
             return true;
 
         return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
-    }
-
-    private void reshape() {
-        for (Object number : super.toArray()) {
-            if (!isBalanced((int) number)) {
-                remove((int) number);
-                insert((int) number);
-            }
-        }
     }
 
 }
