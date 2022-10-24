@@ -450,22 +450,21 @@ public class BinaryTree {
             }
 
             else if (current.getValue() == number) {
-                if (right != null && left != null) {
-                    current.setValue(left.getValue());
-                    insert(left.getRight());
-                    current.setLeft(left.getLeft());
-                    return;
-                }
-
-                else if (right != null) {
+                if (right != null) {
                     current.setValue(right.getValue());
-                    current.setRight(right.getRight());
+                    if (right.getRight() != null)
+                        current.setRight(right.getRight());
+                    if (right.getLeft() != null)
+                        current.setRight(right.getLeft());
                     return;
                 }
 
                 else if (left != null) {
                     current.setValue(left.getValue());
-                    current.setLeft(left.getLeft());
+                    if (left.getLeft() != null)
+                        current.setLeft(left.getLeft());
+                    if (left.getRight() != null)
+                        current.setLeft(left.getRight());
                     return;
                 }
             }

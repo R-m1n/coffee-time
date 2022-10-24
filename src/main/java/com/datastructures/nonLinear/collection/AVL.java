@@ -7,35 +7,47 @@ public class AVL extends BinaryTree {
             super.root = new Node(number);
 
         insert(super.root, number);
+        reshape();
+    }
+
+    public boolean isBalanced(int number) {
+        return isBalanced(find(number));
     }
 
     private void insert(Node node, int number) {
-        if (node != null) {
-            if (node.getValue() > number) {
-                if (node.getLeft() == null) {
-                    node.setLeft(new Node(number));
-                    return;
-                }
-
-                insert(node.getLeft(), number);
+        if (node.getValue() > number) {
+            if (node.getLeft() == null) {
+                node.setLeft(new Node(number));
+                return;
             }
 
-            if (node.getValue() < number) {
-                if (node.getRight() == null) {
-                    node.setRight(new Node(number));
-                    return;
-                }
+            insert(node.getLeft(), number);
+        }
 
-                insert(node.getRight(), number);
+        if (node.getValue() < number) {
+            if (node.getRight() == null) {
+                node.setRight(new Node(number));
+                return;
             }
+
+            insert(node.getRight(), number);
         }
     }
 
-    private boolean balanced(Node node) {
+    private boolean isBalanced(Node node) {
         if (isLeaf(node))
             return true;
 
         return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
+    }
+
+    private void reshape() {
+        for (Object number : super.toArray()) {
+            if (!isBalanced((int) number)) {
+                remove((int) number);
+                insert((int) number);
+            }
+        }
     }
 
 }
