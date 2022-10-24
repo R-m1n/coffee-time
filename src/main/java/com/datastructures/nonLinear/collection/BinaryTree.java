@@ -73,19 +73,19 @@ public class BinaryTree {
         }
     }
 
-    private class NullTreeException extends IllegalStateException {
+    private class NullTreeException extends NullPointerException {
         public NullTreeException() {
             super();
         }
     }
 
-    private class NullNodeException extends IllegalStateException {
+    private class NullNodeException extends NullPointerException {
         public NullNodeException() {
             super();
         }
     }
 
-    private class NodeNotFoundException extends IllegalStateException {
+    private class NodeNotFoundException extends NullPointerException {
         public NodeNotFoundException() {
             super();
         }
@@ -556,9 +556,8 @@ public class BinaryTree {
         if (node == null)
             return true;
 
-        if (min >= node.getValue() || node.getValue() >= max) {
+        if (min >= node.getValue() || node.getValue() >= max)
             return false;
-        }
 
         return validate(node.getLeft(), min, node.getValue())
                 && validate(node.getRight(), node.getValue(), max);
