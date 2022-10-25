@@ -7,6 +7,7 @@ public class ARM extends BinaryTree {
             super.root = new Node(number);
 
         insert(super.root, number);
+        reshape();
     }
 
     public boolean isBalanced(int number) {
@@ -50,6 +51,7 @@ public class ARM extends BinaryTree {
             if (!isBalanced(node)) {
                 remove(node.getValue());
                 insert(node.getValue());
+                return;
             }
 
             reshape(node.getLeft());
