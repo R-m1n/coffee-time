@@ -390,9 +390,17 @@ public class BinaryTree {
             if (current.getValue() > number) {
                 if (left.getValue() == number) {
                     if (left.getRight() != null && left.getLeft() != null) {
-                        current.setLeft(left.getLeft());
-                        insert(left.getRight());
-                        left.setValue(left.getRight().getValue());
+                        if (height(left.getLeft()) > height(left.getRight())) {
+                            current.setLeft(left.getLeft());
+                            insert(left.getRight());
+                            // left.setValue(left.getRight().getValue());
+                        }
+
+                        else {
+                            current.setLeft(left.getRight());
+                            insert(left.getLeft());
+                        }
+
                         return;
                     }
 
@@ -419,9 +427,15 @@ public class BinaryTree {
             else if (current.getValue() < number) {
                 if (right.getValue() == number) {
                     if (right.getRight() != null && right.getLeft() != null) {
-                        current.setRight(right.getRight());
-                        insert(right.getLeft());
-                        right.setValue(right.getRight().getValue());
+                        if (height(right.getRight()) > height(left.getLeft())) {
+                            current.setRight(right.getRight());
+                            insert(right.getLeft());
+                        }
+
+                        else {
+                            current.setRight(right.getLeft());
+                            insert(right.getRight());
+                        }
                         return;
                     }
 
