@@ -13,6 +13,10 @@ public class ARM extends BinaryTree {
         return isBalanced(find(number));
     }
 
+    public void reshape() {
+        reshape(super.root);
+    }
+
     private void insert(Node node, int number) {
 
         if (node.getValue() > number) {
@@ -39,6 +43,18 @@ public class ARM extends BinaryTree {
             return true;
 
         return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
+    }
+
+    private void reshape(Node node) {
+        if (node != null) {
+            if (!isBalanced(node)) {
+                remove(node.getValue());
+                insert(node.getValue());
+            }
+
+            reshape(node.getLeft());
+            reshape(node.getRight());
+        }
     }
 
 }

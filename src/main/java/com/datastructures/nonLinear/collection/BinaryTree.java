@@ -375,7 +375,7 @@ public class BinaryTree {
             throw new NodeNotFoundException();
     }
 
-    protected void remove(Node node) {
+    protected void remove(Node node) { // FIXME
         /*
          * Remove the node from the Tree by replacing the node
          * with one of its non-null children, or by setting the node
@@ -451,33 +451,29 @@ public class BinaryTree {
 
             else if (current.getValue() == number) {
                 if (right != null && left != null) {
-                    root = new Node(right.getValue());
-                    if (isLeaf(right))
-                        root.setRight(null);
-                    else
-                        remove(right);
+                    if (height(left) > height(right)) {
+                        root = left;
 
-                    root.setLeft(left);
+                        insert(right);
+                    }
+
+                    else {
+                        root = right;
+
+                        insert(left);
+                    }
 
                     return;
                 }
 
                 else if (right != null) {
-                    root = new Node(right.getValue());
-                    if (right.getRight() != null)
-                        root.setRight(right.getRight());
-                    else if (right.getLeft() != null)
-                        root.setRight(right.getLeft());
+                    root = right;
 
                     return;
                 }
 
                 else if (left != null) {
-                    root = new Node(left.getValue());
-                    if (left.getLeft() != null)
-                        root.setLeft(left.getLeft());
-                    else if (left.getRight() != null)
-                        root.setLeft(left.getRight());
+                    root = left;
 
                     return;
                 }
