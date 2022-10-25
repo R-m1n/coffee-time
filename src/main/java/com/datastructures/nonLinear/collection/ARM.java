@@ -1,5 +1,10 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
+/**
+ * ARMin's Reshaping Method is a self-balancing Binary Search Tree.
+ * 
+ * @author R-m1n
+ */
 public class ARM extends BinaryTree {
 
     public void insert(int number) {
@@ -10,12 +15,8 @@ public class ARM extends BinaryTree {
         reshape();
     }
 
-    public boolean isBalanced(int number) {
-        return isBalanced(find(number));
-    }
-
-    public void reshape() {
-        reshape(super.root);
+    public boolean balanced(int number) {
+        return balanced(find(number));
     }
 
     private void insert(Node node, int number) {
@@ -39,16 +40,20 @@ public class ARM extends BinaryTree {
         }
     }
 
-    private boolean isBalanced(Node node) {
+    private boolean balanced(Node node) {
         if (isLeaf(node))
             return true;
 
         return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
     }
 
+    private void reshape() {
+        reshape(super.root);
+    }
+
     private void reshape(Node node) {
         if (node != null) {
-            if (!isBalanced(node)) {
+            if (!balanced(node)) {
                 remove(node.getValue());
                 insert(node.getValue());
                 return;

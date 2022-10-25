@@ -104,14 +104,6 @@ public class BinaryTree {
 
     /**
      * @param number
-     * @return Node with the input as value.
-     */
-    public Node find(int number) {
-        return find(new Node(number));
-    }
-
-    /**
-     * @param number
      * @return true if the Tree contains a Node with input as value, else false.
      */
     public boolean contains(int number) {
@@ -330,6 +322,10 @@ public class BinaryTree {
                 continue;
             }
         }
+    }
+
+    protected Node find(int number) {
+        return find(new Node(number));
     }
 
     protected Node find(Node node) {
