@@ -229,7 +229,7 @@ public class BinaryTree {
      * @param number
      * @return list of ancestors of the Node with input as value.
      */
-    public List<Integer> ancestorsOf(int number) {
+    protected List<Integer> ancestorsOf(int number) {
         List<Integer> list = new ArrayList<>();
         ancestorsOf(root, number, list);
 
@@ -619,13 +619,12 @@ public class BinaryTree {
         if (node == null || node.getValue() == number)
             return;
 
-        list.add(node.getValue());
-
         if (node.getValue() > number)
             ancestorsOf(node.getLeft(), number, list);
 
         if (node.getValue() < number)
             ancestorsOf(node.getRight(), number, list);
 
+        list.add(node.getValue());
     }
 }
