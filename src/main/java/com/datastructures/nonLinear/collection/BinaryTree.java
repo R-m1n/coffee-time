@@ -19,6 +19,11 @@ public class BinaryTree {
             this.value = value;
         }
 
+        /**
+         * Set the height of the Node.
+         * 
+         * @param height
+         */
         public void setHeight(int height) {
             this.height = height;
         }
@@ -50,6 +55,9 @@ public class BinaryTree {
             this.value = value;
         }
 
+        /**
+         * @return the height of the Node
+         */
         public int getHeight() {
             return height;
         }
