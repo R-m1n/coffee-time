@@ -385,13 +385,7 @@ public class BinaryTree {
             throw new NodeNotFoundException();
     }
 
-    protected void remove(Node node, int number) { // FIXME
-        /*
-         * Remove the node from the Tree by replacing the node
-         * with one of its non-null children, or by setting the node
-         * to null if it doesn't any children.
-         */
-
+    protected void remove(Node node, int number) {
         Node left = node.getLeft();
         Node right = node.getRight();
 
@@ -499,14 +493,6 @@ public class BinaryTree {
         return false;
     }
 
-    protected void toList(Node node, List<Integer> list) {
-        if (node != null) {
-            toList(node.getLeft(), list);
-            list.add(node.getValue());
-            toList(node.getRight(), list);
-        }
-    }
-
     protected boolean validate(Node node, int min, int max) {
         if (node == null)
             return true;
@@ -516,16 +502,6 @@ public class BinaryTree {
 
         return validate(node.getLeft(), min, node.getValue())
                 && validate(node.getRight(), node.getValue(), max);
-    }
-
-    protected void nodesAt(Node node, int depth, List<Integer> list) {
-        if (node != null) {
-            if (depth == 0)
-                list.add(node.getValue());
-
-            nodesAt(node.getLeft(), depth - 1, list);
-            nodesAt(node.getRight(), depth - 1, list);
-        }
     }
 
     protected int countLeaves(Node node) {
@@ -549,7 +525,26 @@ public class BinaryTree {
         return false;
     }
 
-    protected void ancestorsOf(Node node, int number, List<Integer> list) {
+    protected void nullify(Node node) {
+        if (root.getValue() == node.getValue()) {
+            root = null;
+            return;
+        }
+
+        nullify(root, node.getValue());
+    }
+
+    private void nodesAt(Node node, int depth, List<Integer> list) {
+        if (node != null) {
+            if (depth == 0)
+                list.add(node.getValue());
+
+            nodesAt(node.getLeft(), depth - 1, list);
+            nodesAt(node.getRight(), depth - 1, list);
+        }
+    }
+
+    private void ancestorsOf(Node node, int number, List<Integer> list) {
         if (node == null || node.getValue() == number)
             return;
 
@@ -560,15 +555,6 @@ public class BinaryTree {
             ancestorsOf(node.getRight(), number, list);
 
         list.add(node.getValue());
-    }
-
-    protected void nullify(Node node) {
-        if (root.getValue() == node.getValue()) {
-            root = null;
-            return;
-        }
-
-        nullify(root, node.getValue());
     }
 
     private void nullify(Node node, int number) {
@@ -588,6 +574,14 @@ public class BinaryTree {
             }
 
             nullify(node.getRight(), number);
+        }
+    }
+
+    private void toList(Node node, List<Integer> list) {
+        if (node != null) {
+            toList(node.getLeft(), list);
+            list.add(node.getValue());
+            toList(node.getRight(), list);
         }
     }
 }
