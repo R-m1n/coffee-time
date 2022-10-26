@@ -47,7 +47,7 @@ public class ARM extends BinaryTree {
         return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
     }
 
-    public void reshape() {
+    private void reshape() {
         reshape(super.root);
     }
 
@@ -66,20 +66,23 @@ public class ARM extends BinaryTree {
 
     @Override
     public void remove(int number) {
-        Node left = root.getLeft();
-        Node right = root.getRight();
+        removed(super.root, number);
+    }
 
-        if (root.getValue() == number) {
+    private void removed(Node node, int number) { // FIXME
+        Node left = node.getLeft();
+        Node right = node.getRight();
+
+        if (node.getValue() == number) {
+            nullify(node);
             if (left != null && right != null) {
                 if (height(left) > height(right)) {
-                    root = left;
-
+                    insert(left);
                     insert(right);
                 }
 
                 else {
-                    root = right;
-
+                    insert(right);
                     insert(left);
                 }
 
@@ -87,103 +90,19 @@ public class ARM extends BinaryTree {
             }
 
             if (left != null)
-                root = left;
+                insert(left);
 
             if (right != null)
-                root = right;
+                insert(right);
 
             return;
         }
 
-        Node node = find(number);
-        if (node == null)
-            return;
+        if (node.getValue() > number)
+            removed(node.getLeft(), number);
 
-        if (isLeaf(node)) {
-            nullify(node.getValue());
-            return;
-        }
-
-        left = node.getLeft();
-        right = node.getRight();
-
-        if (left != null && right != null) {
-            if (height(left) > height(right)) {
-                node.setValue(left.getValue());
-                nullify(node.getLeft().getValue());
-
-                if (left.getLeft() != null && left.getRight() != null) {
-                    insert(left.getLeft());
-                    insert(left.getRight());
-                    return;
-                }
-
-                if (left.getLeft() != null)
-                    insert(left.getLeft());
-
-                if (left.getRight() != null)
-                    insert(left.getRight());
-
-                return;
-            }
-
-            else {
-                node.setValue(right.getValue());
-                nullify(node.getRight().getValue());
-
-                if (right.getLeft() != null && right.getRight() != null) {
-                    insert(right.getLeft());
-                    insert(right.getRight());
-                    return;
-                }
-
-                if (right.getLeft() != null)
-                    insert(right.getLeft());
-
-                if (right.getRight() != null)
-                    insert(right.getRight());
-
-                return;
-            }
-        }
-
-        if (left != null) {
-            node.setValue(left.getValue());
-            nullify(node.getLeft().getValue());
-
-            if (left.getLeft() != null && left.getRight() != null) {
-                insert(left.getLeft());
-                insert(left.getRight());
-                return;
-            }
-
-            if (left.getLeft() != null)
-                insert(left.getLeft());
-
-            if (left.getRight() != null)
-                insert(left.getRight());
-
-            return;
-        }
-
-        if (right != null) {
-            node.setValue(right.getValue());
-            nullify(node.getRight().getValue());
-
-            if (right.getLeft() != null && right.getRight() != null) {
-                insert(right.getLeft());
-                insert(right.getRight());
-                return;
-            }
-
-            if (right.getLeft() != null)
-                insert(right.getLeft());
-
-            if (right.getRight() != null)
-                insert(right.getRight());
-
-            return;
-        }
+        else if ((node.getValue() < number))
+            removed(node.getRight(), number);
     }
 
     public void nullify(int number) {
@@ -193,6 +112,15 @@ public class ARM extends BinaryTree {
         }
 
         nullify(super.root, number);
+    }
+
+    private void nullify(Node node) {
+        if (root.getValue() == node.getValue()) {
+            root = null;
+            return;
+        }
+
+        nullify(super.root, node.getValue());
     }
 
     private void nullify(Node node, int number) {
