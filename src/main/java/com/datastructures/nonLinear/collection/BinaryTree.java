@@ -126,7 +126,21 @@ public class BinaryTree {
      * @param number
      */
     public void remove(int number) {
-        remove(new Node(number));
+        remove(root, number);
+    }
+
+    /**
+     * Remove the Node with input as value with all of it's children.
+     * 
+     * @param number
+     */
+    public void nullify(int number) {
+        if (root.getValue() == number) {
+            root = null;
+            return;
+        }
+
+        nullify(root, number);
     }
 
     /**
@@ -371,126 +385,46 @@ public class BinaryTree {
             throw new NodeNotFoundException();
     }
 
-    protected void remove(Node node) { // FIXME
+    protected void remove(Node node, int number) { // FIXME
         /*
          * Remove the node from the Tree by replacing the node
          * with one of its non-null children, or by setting the node
          * to null if it doesn't any children.
          */
-        exists(node);
 
-        int number = node.getValue();
-        Node current = root;
-        Node left;
-        Node right;
-        while (current != null) {
-            left = current.getLeft();
-            right = current.getRight();
+        Node left = node.getLeft();
+        Node right = node.getRight();
 
-            if (current.getValue() > number) {
-                if (left.getValue() == number) {
-                    if (left.getRight() != null && left.getLeft() != null) {
-                        if (height(left.getLeft()) > height(left.getRight())) {
-                            current.setLeft(left.getLeft());
-                            insert(left.getRight());
-                            // left.setValue(left.getRight().getValue());
-                        }
-
-                        else {
-                            current.setLeft(left.getRight());
-                            insert(left.getLeft());
-                        }
-
-                        return;
-                    }
-
-                    else if (left.getRight() != null) {
-                        current.setLeft(left.getRight());
-                        left.setValue(left.getRight().getValue());
-                        return;
-                    }
-
-                    else if (left.getLeft() != null) {
-                        current.setLeft((left.getLeft()));
-                        left.setValue(left.getLeft().getValue());
-                        return;
-                    }
-
-                    current.setLeft(null);
-                    return;
+        if (node.getValue() == number) {
+            nullify(node);
+            if (left != null && right != null) {
+                if (height(left) > height(right)) {
+                    insert(left);
+                    insert(right);
                 }
 
-                current = left;
-                continue;
-            }
-
-            else if (current.getValue() < number) {
-                if (right.getValue() == number) {
-                    if (right.getRight() != null && right.getLeft() != null) {
-                        if (height(right.getRight()) > height(left.getLeft())) {
-                            current.setRight(right.getRight());
-                            insert(right.getLeft());
-                        }
-
-                        else {
-                            current.setRight(right.getLeft());
-                            insert(right.getRight());
-                        }
-                        return;
-                    }
-
-                    else if (right.getRight() != null) {
-                        current.setRight(right.getRight());
-                        right.setValue(right.getRight().getValue());
-                        return;
-                    }
-
-                    else if (right.getLeft() != null) {
-                        current.setRight((right.getLeft()));
-                        right.setValue(right.getLeft().getValue());
-                        return;
-                    }
-
-                    current.setRight(null);
-                    return;
-                }
-
-                current = right;
-                continue;
-            }
-
-            else if (current.getValue() == number) {
-                if (right != null && left != null) {
-                    if (height(left) > height(right)) {
-                        root = left;
-
-                        insert(right);
-                    }
-
-                    else {
-                        root = right;
-
-                        insert(left);
-                    }
-
-                    return;
-                }
-
-                else if (right != null) {
-                    root = right;
-
-                    return;
-                }
-
-                else if (left != null) {
-                    root = left;
-
-                    return;
+                else {
+                    insert(right);
+                    insert(left);
                 }
 
                 return;
             }
+
+            if (left != null)
+                insert(left);
+
+            if (right != null)
+                insert(right);
+
+            return;
         }
+
+        if (node.getValue() > number)
+            remove(node.getLeft(), number);
+
+        else if ((node.getValue() < number))
+            remove(node.getRight(), number);
     }
 
     protected int size(Node node) {
@@ -626,5 +560,34 @@ public class BinaryTree {
             ancestorsOf(node.getRight(), number, list);
 
         list.add(node.getValue());
+    }
+
+    protected void nullify(Node node) {
+        if (root.getValue() == node.getValue()) {
+            root = null;
+            return;
+        }
+
+        nullify(root, node.getValue());
+    }
+
+    private void nullify(Node node, int number) {
+        if (node.getValue() > number) {
+            if (node.getLeft().getValue() == number) {
+                node.setLeft(null);
+                return;
+            }
+
+            nullify(node.getLeft(), number);
+        }
+
+        if (node.getValue() < number) {
+            if (node.getRight().getValue() == number) {
+                node.setRight(null);
+                return;
+            }
+
+            nullify(node.getRight(), number);
+        }
     }
 }
