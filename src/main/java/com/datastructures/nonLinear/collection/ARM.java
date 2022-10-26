@@ -14,8 +14,10 @@ public class ARM extends BinaryTree {
      * @param number
      */
     public void insert(int number) {
-        if (super.root == null)
+        if (super.root == null) {
             super.root = new Node(number);
+            return;
+        }
 
         insert(super.root, number);
         reshape();
