@@ -11,11 +11,16 @@ import java.util.List;
 public class BinaryTree {
     protected class Node {
         private int value;
+        private int height;
         private Node right;
         private Node left;
 
         public Node(int value) {
             this.value = value;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
         }
 
         /**
@@ -43,6 +48,10 @@ public class BinaryTree {
          */
         public void setValue(int value) {
             this.value = value;
+        }
+
+        public int getHeight() {
+            return height;
         }
 
         /**
@@ -226,6 +235,10 @@ public class BinaryTree {
      */
     public boolean validate() {
         return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public boolean isBalanced() {
+        return isBalanced(root);
     }
 
     /**
@@ -502,6 +515,20 @@ public class BinaryTree {
 
         return validate(node.getLeft(), min, node.getValue())
                 && validate(node.getRight(), node.getValue(), max);
+    }
+
+    protected boolean balanced(Node node) {
+        return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
+    }
+
+    protected boolean isBalanced(Node node) {
+        if (node == null)
+            return true;
+
+        if (!balanced(node))
+            return false;
+
+        return isBalanced(node.getLeft()) && isBalanced(node.getRight());
     }
 
     protected int countLeaves(Node node) {

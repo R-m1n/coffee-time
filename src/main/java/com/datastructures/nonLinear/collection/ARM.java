@@ -43,13 +43,6 @@ public class ARM extends BinaryTree {
         }
     }
 
-    private boolean balanced(Node node) {
-        if (isLeaf(node))
-            return true;
-
-        return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
-    }
-
     private void reshape() {
         reshape(super.root);
     }

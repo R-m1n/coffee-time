@@ -6,68 +6,24 @@ package src.main.java.com.datastructures.nonLinear.collection;
  * @author R-m1n
  */
 public class AVL extends BinaryTree {
-    private class AVLNode {
-        private int value;
-        private int height;
-        private AVLNode left;
-        private AVLNode right;
 
-        public AVLNode(int value) {
-            this.value = value;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public void setLeft(AVLNode left) {
-            this.left = left;
-        }
-
-        public void setRight(AVLNode right) {
-            this.right = right;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public AVLNode getLeft() {
-            return left;
-        }
-
-        public AVLNode getRight() {
-            return right;
-        }
-    }
-
-    private AVLNode root;
-
+    /**
+     * Insert Node with input as value in the Tree such that the Tree is
+     * balanced.
+     * 
+     * @param number
+     */
     public void insert(int value) {
         root = insert(root, value);
     }
 
-    public void tests() {
-        tests(root);
+    protected int height(Node node) {
+        return node == null ? -1 : node.getHeight();
     }
 
-    public void tests(AVLNode node) {
+    private Node insert(Node node, int value) {
         if (node == null)
-            return;
-
-        System.out.println(node.getValue() + " -> height: " + node.getHeight());
-
-        tests(node.getLeft());
-        tests(node.getRight());
-    }
-
-    private AVLNode insert(AVLNode node, int value) {
-        if (node == null)
-            return new AVLNode(value);
+            return new Node(value);
 
         if (node.getValue() > value)
             node.setLeft(insert(node.getLeft(), value));
@@ -79,7 +35,7 @@ public class AVL extends BinaryTree {
         return balance(node);
     }
 
-    private AVLNode balance(AVLNode node) {
+    private Node balance(Node node) {
         if (isLefty(node)) {
             if (balanceFactor(node.getLeft()) < 0)
                 node.setLeft(leftRotate(node.getLeft()));
@@ -97,8 +53,8 @@ public class AVL extends BinaryTree {
         return node;
     }
 
-    private AVLNode leftRotate(AVLNode node) {
-        AVLNode newRoot = node.getRight();
+    private Node leftRotate(Node node) {
+        Node newRoot = node.getRight();
 
         node.setRight(newRoot.getLeft());
         newRoot.setLeft(node);
@@ -108,8 +64,8 @@ public class AVL extends BinaryTree {
         return newRoot;
     }
 
-    private AVLNode rightRotate(AVLNode node) {
-        AVLNode newRoot = node.getLeft();
+    private Node rightRotate(Node node) {
+        Node newRoot = node.getLeft();
 
         node.setLeft(newRoot.getRight());
         newRoot.setRight(node);
@@ -119,23 +75,19 @@ public class AVL extends BinaryTree {
         return newRoot;
     }
 
-    private int height(AVLNode node) {
-        return node == null ? -1 : node.getHeight();
-    }
-
-    private void setHeight(AVLNode node) {
+    private void setHeight(Node node) {
         node.setHeight(1 + Math.max(height(node.getLeft()), height(node.getRight())));
     }
 
-    private int balanceFactor(AVLNode node) {
+    private int balanceFactor(Node node) {
         return height(node.getLeft()) - height(node.getRight());
     }
 
-    private boolean isLefty(AVLNode node) {
+    private boolean isLefty(Node node) {
         return balanceFactor(node) > 1;
     }
 
-    private boolean isRighty(AVLNode node) {
+    private boolean isRighty(Node node) {
         return balanceFactor(node) < -1;
     }
 }
