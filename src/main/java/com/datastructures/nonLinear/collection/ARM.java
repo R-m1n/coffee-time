@@ -7,6 +7,12 @@ package src.main.java.com.datastructures.nonLinear.collection;
  */
 public class ARM extends BinaryTree {
 
+    /**
+     * Insert Node with input as value in the Tree such that the Tree is
+     * balanced.
+     * 
+     * @param number
+     */
     public void insert(int number) {
         if (super.root == null)
             super.root = new Node(number);
@@ -15,12 +21,7 @@ public class ARM extends BinaryTree {
         reshape();
     }
 
-    public boolean balanced(int number) {
-        return balanced(find(number));
-    }
-
     private void insert(Node node, int number) {
-
         if (node.getValue() > number) {
             if (node.getLeft() == null) {
                 node.setLeft(new Node(number));
