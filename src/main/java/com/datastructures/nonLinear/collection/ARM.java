@@ -11,35 +11,35 @@ public class ARM extends BinaryTree {
      * Insert Node with input as value in the Tree such that the Tree is
      * balanced.
      * 
-     * @param number
+     * @param value
      */
-    public void insert(int number) {
+    public void insert(int value) {
         if (super.root == null) {
-            super.root = new Node(number);
+            super.root = new Node(value);
             return;
         }
 
-        insert(super.root, number);
+        insert(super.root, value);
         reshape();
     }
 
-    private void insert(Node node, int number) {
-        if (node.getValue() > number) {
+    private void insert(Node node, int value) {
+        if (node.getValue() > value) {
             if (node.getLeft() == null) {
-                node.setLeft(new Node(number));
+                node.setLeft(new Node(value));
                 return;
             }
 
-            insert(node.getLeft(), number);
+            insert(node.getLeft(), value);
         }
 
-        if (node.getValue() < number) {
+        if (node.getValue() < value) {
             if (node.getRight() == null) {
-                node.setRight(new Node(number));
+                node.setRight(new Node(value));
                 return;
             }
 
-            insert(node.getRight(), number);
+            insert(node.getRight(), value);
         }
     }
 

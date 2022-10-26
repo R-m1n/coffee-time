@@ -11,10 +11,18 @@ public class AVL extends BinaryTree {
      * Insert Node with input as value in the Tree such that the Tree is
      * balanced.
      * 
-     * @param number
+     * @param value
      */
     public void insert(int value) {
         root = insert(root, value);
+    }
+
+    /**
+     * @param value
+     * @return height of the Node with input as value.
+     */
+    public int height(int value) {
+        return height(find(value));
     }
 
     protected int height(Node node) {

@@ -105,55 +105,55 @@ public class BinaryTree {
     /**
      * Insert Node with input as value in the right spot in the Tree.
      * 
-     * @param number
+     * @param value
      */
-    public void insert(int number) {
-        insert(new Node(number));
+    public void insert(int value) {
+        insert(new Node(value));
     }
 
     /**
-     * @param number
+     * @param value
      * @return true if the Tree contains a Node with input as value, else false.
      */
-    public boolean contains(int number) {
-        return contains(new Node(number));
+    public boolean contains(int value) {
+        return contains(new Node(value));
     }
 
     /**
      * Throw NodeNotFoundException if there's no Node in the Tree with input as
      * value.
      * 
-     * @param number
+     * @param value
      */
-    public void exists(int number) {
-        exists(new Node(number));
+    public void exists(int value) {
+        exists(new Node(value));
     }
 
     /**
      * Remove the Node with input as value.
      * 
-     * @param number
+     * @param value
      */
-    public void remove(int number) {
-        remove(root, number);
+    public void remove(int value) {
+        remove(root, value);
     }
 
     /**
      * Remove the Node with input as value with all of it's children.
      * 
-     * @param number
+     * @param value
      */
-    public void nullify(int number) {
-        if (root.getValue() == number) {
+    public void nullify(int value) {
+        if (root.getValue() == value) {
             root = null;
             return;
         }
 
-        nullify(root, number);
+        nullify(root, value);
     }
 
     /**
-     * @return number of Nodes in the Tree.
+     * @return value of Nodes in the Tree.
      */
     public int size() {
         return size(root) - 1; // -1 as root is counted twice.
@@ -163,9 +163,9 @@ public class BinaryTree {
      * @param node
      * @return true if input doesn't have any children, else false.
      */
-    public boolean isLeaf(int number) {
-        exists(number);
-        return isLeaf(find(number));
+    public boolean isLeaf(int value) {
+        exists(value);
+        return isLeaf(find(value));
     }
 
     /**
@@ -176,21 +176,21 @@ public class BinaryTree {
     }
 
     /**
-     * @param number
+     * @param value
      * @return the height of the Node with input as value.
      */
-    public int height(int number) {
-        exists(number);
-        return height(find(number));
+    public int height(int value) {
+        exists(value);
+        return height(find(value));
     }
 
     /**
-     * @param number
+     * @param value
      * @return the depth of the Node with input as value.
      */
-    public int depth(int number) {
-        exists(number);
-        return depth(root, find(number));
+    public int depth(int value) {
+        exists(value);
+        return depth(root, find(value));
     }
 
     /**
@@ -237,8 +237,24 @@ public class BinaryTree {
         return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
+    /**
+     * @return true if the Tree is balanced, else false.
+     */
     public boolean isBalanced() {
         return isBalanced(root);
+    }
+
+    /**
+     * @return true if the Tree is perfect, else false.
+     */
+    public boolean isPerfect() {
+        int count = 0;
+
+        for (int i = height(); i >= 0; i--) {
+            count += Math.pow(2, i);
+        }
+
+        return size() == count;
     }
 
     /**
@@ -253,12 +269,12 @@ public class BinaryTree {
     }
 
     /**
-     * @param number
+     * @param value
      * @return list of ancestors of the Node with input as value.
      */
-    protected List<Integer> ancestorsOf(int number) {
+    protected List<Integer> ancestorsOf(int value) {
         List<Integer> list = new ArrayList<>();
-        ancestorsOf(root, number, list);
+        ancestorsOf(root, value, list);
 
         return list;
     }
@@ -274,7 +290,7 @@ public class BinaryTree {
     }
 
     /**
-     * @return number of leaves in the Tree.
+     * @return value of leaves in the Tree.
      */
     public int countLeaves() {
         return countLeaves(root);
@@ -326,10 +342,10 @@ public class BinaryTree {
         if (contains(node))
             throw new DuplicateNodeException();
 
-        int number = node.getValue();
+        int value = node.getValue();
         Node current = root;
         while (true) {
-            if (current.getValue() > number) {
+            if (current.getValue() > value) {
                 if (current.getLeft() == null) {
                     current.setLeft(node);
                     return;
@@ -351,8 +367,8 @@ public class BinaryTree {
         }
     }
 
-    protected Node find(int number) {
-        return find(new Node(number));
+    protected Node find(int value) {
+        return find(new Node(value));
     }
 
     protected Node find(Node node) {
@@ -362,19 +378,19 @@ public class BinaryTree {
         if (root == null)
             throw new NullTreeException();
 
-        int number = node.getValue();
-        if (root.getValue() == number) {
+        int value = node.getValue();
+        if (root.getValue() == value) {
             return root;
         }
 
         Node current = root;
         while (current != null) {
-            if (current.getValue() > number) {
+            if (current.getValue() > value) {
                 current = current.getLeft();
                 continue;
             }
 
-            else if (current.getValue() < number) {
+            else if (current.getValue() < value) {
                 current = current.getRight();
                 continue;
             }
@@ -398,11 +414,11 @@ public class BinaryTree {
             throw new NodeNotFoundException();
     }
 
-    protected void remove(Node node, int number) {
+    protected void remove(Node node, int value) {
         Node left = node.getLeft();
         Node right = node.getRight();
 
-        if (node.getValue() == number) {
+        if (node.getValue() == value) {
             nullify(node);
             if (left != null && right != null) {
                 if (height(left) > height(right)) {
@@ -427,11 +443,11 @@ public class BinaryTree {
             return;
         }
 
-        if (node.getValue() > number)
-            remove(node.getLeft(), number);
+        if (node.getValue() > value)
+            remove(node.getLeft(), value);
 
-        else if ((node.getValue() < number))
-            remove(node.getRight(), number);
+        else if ((node.getValue() < value))
+            remove(node.getRight(), value);
     }
 
     protected int size(Node node) {
@@ -571,36 +587,36 @@ public class BinaryTree {
         }
     }
 
-    private void ancestorsOf(Node node, int number, List<Integer> list) {
-        if (node == null || node.getValue() == number)
+    private void ancestorsOf(Node node, int value, List<Integer> list) {
+        if (node == null || node.getValue() == value)
             return;
 
-        if (node.getValue() > number)
-            ancestorsOf(node.getLeft(), number, list);
+        if (node.getValue() > value)
+            ancestorsOf(node.getLeft(), value, list);
 
-        if (node.getValue() < number)
-            ancestorsOf(node.getRight(), number, list);
+        if (node.getValue() < value)
+            ancestorsOf(node.getRight(), value, list);
 
         list.add(node.getValue());
     }
 
-    private void nullify(Node node, int number) {
-        if (node.getValue() > number) {
-            if (node.getLeft().getValue() == number) {
+    private void nullify(Node node, int value) {
+        if (node.getValue() > value) {
+            if (node.getLeft().getValue() == value) {
                 node.setLeft(null);
                 return;
             }
 
-            nullify(node.getLeft(), number);
+            nullify(node.getLeft(), value);
         }
 
-        if (node.getValue() < number) {
-            if (node.getRight().getValue() == number) {
+        if (node.getValue() < value) {
+            if (node.getRight().getValue() == value) {
                 node.setRight(null);
                 return;
             }
 
-            nullify(node.getRight(), number);
+            nullify(node.getRight(), value);
         }
     }
 
