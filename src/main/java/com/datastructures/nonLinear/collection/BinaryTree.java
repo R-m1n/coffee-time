@@ -256,13 +256,7 @@ public class BinaryTree {
      * @return true if the Tree is perfect, else false.
      */
     public boolean isPerfect() {
-        int count = 0;
-
-        for (int i = height(); i >= 0; i--) {
-            count += Math.pow(2, i);
-        }
-
-        return size() == count;
+        return Math.pow(2, height() + 1) - 1 == size();
     }
 
     /**
