@@ -5,43 +5,25 @@ import java.util.Arrays;
 public class Heap {
 
     private Integer[] nodes;
-    private int last;
+    private int pointer;
 
     public Heap(int capacity) {
         nodes = new Integer[capacity];
     }
 
     public void insert(int value) {
-        for (int i = 0; i < nodes.length; i++) {
-            int left = 2 * i + 1;
-            int right = 2 * i + 2;
-
-            if (nodes[i] == null) {
-                nodes[i] = value;
-                last = i;
-                return;
-            }
-
-            else if (nodes[left] == null) {
-                nodes[left] = value;
-                bubbleUp(left);
-                last = left;
-                return;
-            }
-
-            else if (nodes[right] == null) {
-                nodes[right] = value;
-                bubbleUp(right);
-                last = right;
-                return;
-            }
-        }
+        nodes[pointer++] = value;
+        bubbleUp(pointer - 1);
     }
 
     public void remove() {
-        nodes[0] = nodes[last];
-        nodes[last] = null;
+        nodes[0] = nodes[--pointer];
         bubbleDown(0);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(Arrays.copyOfRange(nodes, 0, pointer));
     }
 
     private void swap(int i, int j) {
@@ -62,12 +44,11 @@ public class Heap {
     }
 
     private void bubbleDown(int i) {
-        int left = 2 * i + 1;
-        int right = 2 * i + 2;
-
-        if (i == last)
+        if (i == pointer)
             return;
 
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
         if (!(left >= nodes.length || right >= nodes.length)
                 && !(nodes[right] == null || nodes[left] == null)) {
 
@@ -93,10 +74,4 @@ public class Heap {
             bubbleDown(right);
         }
     }
-
-    @Override
-    public String toString() {
-        return Arrays.toString(nodes);
-    }
-
 }
