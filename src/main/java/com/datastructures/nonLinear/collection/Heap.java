@@ -36,7 +36,7 @@ public class Heap {
         if (i == 0)
             return;
 
-        int parent = i % 2 == 0 ? (i - 2) / 2 : (i - 1) / 2;
+        int parent = parentIndex(i);
         if (nodes[i] > nodes[parent]) {
             swap(i, parent);
             bubbleUp(parent);
@@ -49,29 +49,39 @@ public class Heap {
 
         int left = 2 * i + 1;
         int right = 2 * i + 2;
-        if (!(left >= nodes.length || right >= nodes.length)
-                && !(nodes[right] == null || nodes[left] == null)) {
-
-            if (nodes[right] > nodes[left]) {
-                swap(i, right);
-                bubbleDown(right);
-            }
-
-            else if (nodes[right] < nodes[left]) {
-                swap(i, left);
-                bubbleDown(left);
-            }
-
+        if (isValid(left) && isValid(right)) {
+            swap(i, compare(left, right));
+            bubbleDown(compare(left, right));
         }
 
-        else if (right >= nodes.length) {
+        else if (isValid(left)) {
             swap(i, left);
             bubbleDown(left);
         }
 
-        else if (left >= nodes.length) {
+        else if (isValid(right)) {
             swap(i, right);
             bubbleDown(right);
         }
+    }
+
+    private int parentIndex(int i) {
+        return i % 2 == 0 ? (i - 2) / 2 : (i - 1) / 2;
+    }
+
+    private int compare(int i, int j) {
+        return nodes[i] > nodes[j] ? i : j;
+    }
+
+    private boolean isInRange(int i) {
+        return i < nodes.length;
+    }
+
+    private boolean isNull(int i) {
+        return nodes[i] == null;
+    }
+
+    private boolean isValid(int i) {
+        return isInRange(i) && !isNull(i);
     }
 }
