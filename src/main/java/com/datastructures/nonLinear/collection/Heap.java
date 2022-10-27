@@ -34,6 +34,14 @@ public class Heap {
         bubbleDown(0);
     }
 
+    public int level() {
+        return (int) (Math.log(pointer) / Math.log(2));
+    }
+
+    public Integer[] toArray() {
+        return Arrays.copyOfRange(nodes, 0, pointer);
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(Arrays.copyOfRange(nodes, 0, pointer));
