@@ -2,8 +2,12 @@ package src.main.java.com.datastructures.nonLinear.collection;
 
 import java.util.Arrays;
 
+/**
+ * A Java implementation of Heap data structure.
+ * 
+ * @author R-m1n
+ */
 public class Heap {
-
     private Integer[] nodes;
     private int pointer;
 
@@ -11,11 +15,20 @@ public class Heap {
         nodes = new Integer[capacity];
     }
 
+    /**
+     * Insert value in heap such that it satisfies the heap properties.
+     * 
+     * @param value
+     */
     public void insert(int value) {
         nodes[pointer++] = value;
         bubbleUp(pointer - 1);
     }
 
+    /**
+     * Remove the root, and replace it with the last added value, then bubbling down
+     * untill the heap properties are satisfied.
+     */
     public void remove() {
         nodes[0] = nodes[--pointer];
         bubbleDown(0);
@@ -49,9 +62,12 @@ public class Heap {
 
         int left = 2 * i + 1;
         int right = 2 * i + 2;
+
         if (isValid(left) && isValid(right)) {
-            swap(i, compare(left, right));
-            bubbleDown(compare(left, right));
+            int larger = compare(left, right);
+
+            swap(i, larger);
+            bubbleDown(larger);
         }
 
         else if (isValid(left)) {
