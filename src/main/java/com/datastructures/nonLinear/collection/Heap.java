@@ -4,8 +4,12 @@ import java.util.Arrays;
 
 public class Heap {
 
-    private Integer[] nodes = new Integer[10];
+    private Integer[] nodes;
     private int last;
+
+    public Heap(int capacity) {
+        nodes = new Integer[capacity];
+    }
 
     public void insert(int value) {
         for (int i = 0; i < nodes.length; i++) {
@@ -64,9 +68,8 @@ public class Heap {
         if (i == last)
             return;
 
-        if (!(left >= nodes.length || right >= nodes.length)) {
-            if (nodes[right] == null || nodes[left] == null)
-                return;
+        if (!(left >= nodes.length || right >= nodes.length)
+                && !(nodes[right] == null || nodes[left] == null)) {
 
             if (nodes[right] > nodes[left]) {
                 swap(i, right);
