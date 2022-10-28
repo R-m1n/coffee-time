@@ -1,6 +1,9 @@
 package src.main.java.com.datastructures.linear.util;
 
 import java.util.Map;
+
+import src.main.java.com.datastructures.nonLinear.collection.Heap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,14 +31,12 @@ public class Arrays {
         Map<Integer, Integer> map = new HashMap<>();
         int pairs = 0;
 
-        for (int value : values) {
+        for (int value : values)
             map.put(value + difference, value);
-        }
 
-        for (int value : values) {
+        for (int value : values)
             if (map.getOrDefault(value, Integer.MIN_VALUE) == value - difference)
                 pairs++;
-        }
 
         return pairs;
     }
@@ -44,9 +45,8 @@ public class Arrays {
         Map<Integer, Integer> map = new HashMap<>();
         ArrayList<Integer> indices = new ArrayList<>();
 
-        for (int value : values) {
+        for (int value : values)
             map.put(target - value, value);
-        }
 
         var keys = map.keySet();
         var index = 0;
@@ -60,10 +60,39 @@ public class Arrays {
         return indices.toArray();
     }
 
+    public static int nLargest(int[] array, int n) {
+        if (n > array.length || n < 1)
+            throw new IllegalArgumentException();
+
+        var heap = new Heap(array.length);
+
+        for (int i : array)
+            heap.insert(i);
+
+        for (int i = 0; i <= n; i++)
+            heap.remove();
+
+        return heap.max();
+    }
+
+    public static int nSmallest(int[] array, int n) {
+        if (n > array.length || n < 1)
+            throw new IllegalArgumentException();
+
+        var heap = new Heap(array.length);
+
+        for (int i : array)
+            heap.insert(i);
+
+        for (int i = array.length - n - 1; i >= 0; i--)
+            heap.remove();
+
+        return heap.max();
+    }
+
     public static void heapify(int[] values) {
-        for (int i = values.length - 1; i >= 0; i--) {
+        for (int i = values.length - 1; i >= 0; i--)
             bubbleUp(values, i);
-        }
     }
 
     private static void swap(int[] values, int i, int j) {

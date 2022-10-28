@@ -27,8 +27,7 @@ public class Heap {
 
     /**
      * Remove and Return the root, and replace it with the last added value, then
-     * bubbling down
-     * untill the Heap properties are satisfied.
+     * bubbling down until the Heap properties are satisfied.
      * 
      * @return value of the root node.
      */
@@ -51,6 +50,13 @@ public class Heap {
      */
     public int level() {
         return (int) (Math.log(pointer) / Math.log(2));
+    }
+
+    /**
+     * @return true if the Heap is empty, else false.
+     */
+    public boolean isEmpty() {
+        return pointer == 0;
     }
 
     /**
@@ -83,7 +89,7 @@ public class Heap {
     }
 
     private void bubbleDown(int i) {
-        if (i == pointer)
+        if (i == pointer - 1)
             return;
 
         int left = 2 * i + 1;
