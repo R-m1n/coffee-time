@@ -16,7 +16,7 @@ public class Heap {
     }
 
     /**
-     * Insert value in heap such that it satisfies the heap properties.
+     * Insert value in Heap such that it satisfies the Heap properties.
      * 
      * @param value
      */
@@ -27,17 +27,23 @@ public class Heap {
 
     /**
      * Remove the root, and replace it with the last added value, then bubbling down
-     * untill the heap properties are satisfied.
+     * untill the Heap properties are satisfied.
      */
     public void remove() {
         nodes[0] = nodes[--pointer];
         bubbleDown(0);
     }
 
+    /**
+     * @return the level on which the Heap is currently at.
+     */
     public int level() {
         return (int) (Math.log(pointer) / Math.log(2));
     }
 
+    /**
+     * @return array of the values in the Heap, in Level-Order.
+     */
     public Integer[] toArray() {
         return Arrays.copyOfRange(nodes, 0, pointer);
     }
@@ -70,7 +76,6 @@ public class Heap {
 
         int left = 2 * i + 1;
         int right = 2 * i + 2;
-
         if (isValid(left) && isValid(right)) {
             int larger = compare(left, right);
 
