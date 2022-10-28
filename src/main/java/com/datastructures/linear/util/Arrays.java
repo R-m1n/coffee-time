@@ -95,6 +95,16 @@ public class Arrays {
             bubbleUp(values, i);
     }
 
+    public static boolean isMaxHeap(int[] values) {
+        int max = values[0];
+
+        for (int i : values)
+            if (i > max)
+                return false;
+
+        return true;
+    }
+
     private static void swap(int[] values, int i, int j) {
         int value = values[i];
         values[i] = values[j];
