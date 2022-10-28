@@ -26,12 +26,24 @@ public class Heap {
     }
 
     /**
-     * Remove the root, and replace it with the last added value, then bubbling down
+     * Remove and Return the root, and replace it with the last added value, then
+     * bubbling down
      * untill the Heap properties are satisfied.
+     * 
+     * @return value of the root node.
      */
-    public void remove() {
+    public int remove() {
+        int value = nodes[0];
         nodes[0] = nodes[--pointer];
         bubbleDown(0);
+        return value;
+    }
+
+    /**
+     * @return maximum value in the Heap.
+     */
+    public int max() {
+        return nodes[0];
     }
 
     /**
