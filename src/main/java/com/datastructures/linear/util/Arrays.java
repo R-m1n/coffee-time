@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Arrays {
-    public static Integer mostFrequent(int[] numbers) {
+    public static Integer mostFrequent(int[] values) {
         Map<Integer, Integer> map = new HashMap<>();
         int max = Integer.MIN_VALUE;
 
-        for (int number : numbers) {
-            map.put(number, map.getOrDefault(number, 0) + 1);
+        for (int value : values) {
+            map.put(value, map.getOrDefault(value, 0) + 1);
 
-            if (map.get(number) >= max)
-                max = map.get(number);
+            if (map.get(value) >= max)
+                max = map.get(value);
         }
 
         for (int key : map.keySet()) {
@@ -24,39 +24,66 @@ public class Arrays {
         return null;
     }
 
-    public static Integer countPairsWithDiff(int[] numbers, int difference) {
+    public static Integer countPairsWithDiff(int[] values, int difference) {
         Map<Integer, Integer> map = new HashMap<>();
         int pairs = 0;
 
-        for (int number : numbers) {
-            map.put(number + difference, number);
+        for (int value : values) {
+            map.put(value + difference, value);
         }
 
-        for (int number : numbers) {
-            if (map.getOrDefault(number, Integer.MIN_VALUE) == number - difference)
+        for (int value : values) {
+            if (map.getOrDefault(value, Integer.MIN_VALUE) == value - difference)
                 pairs++;
         }
 
         return pairs;
     }
 
-    public static Object[] twoSum(int[] numbers, int target) {
+    public static Object[] twoSum(int[] values, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         ArrayList<Integer> indices = new ArrayList<>();
 
-        for (int number : numbers) {
-            map.put(target - number, number);
+        for (int value : values) {
+            map.put(target - value, value);
         }
 
         var keys = map.keySet();
         var index = 0;
-        for (int number : numbers) {
-            if (keys.contains(number) && keys.contains(target - number))
+        for (int value : values) {
+            if (keys.contains(value) && keys.contains(target - value))
                 indices.add(index);
 
             index++;
         }
 
         return indices.toArray();
+    }
+
+    public static void heapify(int[] values) {
+        for (int i = values.length - 1; i >= 0; i--) {
+            bubbleUp(values, i);
+        }
+    }
+
+    private static void swap(int[] values, int i, int j) {
+        int value = values[i];
+        values[i] = values[j];
+        values[j] = value;
+    }
+
+    private static void bubbleUp(int[] values, int i) {
+        if (i == 0)
+            return;
+
+        int parent = parentIndex(i);
+        if (values[i] > values[parent]) {
+            swap(values, i, parent);
+            bubbleUp(values, parent);
+        }
+    }
+
+    private static int parentIndex(int i) {
+        return i % 2 == 0 ? (i - 2) / 2 : (i - 1) / 2;
     }
 }
