@@ -69,7 +69,7 @@ public class GraphList implements Graph {
     public String toString() {
         String string = "";
         for (String label : map.keySet())
-            string += label + " is connected with " + list.get(map.get(label)) + "\n";
+            string += label + " is connected to " + list.get(map.get(label)) + "\n";
 
         return string;
     }
