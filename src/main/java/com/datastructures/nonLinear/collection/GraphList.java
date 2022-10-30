@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * 
  * @author R-m1n
  */
-public class GraphList {
+public class GraphList implements Graph {
     private ArrayList<LinkedList<String>> list = new ArrayList<>();
     private HashMap<String, Integer> map = new HashMap<>();
 
