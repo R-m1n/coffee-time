@@ -1,12 +1,13 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A Java implementation of Graph data structure using Adjacency List approach
- * by using a MapTable of Lists.
+ * by using a HashTable of Lists.
  * 
  * @author R-m1n
  */
@@ -26,8 +27,14 @@ public class GraphMap implements Graph {
         }
     }
 
-    private HashMap<String, Node> map = new HashMap<>();
-    private HashMap<Node, List<Node>> list = new HashMap<>();
+    private class NodeNotFoundException extends IllegalStateException {
+        public NodeNotFoundException() {
+            super();
+        }
+    }
+
+    private Map<String, Node> map = new HashMap<>();
+    private Map<Node, List<Node>> list = new HashMap<>();
 
     /**
      * Add a vertex to the Graph.
@@ -68,7 +75,11 @@ public class GraphMap implements Graph {
         from = valid(from);
         to = valid(to);
 
-        list.get(map.get(from)).add(map.get(to));
+        if (map.containsKey(from) && map.containsKey(to))
+            list.get(map.get(from)).add(map.get(to));
+
+        else
+            throw new NodeNotFoundException();
     }
 
     /**
@@ -81,7 +92,11 @@ public class GraphMap implements Graph {
         from = valid(from);
         to = valid(to);
 
-        list.get(map.get(from)).remove(map.get(to));
+        if (map.containsKey(from) && map.containsKey(to))
+            list.get(map.get(from)).remove(map.get(to));
+
+        else
+            throw new NodeNotFoundException();
     }
 
     @Override
