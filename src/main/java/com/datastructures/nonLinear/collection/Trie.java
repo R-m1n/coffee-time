@@ -14,6 +14,7 @@ public class Trie {
         public Node(char character) {
             this.character = character;
             this.children = new HashMap<>();
+            this.end = false;
         }
 
         public void setEnd() {
@@ -77,15 +78,7 @@ public class Trie {
         if (word == null)
             return false;
 
-        Node current = root;
-        for (char character : word.toCharArray()) {
-            if (!current.hasChild(character))
-                return false;
-
-            current = current.getChild(character);
-        }
-
-        return current.isEnd();
+        return contains(root, word, 0);
     }
 
     public String[] complete(String prefix) {
@@ -129,6 +122,13 @@ public class Trie {
         for (Node child : node.getChildren()) {
             complete(child, prefix + child, list);
         }
+    }
+
+    private boolean contains(Node node, String word, int index) {
+        if (index == word.length())
+            return node.isEnd();
+
+        return contains(node.getChild(word.charAt(index)), word, index + 1);
     }
 
     private Node lastNodeOf(String prefix) {
