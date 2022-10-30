@@ -33,17 +33,14 @@ public class GraphList {
         int index = map.get(label);
         list.remove(index);
 
-        for (LinkedList<String> linkedList : list) {
-            for (String string : linkedList) {
+        for (LinkedList<String> linkedList : list)
+            for (String string : linkedList)
                 if (string == label)
                     linkedList.remove(string);
-            }
-        }
 
-        for (String string : map.keySet()) {
+        for (String string : map.keySet())
             if (map.get(string) > index)
                 map.put(string, map.get(string) - 1);
-        }
 
         map.remove(label);
     }
@@ -71,9 +68,8 @@ public class GraphList {
     @Override
     public String toString() {
         String string = "";
-        for (String label : map.keySet()) {
-            string += label + " " + " is connected with " + list.get(map.get(label)) + "\n";
-        }
+        for (String label : map.keySet())
+            string += label + " is connected with " + list.get(map.get(label)) + "\n";
 
         return string;
     }
