@@ -1,38 +1,55 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Trie {
+    public static final int ALPHABET_SIZE = 26;
+
     private class Node {
         private char character;
-        private Node[] children;
-        private boolean isEndofWord;
+        private HashMap<Character, Node> children;
+        private boolean end;
 
         public Node(char character) {
             this.character = character;
-            this.children = new Node[26];
+            this.children = new HashMap<>();
         }
 
-        public char getCharacter() {
-            return character;
+        public void setEnd() {
+            this.end = true;
         }
 
-        public Node[] getChildren() {
-            return children;
+        public void removeEnd() {
+            this.end = false;
         }
 
         public boolean isEnd() {
-            return isEndofWord;
+            return end;
         }
 
-        public void setcharacter(char character) {
-            this.character = character;
+        public void addChild(char character) {
+            children.put(character, new Node(character));
         }
 
-        public void setChildren(Node[] children) {
-            this.children = children;
+        public boolean hasChild(char character) {
+            return children.containsKey(character);
         }
 
-        public void setEnd(boolean isEndofWord) {
-            this.isEndofWord = isEndofWord;
+        public Node getChild(char character) {
+            return children.getOrDefault(character, null);
+        }
+
+        public void removeChild(char character) {
+            children.remove(character);
+        }
+
+        public Node[] getChildren() {
+            return children.values().toArray(new Node[0]);
+        }
+
+        public boolean hasChildren() {
+            return !children.isEmpty();
         }
 
         @Override
@@ -41,22 +58,82 @@ public class Trie {
         }
     }
 
-    private Node root = new Node('0');
+    private Node root = new Node(' ');
 
     public void insert(String word) {
 
         Node current = root;
         for (char character : word.toCharArray()) {
-            if (current.getChildren()[index(character)] == null)
-                current.getChildren()[index(character)] = new Node(character);
+            if (!current.hasChild(character))
+                current.addChild(character);
 
-            current = current.getChildren()[index(character)];
+            current = current.getChild(character);
         }
 
-        current.setEnd(true);
+        current.setEnd();
     }
 
-    public int index(char character) {
-        return character - 'a';
+    public boolean contains(String word) {
+        if (word == null)
+            return false;
+
+        Node current = root;
+        for (char character : word.toCharArray()) {
+            if (!current.hasChild(character))
+                return false;
+
+            current = current.getChild(character);
+        }
+
+        return current.isEnd();
     }
+
+    public String[] suggest(String word) {
+        ArrayList<String> list = new ArrayList<>();
+        String suggestion = "";
+
+        Node current = root;
+        for (char character : word.toCharArray()) {
+            if (current.hasChild(character)) {
+                suggestion += current.toString();
+                current = current.getChild(character);
+            }
+        }
+
+        suggest(current, suggestion.strip(), list);
+        return list.toArray(new String[0]);
+    }
+
+    public void remove(String word) {
+        remove(root, word, 0);
+    }
+
+    private void remove(Node root, String word, int index) {
+        if (index == word.length()) {
+            root.removeEnd();
+            return;
+        }
+
+        char character = word.charAt(index);
+        Node child = root.getChild(character);
+        if (child == null)
+            return;
+
+        remove(child, word, index + 1);
+
+        if (!child.isEnd() && !child.hasChildren())
+            root.removeChild(character);
+    }
+
+    private void suggest(Node node, String suggestion, ArrayList<String> list) {
+        suggestion += node.toString();
+
+        if (node.isEnd())
+            list.add(suggestion);
+
+        for (Node child : node.getChildren()) {
+            suggest(child, suggestion, list);
+        }
+    }
+
 }
