@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Trie {
-    public static final int ALPHABET_SIZE = 26;
-
     private class Node {
         private char character;
         private HashMap<Character, Node> children;
@@ -93,6 +91,32 @@ public class Trie {
 
     public void remove(String word) {
         remove(root, word, 0);
+    }
+
+    public int count() {
+        return complete("").length;
+    }
+
+    public String lcp(String[] array) {
+        if (array == null || array.length == 0)
+            return "";
+
+        String prefix = "";
+        int index = 0;
+        for (char character : array[0].toCharArray()) {
+
+            int counter = 0;
+            for (String word : array)
+                if (word.charAt(index % word.length()) == character)
+                    counter++;
+
+            if (counter == array.length)
+                prefix += character;
+
+            index++;
+        }
+
+        return prefix.strip();
     }
 
     private void remove(Node root, String word, int index) {
