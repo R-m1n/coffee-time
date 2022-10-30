@@ -88,19 +88,13 @@ public class Trie {
         return current.isEnd();
     }
 
-    public String[] suggest(String word) {
+    public String[] complete(String prefix) {
+        if (prefix == null)
+            return null;
+
         ArrayList<String> list = new ArrayList<>();
-        String suggestion = "";
 
-        Node current = root;
-        for (char character : word.toCharArray()) {
-            if (current.hasChild(character)) {
-                suggestion += current.toString();
-                current = current.getChild(character);
-            }
-        }
-
-        suggest(current, suggestion.strip(), list);
+        complete(lastNodeOf(prefix), prefix.strip(), list);
         return list.toArray(new String[0]);
     }
 
@@ -125,15 +119,26 @@ public class Trie {
             root.removeChild(character);
     }
 
-    private void suggest(Node node, String suggestion, ArrayList<String> list) {
-        suggestion += node.toString();
+    private void complete(Node node, String prefix, ArrayList<String> list) {
+        if (node == null)
+            return;
 
         if (node.isEnd())
-            list.add(suggestion);
+            list.add(prefix);
 
         for (Node child : node.getChildren()) {
-            suggest(child, suggestion, list);
+            complete(child, prefix + child, list);
         }
+    }
+
+    private Node lastNodeOf(String prefix) {
+        Node current = root;
+        for (char character : prefix.toCharArray()) {
+            if (current.hasChild(character))
+                current = current.getChild(character);
+        }
+
+        return current;
     }
 
 }
