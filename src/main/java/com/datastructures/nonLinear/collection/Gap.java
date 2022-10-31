@@ -2,6 +2,7 @@ package src.main.java.com.datastructures.nonLinear.collection;
 
 import java.util.Map;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayDeque;
@@ -104,19 +105,32 @@ public class Gap implements Graph {
             throw new NodeNotFoundException();
     }
 
-    public String[] depthFirst(String label) {
+    public String[] depthFirst(String root) {
         List<String> list = new ArrayList<>();
-        depthFirst(map.get(label), list);
+        depthFirst(map.get(validate(root)), list);
 
         return list.toArray(new String[0]);
     }
 
-    public String[] levelOrder(String label) {
+    public String[] breadthFirst(String root) {
         List<String> list = new ArrayList<>();
         Queue<Node> queue = new ArrayDeque<>();
-        levelOrder(map.get(label), queue, list);
+        breadthFirst(map.get(validate(root)), queue, list);
 
         return list.toArray(new String[0]);
+    }
+
+    public String[] tpSort() {
+        List<String> sorted = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+
+        for (Node node : map.values())
+            tpSort(node, stack);
+
+        while (!stack.isEmpty())
+            sorted.add(stack.pop().label);
+
+        return sorted.toArray(new String[0]);
     }
 
     @Override
@@ -144,14 +158,11 @@ public class Gap implements Graph {
         if (!list.contains(node.label))
             list.add(node.label);
 
-        if (adList.get(node).isEmpty())
-            return;
-
         for (Node child : adList.get(node))
             depthFirst(child, list);
     }
 
-    private void levelOrder(Node node, Queue<Node> queue, List<String> list) {
+    private void breadthFirst(Node node, Queue<Node> queue, List<String> list) {
         if (!list.contains(node.label))
             list.add(node.label);
 
@@ -161,6 +172,14 @@ public class Gap implements Graph {
         for (Node child : adList.get(node))
             queue.add(child);
 
-        levelOrder(queue.remove(), queue, list);
+        breadthFirst(queue.remove(), queue, list);
+    }
+
+    private void tpSort(Node node, Stack<Node> stack) {
+        for (Node child : adList.get(node))
+            tpSort(child, stack);
+
+        if (!stack.contains(node))
+            stack.add(node);
     }
 }
