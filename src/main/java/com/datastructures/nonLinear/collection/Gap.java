@@ -38,6 +38,12 @@ public class Gap implements Graph {
         }
     }
 
+    private class CyclicGraphException extends IllegalStateException {
+        public CyclicGraphException() {
+            super();
+        }
+    }
+
     private Map<String, Node> map = new HashMap<>();
     private Map<Node, List<Node>> adList = new HashMap<>();
 
@@ -107,14 +113,28 @@ public class Gap implements Graph {
             throw new NodeNotFoundException();
     }
 
+    /**
+     * @param root
+     * @return array of vertices in depth-first traversal order.
+     */
     public String[] depthFirst(String root) {
+        if (hasCycle())
+            throw new CyclicGraphException();
+
         List<String> list = new ArrayList<>();
         depthFirst(map.get(validate(root)), list);
 
         return list.toArray(new String[0]);
     }
 
+    /**
+     * @param root
+     * @return array of vertices in breadth-first traversal order.
+     */
     public String[] breadthFirst(String root) {
+        if (hasCycle())
+            throw new CyclicGraphException();
+
         List<String> list = new ArrayList<>();
         Queue<Node> queue = new ArrayDeque<>();
         breadthFirst(map.get(validate(root)), queue, list);
@@ -122,7 +142,13 @@ public class Gap implements Graph {
         return list.toArray(new String[0]);
     }
 
+    /**
+     * @return array of topologically sorted vertices.
+     */
     public String[] tpSort() {
+        if (hasCycle())
+            throw new CyclicGraphException();
+
         List<String> sorted = new ArrayList<>();
         Stack<Node> stack = new Stack<>();
 
@@ -135,6 +161,9 @@ public class Gap implements Graph {
         return sorted.toArray(new String[0]);
     }
 
+    /**
+     * @return true if the Graph is cyclic, else false.
+     */
     public boolean hasCycle() {
         Set<Node> all = new HashSet<>();
         Set<Node> visited = new HashSet<>();
