@@ -2,8 +2,10 @@ package src.main.java.com.datastructures.nonLinear.collection;
 
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -133,6 +135,24 @@ public class Gap implements Graph {
         return sorted.toArray(new String[0]);
     }
 
+    public boolean hasCycle() {
+        Set<Node> all = new HashSet<>();
+        Set<Node> visited = new HashSet<>();
+        Set<Node> visiting = new HashSet<>();
+
+        all.addAll(map.values());
+
+        Node current;
+        while (!all.isEmpty()) {
+            current = all.iterator().next();
+
+            if (hasCycle(current, all, visiting, visited))
+                return true;
+        }
+
+        return false;
+    }
+
     @Override
     public String toString() {
         String string = "";
@@ -158,8 +178,8 @@ public class Gap implements Graph {
         if (!list.contains(node.label))
             list.add(node.label);
 
-        for (Node child : adList.get(node))
-            depthFirst(child, list);
+        for (Node neighbor : adList.get(node))
+            depthFirst(neighbor, list);
     }
 
     private void breadthFirst(Node node, Queue<Node> queue, List<String> list) {
@@ -169,17 +189,38 @@ public class Gap implements Graph {
         if (adList.get(node).isEmpty())
             return;
 
-        for (Node child : adList.get(node))
-            queue.add(child);
+        for (Node neighbor : adList.get(node))
+            queue.add(neighbor);
 
         breadthFirst(queue.remove(), queue, list);
     }
 
     private void tpSort(Node node, Stack<Node> stack) {
-        for (Node child : adList.get(node))
-            tpSort(child, stack);
+        for (Node neighbor : adList.get(node))
+            tpSort(neighbor, stack);
 
         if (!stack.contains(node))
             stack.add(node);
+    }
+
+    private boolean hasCycle(Node node, Set<Node> all, Set<Node> visiting, Set<Node> visited) {
+        all.remove(node);
+        visiting.add(node);
+
+        for (Node neighbor : adList.get(node)) {
+            if (visited.contains(neighbor))
+                continue;
+
+            if (visiting.contains(neighbor))
+                return true;
+
+            if (hasCycle(neighbor, all, visiting, visited))
+                return true;
+        }
+
+        visiting.remove(node);
+        visited.add(node);
+
+        return false;
     }
 }
