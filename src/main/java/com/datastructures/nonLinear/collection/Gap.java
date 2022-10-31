@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * 
  * @author R-m1n
  */
-public class GraphMap implements Graph {
+public class Gap implements Graph {
     public static final String VALID_NODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private class Node {
