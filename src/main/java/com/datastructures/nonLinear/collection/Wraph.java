@@ -13,7 +13,19 @@ public class Wraph extends WeightedGraph {
     }
 
     public void removeNode(String label) {
+        label = validate(label);
 
+        if (!map.containsKey(label))
+            throw new NodeNotFoundException();
+
+        map.remove(label);
+
+        for (Node node : map.values())
+            for (Edge edge : node.getEdges())
+                if (edge.getTarget().toString() == label) {
+                    node.getEdges().remove(edge);
+                    break;
+                }
     }
 
     public void addEdge(String from, String to) {
@@ -39,7 +51,17 @@ public class Wraph extends WeightedGraph {
     }
 
     public void removeEdge(String from, String to) {
+        from = validate(from);
+        to = validate(to);
 
+        if (!map.containsKey(from) || !map.containsKey(to))
+            throw new NodeNotFoundException();
+
+        for (Edge edge : map.get(from).getEdges())
+            if (edge.getTarget().toString() == to) {
+                map.get(from).getEdges().remove(edge);
+                break;
+            }
     }
 
     @Override

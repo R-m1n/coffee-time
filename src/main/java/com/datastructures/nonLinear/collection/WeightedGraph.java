@@ -26,13 +26,17 @@ public abstract class WeightedGraph extends Graph {
         }
     }
 
-    private class Edge {
+    protected class Edge {
         private Node to;
         private int weight;
 
         public Edge(Node to, int weight) {
             this.to = to;
             this.weight = weight;
+        }
+
+        public Node getTarget() {
+            return to;
         }
 
         @Override
