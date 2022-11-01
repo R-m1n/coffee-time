@@ -95,11 +95,11 @@ public class Wraph extends WeightedGraph {
         shortestPath(start, queue, distances, previous, visited);
 
         while (target != null) {
-            path.append(target);
+            path.append(" >- " + target);
             target = previous.getOrDefault(target, null);
         }
 
-        return path.reverse().toString();
+        return path.reverse().toString().substring(0, path.length() - 3);
     }
 
     private void shortestPath(Node node, PriorityQueue<NodeEntry> queue, Map<Node, Integer> distances,
