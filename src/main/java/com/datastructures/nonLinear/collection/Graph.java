@@ -1,19 +1,32 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
-public interface Graph {
+public abstract class Graph {
+    protected class Node {
+        private String label;
+
+        public Node(String label) {
+            this.label = label;
+        }
+
+        @Override
+        public String toString() {
+            return label;
+        }
+    }
+
     /**
      * Add a vertex to the Graph.
      * 
      * @param label
      */
-    public void addNode(String label);
+    abstract void addNode(String label);
 
     /**
      * Remove vertex from the Graph.
      * 
      * @param label
      */
-    public void removeNode(String label);
+    abstract void removeNode(String label);
 
     /**
      * Add an edge from a vertex to another vertex.
@@ -21,7 +34,7 @@ public interface Graph {
      * @param from
      * @param to
      */
-    public void addEdge(String from, String to);
+    abstract void addEdge(String from, String to);
 
     /**
      * Remove an edge from a vertex to another vertex.
@@ -29,5 +42,5 @@ public interface Graph {
      * @param from
      * @param to
      */
-    public void removeEdge(String from, String to);
+    abstract void removeEdge(String from, String to);
 }

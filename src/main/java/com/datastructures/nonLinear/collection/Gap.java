@@ -16,21 +16,8 @@ import java.util.ArrayList;
  * 
  * @author R-m1n
  */
-public class Gap implements Graph {
+public class Gap extends Graph {
     public static final String VALID_NODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    private class Node {
-        private String label;
-
-        public Node(String label) {
-            this.label = label;
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
 
     private class NodeNotFoundException extends IllegalStateException {
         public NodeNotFoundException() {
@@ -156,7 +143,7 @@ public class Gap implements Graph {
             tpSort(node, stack);
 
         while (!stack.isEmpty())
-            sorted.add(stack.pop().label);
+            sorted.add(stack.pop().toString());
 
         return sorted.toArray(new String[0]);
     }
@@ -204,16 +191,16 @@ public class Gap implements Graph {
     }
 
     private void depthFirst(Node node, List<String> list) {
-        if (!list.contains(node.label))
-            list.add(node.label);
+        if (!list.contains(node.toString()))
+            list.add(node.toString());
 
         for (Node neighbor : adList.get(node))
             depthFirst(neighbor, list);
     }
 
     private void breadthFirst(Node node, Queue<Node> queue, List<String> list) {
-        if (!list.contains(node.label))
-            list.add(node.label);
+        if (!list.contains(node.toString()))
+            list.add(node.toString());
 
         if (adList.get(node).isEmpty())
             return;
