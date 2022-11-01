@@ -116,7 +116,7 @@ public class Wraph extends WeightedGraph {
             if (visited.contains(target))
                 continue;
 
-            if (distances.get(target) > weight) {
+            if (distances.get(target) > distances.get(node) + weight) {
                 distances.replace(target, distances.get(node) + weight);
                 previous.put(target, node);
             }
