@@ -10,12 +10,22 @@ import java.util.Set;
 public class Wraph extends WeightedGraph {
     private Map<String, Node> map = new HashMap<>();
 
+    /**
+     * Add a vertex to the Graph.
+     * 
+     * @param label
+     */
     public void addNode(String label) {
         label = validate(label);
 
         map.putIfAbsent(label, new Node(label));
     }
 
+    /**
+     * Remove vertex from the Graph.
+     * 
+     * @param label
+     */
     public void removeNode(String label) {
         label = validate(label);
 
@@ -32,6 +42,12 @@ public class Wraph extends WeightedGraph {
                 }
     }
 
+    /**
+     * Add an edge from a vertex to another vertex with 0 weight.
+     * 
+     * @param from
+     * @param to
+     */
     public void addEdge(String from, String to) {
         from = validate(from);
         to = validate(to);
@@ -43,6 +59,13 @@ public class Wraph extends WeightedGraph {
         map.get(to).addEdge(map.get(from), 0);
     }
 
+    /**
+     * Add a weighted edge from a vertex to another vertex.
+     * 
+     * @param from
+     * @param to
+     * @param weight
+     */
     public void addEdge(String from, String to, int weight) {
         from = validate(from);
         to = validate(to);
@@ -54,6 +77,12 @@ public class Wraph extends WeightedGraph {
         map.get(to).addEdge(map.get(from), weight);
     }
 
+    /**
+     * Remove an edge from a vertex to another vertex.
+     * 
+     * @param from
+     * @param to
+     */
     public void removeEdge(String from, String to) {
         from = validate(from);
         to = validate(to);
@@ -68,6 +97,9 @@ public class Wraph extends WeightedGraph {
             }
     }
 
+    /**
+     * @return true if the Graph is cyclic, else false.
+     */
     public boolean hasCycle() {
         for (Node node : map.values())
             if (hasCycle(node, new HashSet<>(), null))
@@ -76,6 +108,11 @@ public class Wraph extends WeightedGraph {
         return false;
     }
 
+    /**
+     * @param from
+     * @param to
+     * @return shortest path from a vertex to another vertex.
+     */
     public String shortestPath(String from, String to) {
         class NodeEntry {
             Node node;

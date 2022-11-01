@@ -58,6 +58,11 @@ public abstract class Graph {
      */
     abstract void removeEdge(String from, String to);
 
+    /**
+     * @return true if the Graph is cyclic, else false.
+     */
+    abstract boolean hasCycle();
+
     protected String validate(String label) {
         if (label == null)
             throw new IllegalArgumentException("\n\nValid Arguments: " + VALID_NODES + "\n");
