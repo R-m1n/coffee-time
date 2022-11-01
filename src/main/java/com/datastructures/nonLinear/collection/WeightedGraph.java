@@ -39,6 +39,10 @@ public abstract class WeightedGraph extends Graph {
             return to;
         }
 
+        public int getWeight() {
+            return weight;
+        }
+
         @Override
         public String toString() {
             return to.toString() + ": " + weight;
