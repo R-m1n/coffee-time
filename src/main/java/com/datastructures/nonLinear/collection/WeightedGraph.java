@@ -35,11 +35,11 @@ public abstract class WeightedGraph extends Graph {
             this.weight = weight;
         }
 
-        public Node getTarget() {
+        public Node target() {
             return to;
         }
 
-        public int getWeight() {
+        public int weight() {
             return weight;
         }
 

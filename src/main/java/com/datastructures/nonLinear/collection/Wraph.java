@@ -36,7 +36,7 @@ public class Wraph extends WeightedGraph {
 
         for (Node node : map.values())
             for (Edge edge : node.getEdges())
-                if (edge.getTarget().toString() == label) {
+                if (edge.target().toString() == label) {
                     node.getEdges().remove(edge);
                     break;
                 }
@@ -72,10 +72,34 @@ public class Wraph extends WeightedGraph {
             throw new NodeNotFoundException();
 
         for (Edge edge : map.get(from).getEdges())
-            if (edge.getTarget().toString() == to) {
+            if (edge.target().toString() == to) {
                 map.get(from).getEdges().remove(edge);
                 break;
             }
+    }
+
+    public boolean hasCycle() {
+        for (Node node : map.values())
+            if (hasCycle(node, new HashSet<>(), new Node("")))
+                return true;
+
+        return false;
+    }
+
+    private boolean hasCycle(Node node, Set<Node> visited, Node parent) {
+        visited.add(node);
+
+        for (Edge edge : node.getEdges()) {
+            if (parent == edge.target())
+                continue;
+
+            if (visited.contains(edge.target()))
+                return true;
+
+            hasCycle(edge.target(), visited, node);
+        }
+
+        return false;
     }
 
     public String shortestPath(String from, String to) {
@@ -88,18 +112,20 @@ public class Wraph extends WeightedGraph {
         Map<Node, Node> previous = new HashMap<>();
         Set<Node> visited = new HashSet<>();
 
-        distances.put(start, 0);
         for (Node node : map.values())
-            distances.putIfAbsent(node, Integer.MAX_VALUE);
+            distances.put(node, Integer.MAX_VALUE);
+
+        distances.replace(start, 0);
 
         shortestPath(start, queue, distances, previous, visited);
 
+        int distanceToTarget = distances.get(target);
         while (target != null) {
             path.append(" >- " + target);
-            target = previous.getOrDefault(target, null);
+            target = previous.get(target);
         }
 
-        return path.reverse().toString().substring(0, path.length() - 3);
+        return path.reverse().toString().substring(0, path.length() - 3) + ": " + distanceToTarget;
     }
 
     private void shortestPath(Node node, PriorityQueue<NodeEntry> queue, Map<Node, Integer> distances,
@@ -108,20 +134,21 @@ public class Wraph extends WeightedGraph {
         visited.add(node);
 
         Node target;
-        int weight;
+        int distance;
+        int distanceFromStart;
         for (Edge edge : node.getEdges()) {
-            target = edge.getTarget();
-            weight = edge.getWeight();
+            target = edge.target();
+            distance = edge.weight();
+            distanceFromStart = distances.get(node) + distance;
 
             if (visited.contains(target))
                 continue;
 
-            if (distances.get(target) > distances.get(node) + weight) {
-                distances.replace(target, distances.get(node) + weight);
+            if (distanceFromStart < distances.get(target)) {
+                distances.replace(target, distanceFromStart);
                 previous.put(target, node);
+                queue.add(new NodeEntry(target, distanceFromStart));
             }
-
-            queue.add(new NodeEntry(target, weight));
         }
 
         if (!queue.isEmpty())
