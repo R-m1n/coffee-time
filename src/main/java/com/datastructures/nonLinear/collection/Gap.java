@@ -11,28 +11,15 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 /**
- * A Java implementation of Graph data structure using Adjacency List approach
+ * A Java implementation of Directed Graph data structure using Adjacency List
+ * approach
  * by using a HashTable of Lists.
  * 
  * @author R-m1n
  */
 public class Gap extends Graph {
-    public static final String VALID_NODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    private class NodeNotFoundException extends IllegalStateException {
-        public NodeNotFoundException() {
-            super();
-        }
-    }
-
-    private class CyclicGraphException extends IllegalStateException {
-        public CyclicGraphException() {
-            super();
-        }
-    }
-
-    private Map<String, Node> map = new HashMap<>();
-    private Map<Node, List<Node>> adList = new HashMap<>();
+    protected Map<String, Node> map = new HashMap<>();
+    protected Map<Node, List<Node>> adList = new HashMap<>();
 
     /**
      * Add a vertex to the Graph.
@@ -178,7 +165,7 @@ public class Gap extends Graph {
         return string;
     }
 
-    private String validate(String label) {
+    protected String validate(String label) {
         if (label == null)
             throw new IllegalArgumentException("\n\nValid Arguments: " + VALID_NODES + "\n");
 

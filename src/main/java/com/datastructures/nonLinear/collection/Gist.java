@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * A Java implementation of Graph data structure using Adjacency List approach
+ * A Java implementation of Directed Graph data structure using Adjacency List
+ * approach
  * by using an array of linked lists.
  * 
  * @author R-m1n

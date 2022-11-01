@@ -1,6 +1,8 @@
 package src.main.java.com.datastructures.nonLinear.collection;
 
 public abstract class Graph {
+    public final String VALID_NODES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     protected class Node {
         private String label;
 
@@ -11,6 +13,18 @@ public abstract class Graph {
         @Override
         public String toString() {
             return label;
+        }
+    }
+
+    protected class NodeNotFoundException extends IllegalStateException {
+        public NodeNotFoundException() {
+            super();
+        }
+    }
+
+    protected class CyclicGraphException extends IllegalStateException {
+        public CyclicGraphException() {
+            super();
         }
     }
 
