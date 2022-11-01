@@ -57,4 +57,16 @@ public abstract class Graph {
      * @param to
      */
     abstract void removeEdge(String from, String to);
+
+    protected String validate(String label) {
+        if (label == null)
+            throw new IllegalArgumentException("\n\nValid Arguments: " + VALID_NODES + "\n");
+
+        label = label.strip().toUpperCase();
+
+        if (!VALID_NODES.contains(label))
+            throw new IllegalArgumentException("\n\nValid Arguments: " + VALID_NODES + "\n");
+
+        return label;
+    }
 }
