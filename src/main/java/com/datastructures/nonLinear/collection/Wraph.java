@@ -8,16 +8,6 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Wraph extends WeightedGraph {
-    private class NodeEntry {
-        private Node node;
-        private int priority;
-
-        public NodeEntry(Node node, int priority) {
-            this.node = node;
-            this.priority = priority;
-        }
-    }
-
     private Map<String, Node> map = new HashMap<>();
 
     public void addNode(String label) {
@@ -80,10 +70,86 @@ public class Wraph extends WeightedGraph {
 
     public boolean hasCycle() {
         for (Node node : map.values())
-            if (hasCycle(node, new HashSet<>(), new Node("")))
+            if (hasCycle(node, new HashSet<>(), null))
                 return true;
 
         return false;
+    }
+
+    public String shortestPath(String from, String to) {
+        class NodeEntry {
+            Node node;
+            int priority;
+
+            NodeEntry(Node node, int priority) {
+                this.node = node;
+                this.priority = priority;
+            }
+        }
+
+        Node start = map.get(validate(from));
+        Node finish = map.get(validate(to));
+
+        PriorityQueue<NodeEntry> queue = new PriorityQueue<>(Comparator.comparingInt(ne -> ne.priority));
+        Map<Node, Integer> distances = initDistanceMap(start);
+        Map<Node, Node> previousNodes = new HashMap<>();
+        Set<Node> visited = new HashSet<>();
+
+        queue.add(new NodeEntry(start, 0));
+        while (!queue.isEmpty()) {
+            Node node = queue.remove().node;
+            visited.add(node);
+
+            for (Edge edge : node.getEdges()) {
+                Node target = edge.target();
+                int distance = edge.weight();
+                int distanceFromStart = distances.get(node) + distance;
+
+                if (visited.contains(target))
+                    continue;
+
+                if (distanceFromStart < distances.get(target)) {
+                    distances.replace(target, distanceFromStart);
+                    previousNodes.put(target, node);
+                    queue.add(new NodeEntry(target, distanceFromStart));
+                }
+            }
+        }
+
+        return path(finish, previousNodes, distances);
+    }
+
+    @Override
+    public String toString() {
+        String string = "";
+
+        for (String label : map.keySet())
+            string += label + " is connected to " + map.get(label).getEdges() + "\n";
+
+        return string;
+    }
+
+    private Map<Node, Integer> initDistanceMap(Node start) {
+        Map<Node, Integer> distances = new HashMap<>();
+
+        for (Node node : map.values())
+            distances.put(node, Integer.MAX_VALUE);
+
+        distances.replace(start, 0);
+
+        return distances;
+    }
+
+    private String path(Node target, Map<Node, Node> previousNodes, Map<Node, Integer> distances) {
+        StringBuffer path = new StringBuffer();
+        int distanceToTarget = distances.get(target);
+
+        while (target != null) {
+            path.append(" >- " + target);
+            target = previousNodes.get(target);
+        }
+
+        return path.reverse().toString().substring(0, path.length() - 3) + ": " + distanceToTarget;
     }
 
     private boolean hasCycle(Node node, Set<Node> visited, Node parent) {
@@ -100,67 +166,5 @@ public class Wraph extends WeightedGraph {
         }
 
         return false;
-    }
-
-    public String shortestPath(String from, String to) {
-        Node start = map.get(validate(from));
-        Node target = map.get(validate(to));
-
-        StringBuffer path = new StringBuffer();
-        PriorityQueue<NodeEntry> queue = new PriorityQueue<>(Comparator.comparingInt(ne -> ne.priority));
-        Map<Node, Integer> distances = new HashMap<>();
-        Map<Node, Node> previous = new HashMap<>();
-        Set<Node> visited = new HashSet<>();
-
-        for (Node node : map.values())
-            distances.put(node, Integer.MAX_VALUE);
-
-        distances.replace(start, 0);
-
-        shortestPath(start, queue, distances, previous, visited);
-
-        int distanceToTarget = distances.get(target);
-        while (target != null) {
-            path.append(" >- " + target);
-            target = previous.get(target);
-        }
-
-        return path.reverse().toString().substring(0, path.length() - 3) + ": " + distanceToTarget;
-    }
-
-    private void shortestPath(Node node, PriorityQueue<NodeEntry> queue, Map<Node, Integer> distances,
-            Map<Node, Node> previous, Set<Node> visited) {
-
-        visited.add(node);
-
-        Node target;
-        int distance;
-        int distanceFromStart;
-        for (Edge edge : node.getEdges()) {
-            target = edge.target();
-            distance = edge.weight();
-            distanceFromStart = distances.get(node) + distance;
-
-            if (visited.contains(target))
-                continue;
-
-            if (distanceFromStart < distances.get(target)) {
-                distances.replace(target, distanceFromStart);
-                previous.put(target, node);
-                queue.add(new NodeEntry(target, distanceFromStart));
-            }
-        }
-
-        if (!queue.isEmpty())
-            shortestPath(queue.remove().node, queue, distances, previous, visited);
-    }
-
-    @Override
-    public String toString() {
-        String string = "";
-        for (String label : map.keySet())
-            string += label + " is connected to " + map.get(label).getEdges() + "\n";
-
-        return string;
     }
 }
