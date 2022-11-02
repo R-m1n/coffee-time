@@ -13,7 +13,11 @@ public abstract class WeightedGraph extends Graph {
         }
 
         public void addEdge(Node to, int weight) {
-            edges.add(new Edge(to, weight));
+            edges.add(new Edge(this, to, weight));
+        }
+
+        public void addEdge(Edge edge) {
+            edges.add(edge);
         }
 
         public List<Edge> getEdges() {
@@ -27,12 +31,18 @@ public abstract class WeightedGraph extends Graph {
     }
 
     protected class Edge {
+        private Node from;
         private Node to;
         private int weight;
 
-        public Edge(Node to, int weight) {
+        public Edge(Node from, Node to, int weight) {
+            this.from = from;
             this.to = to;
             this.weight = weight;
+        }
+
+        public Node origin() {
+            return from;
         }
 
         public Node target() {
@@ -45,7 +55,7 @@ public abstract class WeightedGraph extends Graph {
 
         @Override
         public String toString() {
-            return to.toString() + ": " + weight;
+            return from.toString() + "->" + to.toString() + ": " + weight;
         }
     }
 

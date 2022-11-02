@@ -156,6 +156,38 @@ public class Wraph extends WeightedGraph {
         return path(finish, previousNodes, distances);
     }
 
+    public Wraph minSpan() {
+        Wraph tree = new Wraph();
+        PriorityQueue<Edge> edges = new PriorityQueue<>(Comparator.comparingInt(e -> e.weight()));
+        Set<Node> visited = new HashSet<>();
+
+        for (String vertex : map.keySet())
+            tree.addNode(vertex);
+
+        for (Node node : map.values()) {
+            if (visited.size() == map.values().size() - 1)
+                break;
+
+            visited.add(node);
+
+            for (Edge edge : node.getEdges())
+                if (!visited.contains(edge.target()))
+                    edges.add(edge);
+
+            Edge edge = edges.remove();
+            while (visited.contains(edge.origin()) && visited.contains(edge.target())) {
+                if (edges.isEmpty())
+                    break;
+
+                edge = edges.remove();
+            }
+
+            tree.addEdge(edge);
+        }
+
+        return tree;
+    }
+
     @Override
     public String toString() {
         String string = "";
@@ -203,5 +235,10 @@ public class Wraph extends WeightedGraph {
         }
 
         return false;
+    }
+
+    private void addEdge(Edge edge) {
+        map.get(edge.origin().toString()).addEdge(edge);
+        map.get(edge.target().toString()).addEdge(edge);
     }
 }
