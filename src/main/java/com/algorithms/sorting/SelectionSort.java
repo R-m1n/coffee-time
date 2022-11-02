@@ -12,27 +12,22 @@ public class SelectionSort {
      * @param array
      */
     public static void sort(int[] array) {
-
-        int min;
-        int minIndex;
-        for (int i = 0; i < array.length; i++) {
-
-            min = Integer.MAX_VALUE;
-            minIndex = i;
-            for (int j = i; j < array.length; j++) {
-                if (array[j] < min) {
-                    min = array[j];
-                    minIndex = j;
-                }
-            }
-
-            swap(array, i, minIndex);
-        }
+        for (int i = 0; i < array.length; i++)
+            swap(array, i, minIndex(array, i));
     }
 
     private static void swap(int[] array, int i, int j) {
         int temp = array[j];
         array[j] = array[i];
         array[i] = temp;
+    }
+
+    private static int minIndex(int[] array, int i) {
+        int minIndex = i;
+        for (int j = i; j < array.length; j++)
+            if (array[j] < array[minIndex])
+                minIndex = j;
+
+        return minIndex;
     }
 }
