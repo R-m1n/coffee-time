@@ -156,6 +156,9 @@ public class Wraph extends WeightedGraph {
         return path(finish, previousNodes, distances);
     }
 
+    /**
+     * @return the Minimum Spanning Tree of the Graph.
+     */
     public Wraph minSpan() {
         Wraph tree = new Wraph();
         PriorityQueue<Edge> edges = new PriorityQueue<>(Comparator.comparingInt(e -> e.weight()));
@@ -174,15 +177,17 @@ public class Wraph extends WeightedGraph {
                 if (!visited.contains(edge.target()))
                     edges.add(edge);
 
+            if (edges.isEmpty())
+                continue;
+
             Edge edge = edges.remove();
-            while (visited.contains(edge.origin()) && visited.contains(edge.target())) {
-                if (edges.isEmpty())
-                    break;
+            while (!edges.isEmpty()
+                    && visited.contains(edge.origin())
+                    && visited.contains(edge.target()))
 
                 edge = edges.remove();
-            }
 
-            tree.addEdge(edge);
+            tree.addEdge(edge.origin().toString(), edge.target().toString(), edge.weight());
         }
 
         return tree;
@@ -235,10 +240,5 @@ public class Wraph extends WeightedGraph {
         }
 
         return false;
-    }
-
-    private void addEdge(Edge edge) {
-        map.get(edge.origin().toString()).addEdge(edge);
-        map.get(edge.target().toString()).addEdge(edge);
     }
 }
