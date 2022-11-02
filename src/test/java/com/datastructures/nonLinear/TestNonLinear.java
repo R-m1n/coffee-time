@@ -1,4 +1,4 @@
-package src.test.java.com.datastructures.nonlinear;
+package src.test.java.com.datastructures.nonLinear;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
