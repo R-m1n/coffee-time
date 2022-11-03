@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class MergeSort {
     public static void sort(int[] array) {
         divide(array);
-        System.out.println();
     }
 
     private static int[] divide(int[] array) {
@@ -20,9 +19,7 @@ public class MergeSort {
     }
 
     private static int[] merge(int[] array, int[] leftSide, int[] rightSide) {
-        int index = 0;
-        int leftPointer = 0;
-        int rightPointer = 0;
+        int index = 0, leftPointer = 0, rightPointer = 0;
 
         while (index != array.length) {
             int left = leftSide[leftPointer];

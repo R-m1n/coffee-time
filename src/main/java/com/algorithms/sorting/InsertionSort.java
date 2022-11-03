@@ -1,5 +1,7 @@
 package src.main.java.com.algorithms.sorting;
 
+import java.util.Arrays;
+
 /**
  * A Java implementation of Insertion Sort algorihtm.
  * 
@@ -15,27 +17,17 @@ public class InsertionSort {
 
         int current;
         int index;
-        boolean sorted;
         for (int i = 1; i < array.length; i++) {
+            System.out.println(Arrays.toString(array));
             current = array[i];
             index = i - 1;
-            sorted = true;
 
-            for (int j = index; j >= 0; j--) {
-                if (array[j] > current) {
-                    array[j + 1] = array[j];
-                    index = j;
-                    sorted = false;
-                }
-
-                else
-                    break;
+            while (index >= 0 && array[index] > current) {
+                array[index + 1] = array[index];
+                index--;
             }
 
-            if (sorted)
-                return;
-
-            array[index] = current;
+            array[index + 1] = current;
         }
     }
 }
