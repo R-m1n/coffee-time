@@ -4,23 +4,47 @@ import java.util.Arrays;
 
 public class MergeSort {
     public static void sort(int[] array) {
-        merge(array);
+        divide(array);
+        System.out.println();
     }
 
-    public static int[] merge(int[] array) {
+    private static int[] divide(int[] array) {
         if (array.length == 1)
             return array;
 
-        int[] left = merge(Arrays.copyOfRange(array, 0, array.length / 2));
-        int[] right = merge(Arrays.copyOfRange(array, array.length / 2, array.length));
+        int[] leftSide = divide(Arrays.copyOfRange(array, 0, array.length / 2));
+        int[] rightSide = divide(Arrays.copyOfRange(array, array.length / 2, array.length));
 
-        System.out.print(Arrays.toString(left));
-        System.out.print(" ");
-        System.out.println(Arrays.toString(right));
+        return merge(array, leftSide, rightSide);
 
-        Arrays.sort(array);
+    }
+
+    private static int[] merge(int[] array, int[] leftSide, int[] rightSide) {
+        int index = 0;
+        int leftPointer = 0;
+        int rightPointer = 0;
+
+        while (index != array.length) {
+            int left = leftSide[leftPointer];
+            int right = rightSide[rightPointer];
+
+            if (left < right) {
+                array[index++] = left;
+                leftSide[leftPointer] = Integer.MAX_VALUE;
+
+                if (leftPointer < leftSide.length - 1)
+                    leftPointer++;
+            }
+
+            else {
+                array[index++] = right;
+                rightSide[rightPointer] = Integer.MAX_VALUE;
+
+                if (rightPointer < rightSide.length - 1)
+                    rightPointer++;
+            }
+        }
 
         return array;
-
     }
 }
