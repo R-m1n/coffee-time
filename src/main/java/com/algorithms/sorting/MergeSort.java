@@ -1,44 +1,55 @@
 package src.main.java.com.algorithms.sorting;
 
-import java.util.Arrays;
-
+/**
+ * A Java implementation of Selection Sort algorihtm.
+ * 
+ * @author R-m1n
+ */
 public class MergeSort {
+    /**
+     * Sort the numbers in the input array inplace in ascending order.
+     * 
+     * @param array
+     */
     public static void sort(int[] array) {
-        divide(array);
-    }
-
-    private static int[] divide(int[] array) {
         if (array.length == 1)
-            return array;
+            return;
 
-        int[] leftSide = divide(Arrays.copyOfRange(array, 0, array.length / 2));
-        int[] rightSide = divide(Arrays.copyOfRange(array, array.length / 2, array.length));
+        int middle = array.length / 2;
 
-        return merge(array, leftSide, rightSide);
+        int[] left = new int[middle];
+        for (int i = 0; i < left.length; i++)
+            left[i] = array[i];
 
+        int[] right = new int[array.length - middle];
+        for (int i = middle; i < array.length; i++)
+            right[i - middle] = array[i];
+
+        sort(left);
+        sort(right);
+
+        merge(array, left, right);
     }
 
-    private static int[] merge(int[] array, int[] leftSide, int[] rightSide) {
-        int index = 0, leftPointer = 0, rightPointer = 0;
+    private static int[] merge(int[] array, int[] left, int[] right) {
 
-        while (index != array.length) {
-            int left = leftSide[leftPointer];
-            int right = rightSide[rightPointer];
+        int i = 0, j = 0, k = 0;
+        while (i != array.length) {
 
-            if (left < right) {
-                array[index++] = left;
-                leftSide[leftPointer] = Integer.MAX_VALUE;
+            if (left[j] < right[k]) {
+                array[i++] = left[j];
+                left[j] = Integer.MAX_VALUE;
 
-                if (leftPointer < leftSide.length - 1)
-                    leftPointer++;
+                if (j < left.length - 1)
+                    j++;
             }
 
             else {
-                array[index++] = right;
-                rightSide[rightPointer] = Integer.MAX_VALUE;
+                array[i++] = right[k];
+                right[k] = Integer.MAX_VALUE;
 
-                if (rightPointer < rightSide.length - 1)
-                    rightPointer++;
+                if (k < right.length - 1)
+                    k++;
             }
         }
 
