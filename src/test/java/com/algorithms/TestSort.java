@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import src.main.java.com.algorithms.sorting.BubbleSort;
+import src.main.java.com.algorithms.sorting.CountingSort;
 import src.main.java.com.algorithms.sorting.InsertionSort;
 import src.main.java.com.algorithms.sorting.MergeSort;
 import src.main.java.com.algorithms.sorting.QuickSort;
@@ -100,6 +101,24 @@ public class TestSort {
         QuickSort.sort(anotherArray);
         QuickSort.sort(yetAnotherArray);
         QuickSort.sort(thisIsNoLongerFunny);
+        assertTrue(isSorted(blank));
+        assertTrue(isSorted(singly));
+        assertTrue(isSorted(doubly));
+        assertTrue(isSorted(array));
+        assertTrue(isSorted(anotherArray));
+        assertTrue(isSorted(yetAnotherArray));
+        assertTrue(isSorted(thisIsNoLongerFunny));
+    }
+
+    @Test
+    public void testCountingSort() {
+        CountingSort.sort(blank);
+        CountingSort.sort(singly);
+        CountingSort.sort(doubly);
+        CountingSort.sort(array);
+        CountingSort.sort(anotherArray);
+        CountingSort.sort(yetAnotherArray);
+        CountingSort.sort(thisIsNoLongerFunny);
         assertTrue(isSorted(blank));
         assertTrue(isSorted(singly));
         assertTrue(isSorted(doubly));
