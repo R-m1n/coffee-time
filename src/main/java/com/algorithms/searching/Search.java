@@ -41,18 +41,18 @@ public class Search {
         int start = 0;
         int end = array.length - 1;
 
-        int partition;
+        int partitionSize;
         int leftMid;
         int rightMid;
         while (start <= end) {
-            partition = (end - start) / 3;
-            leftMid = start + partition;
-            rightMid = end - partition;
+            partitionSize = (end - start) / 3;
+            leftMid = start + partitionSize;
+            rightMid = end - partitionSize;
 
             if (item == array[leftMid])
                 return leftMid;
 
-            else if (item == array[rightMid])
+            if (item == array[rightMid])
                 return rightMid;
 
             else if (item < array[leftMid])
@@ -77,6 +77,30 @@ public class Search {
         return ternary(array, item);
     }
 
+    public static int jump(int[] array, int item) {
+        int blockSize = (int) Math.sqrt(array.length);
+        int start = 0;
+        int end = blockSize - 1;
+
+        while (start < array.length) {
+            if (end >= array.length)
+                end = array.length - 1;
+
+            if (item == array[end])
+                return end;
+
+            if (item < array[end])
+                for (int i = start; i < end; i++)
+                    if (item == array[i])
+                        return i;
+
+            start += blockSize;
+            end += blockSize;
+        }
+
+        return -1;
+    }
+
     private static int binary(int[] array, int item, int start, int end) {
         if (start > end)
             return -1;
@@ -86,7 +110,7 @@ public class Search {
         if (item == array[middle])
             return middle;
 
-        else if (item < array[middle])
+        if (item < array[middle])
             return binary(array, item, start, middle - 1);
 
         else
@@ -97,20 +121,20 @@ public class Search {
         if (start > end)
             return -1;
 
-        int partition = (end - start) / 3;
-        int leftMid = start + partition;
-        int rightMid = end - partition;
+        int partitionSize = (end - start) / 3;
+        int leftMid = start + partitionSize;
+        int rightMid = end - partitionSize;
 
         if (item == array[leftMid])
             return leftMid;
 
-        else if (item == array[rightMid])
+        if (item == array[rightMid])
             return rightMid;
 
-        else if (item < array[leftMid])
+        if (item < array[leftMid])
             return ternary(array, item, start, leftMid - 1);
 
-        else if (array[leftMid] < item && item < array[rightMid])
+        if (array[leftMid] < item && item < array[rightMid])
             return ternary(array, item, leftMid + 1, rightMid - 1);
 
         else

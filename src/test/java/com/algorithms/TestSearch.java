@@ -47,4 +47,14 @@ public class TestSearch {
         assertEquals(Search.ternary(sortedArray, 0, true), -1);
         assertEquals(Search.ternary(sortedArray, 100, true), -1);
     }
+
+    @Test
+    public void testJumpSearch() {
+        assertEquals(Search.jump(sortedArray, 18), 5);
+        assertEquals(Search.jump(sortedArray, 3), 0);
+        assertEquals(Search.jump(sortedArray, 30), 9);
+        assertEquals(Search.jump(sortedArray, 21), 7);
+        assertEquals(Search.jump(sortedArray, 0), -1);
+        assertEquals(Search.jump(sortedArray, 100), -1);
+    }
 }
