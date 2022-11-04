@@ -1,7 +1,16 @@
 package src.main.java.com.algorithms.sorting;
 
+/**
+ * A Java implementation of Quick Sort algorihtm.
+ * 
+ * @author R-m1n
+ */
 public class QuickSort {
-
+    /**
+     * Sort the numbers in the input array inplace in ascending order.
+     * 
+     * @param array
+     */
     public static void sort(int[] array) {
         sort(array, 0, array.length - 1);
     }
