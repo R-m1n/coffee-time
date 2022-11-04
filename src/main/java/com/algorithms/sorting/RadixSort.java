@@ -19,8 +19,7 @@ public class RadixSort {
     public static void sort(int[] array) {
         int digitCount = String.valueOf(max(array)).length();
 
-        var prefixed = prefix(array, digitCount);
-        var scope = createScope(prefixed, digitCount);
+        var scope = createScope(array, digitCount);
 
         String number;
         for (int i = 0; i < array.length; i++) {
@@ -42,24 +41,18 @@ public class RadixSort {
         return max;
     }
 
-    private static String[] prefix(int[] array, int digitCount) {
-        String[] prefixed = new String[array.length];
-
-        for (int i = 0; i < prefixed.length; i++)
-            prefixed[i] = String.format("%0" + String.valueOf(digitCount) + "d", array[i]);
-
-        return prefixed;
-    }
-
-    private static List<LinkedList<Integer>> createScope(String[] prefixed, int digitCount) {
+    private static List<LinkedList<Integer>> createScope(int[] array, int digitCount) {
         List<LinkedList<Integer>> scope = new ArrayList<>();
 
         for (int i = 0; i < digitCount; i++)
             scope.add(new LinkedList<>());
 
-        for (int i = 0; i < digitCount; i++)
-            for (String item : prefixed)
-                scope.get(i).add(Character.getNumericValue(item.charAt(i)));
+        for (LinkedList<Integer> linkedList : scope) {
+            for (int item : array)
+                linkedList.add((item / (int) Math.pow(10, digitCount - 1)) % 10);
+
+            digitCount--;
+        }
 
         for (LinkedList<Integer> linkedList : scope)
             Collections.sort(linkedList);
