@@ -132,12 +132,12 @@ public class TestSort {
     @Test
     public void testBucketSort() {
         BucketSort.sort(blank, 3);
-        BucketSort.sort(singly, 3);
-        BucketSort.sort(doubly, 3);
-        BucketSort.sort(array, 3);
-        BucketSort.sort(anotherArray, 3);
-        BucketSort.sort(yetAnotherArray, 3);
-        BucketSort.sort(thisIsNoLongerFunny, 3);
+        BucketSort.sort(singly, 4);
+        BucketSort.sort(doubly, 5);
+        BucketSort.sort(array, 6);
+        BucketSort.sort(anotherArray, 7);
+        BucketSort.sort(yetAnotherArray, 8);
+        BucketSort.sort(thisIsNoLongerFunny, 9);
         assertTrue(isSorted(blank));
         assertTrue(isSorted(singly));
         assertTrue(isSorted(doubly));

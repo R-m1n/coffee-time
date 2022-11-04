@@ -6,14 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BucketSort {
+    public static void sort(int[] array) {
+        sort(array, 1);
+    }
+
     public static void sort(int[] array, int bucketCount) {
+        bucketCount = adjustBucketCount(array, bucketCount);
+
         int index = 0;
         for (var bucket : createBuckets(array, bucketCount)) {
             Collections.sort(bucket);
             for (int item : bucket)
                 array[index++] = item;
         }
-
     }
 
     private static List<LinkedList<Integer>> createBuckets(int[] array, int bucketCount) {
@@ -25,5 +30,16 @@ public class BucketSort {
             buckets.get((item / bucketCount) % bucketCount).addLast(item);
 
         return buckets;
+    }
+
+    private static int adjustBucketCount(int[] array, int bucketCount) {
+        if (bucketCount <= 1)
+            return 1;
+
+        for (int i : array)
+            if (i / 10 != 0)
+                return 1;
+
+        return bucketCount;
     }
 }
