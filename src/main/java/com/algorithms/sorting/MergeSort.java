@@ -12,7 +12,7 @@ public class MergeSort {
      * @param array
      */
     public static void sort(int[] array) {
-        if (array.length == 1)
+        if (array.length == 1 || array.length == 0)
             return;
 
         int middle = array.length / 2;
