@@ -31,4 +31,20 @@ public class TestSearch {
         assertEquals(Search.binary(sortedArray, 0, true), -1);
         assertEquals(Search.binary(sortedArray, 100, true), -1);
     }
+
+    @Test
+    public void testTernarySearch() {
+        assertEquals(Search.ternary(sortedArray, 18), 5);
+        assertEquals(Search.ternary(sortedArray, 3), 0);
+        assertEquals(Search.ternary(sortedArray, 30), 9);
+        assertEquals(Search.ternary(sortedArray, 21), 7);
+        assertEquals(Search.ternary(sortedArray, 0), -1);
+        assertEquals(Search.ternary(sortedArray, 100), -1);
+        assertEquals(Search.ternary(sortedArray, 18, true), 5);
+        assertEquals(Search.ternary(sortedArray, 3, true), 0);
+        assertEquals(Search.ternary(sortedArray, 30, true), 9);
+        assertEquals(Search.ternary(sortedArray, 21, true), 7);
+        assertEquals(Search.ternary(sortedArray, 0, true), -1);
+        assertEquals(Search.ternary(sortedArray, 100, true), -1);
+    }
 }
