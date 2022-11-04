@@ -5,7 +5,17 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * A Java implementation of Bucket Sort algorithm.
+ * 
+ * @author R-m1n
+ */
 public class BucketSort {
+    /**
+     * Sort the numbers in the input array inplace in ascending order.
+     * 
+     * @param array
+     */
     public static void sort(int[] array) {
         sort(array, 1);
     }

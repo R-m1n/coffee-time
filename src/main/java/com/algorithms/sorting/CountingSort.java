@@ -1,7 +1,7 @@
 package src.main.java.com.algorithms.sorting;
 
 /**
- * A Java implementation of Counting Sort algorihtm.
+ * A Java implementation of Counting Sort algorithm.
  * 
  * @author R-m1n
  */

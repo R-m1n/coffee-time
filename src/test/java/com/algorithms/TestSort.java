@@ -10,6 +10,7 @@ import src.main.java.com.algorithms.sorting.CountingSort;
 import src.main.java.com.algorithms.sorting.InsertionSort;
 import src.main.java.com.algorithms.sorting.MergeSort;
 import src.main.java.com.algorithms.sorting.QuickSort;
+import src.main.java.com.algorithms.sorting.RadixSort;
 import src.main.java.com.algorithms.sorting.SelectionSort;
 
 public class TestSort {
@@ -138,6 +139,24 @@ public class TestSort {
         BucketSort.sort(anotherArray, 7);
         BucketSort.sort(yetAnotherArray, 8);
         BucketSort.sort(thisIsNoLongerFunny, 9);
+        assertTrue(isSorted(blank));
+        assertTrue(isSorted(singly));
+        assertTrue(isSorted(doubly));
+        assertTrue(isSorted(array));
+        assertTrue(isSorted(anotherArray));
+        assertTrue(isSorted(yetAnotherArray));
+        assertTrue(isSorted(thisIsNoLongerFunny));
+    }
+
+    @Test
+    public void testRadixSort() {
+        RadixSort.sort(blank);
+        RadixSort.sort(singly);
+        RadixSort.sort(doubly);
+        RadixSort.sort(array);
+        RadixSort.sort(anotherArray);
+        RadixSort.sort(yetAnotherArray);
+        RadixSort.sort(thisIsNoLongerFunny);
         assertTrue(isSorted(blank));
         assertTrue(isSorted(singly));
         assertTrue(isSorted(doubly));
