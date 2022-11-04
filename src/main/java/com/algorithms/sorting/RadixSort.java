@@ -17,18 +17,14 @@ public class RadixSort {
      * @param array
      */
     public static void sort(int[] array) {
-        int digitCount = String.valueOf(max(array)).length();
+        int maxPlace = String.valueOf(max(array)).length();
 
-        var scope = createScope(array, digitCount);
+        var scopeList = createScopeList(array, maxPlace);
 
-        String number;
-        for (int i = 0; i < array.length; i++) {
-            number = "";
-            for (LinkedList<Integer> linkedList : scope)
-                number += String.valueOf(linkedList.removeFirst());
+        for (LinkedList<Integer> scope : scopeList)
+            Collections.sort(scope);
 
-            array[i] = Integer.parseInt(number);
-        }
+        replace(array, scopeList);
     }
 
     private static int max(int[] array) {
@@ -41,22 +37,32 @@ public class RadixSort {
         return max;
     }
 
-    private static List<LinkedList<Integer>> createScope(int[] array, int digitCount) {
-        List<LinkedList<Integer>> scope = new ArrayList<>();
+    private static List<LinkedList<Integer>> createScopeList(int[] array, int place) {
+        List<LinkedList<Integer>> scopeList = new ArrayList<>();
 
-        for (int i = 0; i < digitCount; i++)
-            scope.add(new LinkedList<>());
+        for (int i = 0; i < place; i++)
+            scopeList.add(new LinkedList<>());
 
-        for (LinkedList<Integer> linkedList : scope) {
+        for (LinkedList<Integer> scope : scopeList) {
             for (int item : array)
-                linkedList.add((item / (int) Math.pow(10, digitCount - 1)) % 10);
+                scope.addLast((item / (int) Math.pow(10, place - 1)) % 10);
 
-            digitCount--;
+            place--;
         }
 
-        for (LinkedList<Integer> linkedList : scope)
-            Collections.sort(linkedList);
+        return scopeList;
+    }
 
-        return scope;
+    private static void replace(int[] array, List<LinkedList<Integer>> scopeList) {
+        for (int i = 0; i < array.length; i++)
+            array[i] = Integer.parseInt(stitch(scopeList));
+    }
+
+    private static String stitch(List<LinkedList<Integer>> scopeList) {
+        String item = "";
+        for (LinkedList<Integer> scope : scopeList)
+            item += String.valueOf(scope.removeFirst());
+
+        return item;
     }
 }
