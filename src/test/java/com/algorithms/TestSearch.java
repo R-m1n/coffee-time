@@ -57,4 +57,14 @@ public class TestSearch {
         assertEquals(Search.jump(sortedArray, 0), -1);
         assertEquals(Search.jump(sortedArray, 100), -1);
     }
+
+    @Test
+    public void testExponentialSearch() {
+        assertEquals(Search.exponential(sortedArray, 18), 5);
+        assertEquals(Search.exponential(sortedArray, 3), 0);
+        assertEquals(Search.exponential(sortedArray, 30), 9);
+        assertEquals(Search.exponential(sortedArray, 21), 7);
+        assertEquals(Search.exponential(sortedArray, 0), -1);
+        assertEquals(Search.exponential(sortedArray, 100), -1);
+    }
 }

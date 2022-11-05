@@ -101,6 +101,16 @@ public class Search {
         return -1;
     }
 
+    public static int exponential(int[] array, int item) {
+
+        int bound = 1;
+        while (bound < array.length
+                && item > array[bound])
+            bound *= 2;
+
+        return binary(array, item, bound / 2, Math.min(bound, array.length - 1));
+    }
+
     private static int binary(int[] array, int item, int start, int end) {
         if (start > end)
             return -1;
