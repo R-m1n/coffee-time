@@ -1,5 +1,15 @@
 package src.main.java.com.algorithms.searching;
 
+/**
+ * A Java implementation of Searching algorithms.
+ * Linear Search, Binary Search, Ternary Search, Jump Search and Exponential
+ * Search.
+ * 
+ * All of the functions return the index of the item in the array, -1 if not
+ * found.
+ * 
+ * @author R-m1n
+ */
 public class Search {
     public static int linear(int[] array, int item) {
         for (int i = 0; i < array.length; i++)
