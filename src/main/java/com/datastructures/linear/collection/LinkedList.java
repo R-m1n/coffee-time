@@ -8,9 +8,9 @@ import java.util.NoSuchElementException;
  * 
  * @author R-m1n
  */
-public class LinkedList {
+public class LinkedList<T> {
     private class Node {
-        private int value;
+        private T value;
         private Node next;
 
         /**
@@ -23,7 +23,7 @@ public class LinkedList {
         /**
          * @return the value of the Node.
          */
-        public int getValue() {
+        public T getValue() {
             return value;
         }
 
@@ -41,7 +41,7 @@ public class LinkedList {
          * 
          * @param value
          */
-        public void setValue(int value) {
+        public void setValue(T value) {
             this.value = value;
         }
     }
@@ -55,18 +55,18 @@ public class LinkedList {
      * 
      * @param value
      */
-    public void addFirst(int value) {
+    public void addFirst(T value) {
         Node node = new Node();
-        node.setNext(this.first);
+        node.setNext(first);
         node.setValue(value);
 
-        if (this.isEmpty()) {
-            this.first = node;
-            this.last = node;
+        if (isEmpty()) {
+            first = node;
+            last = node;
         }
 
-        this.first = node;
-        this.size++;
+        first = node;
+        size++;
     }
 
     /**
@@ -74,48 +74,48 @@ public class LinkedList {
      * 
      * @param value
      */
-    public void addLast(int value) {
+    public void addLast(T value) {
         Node node = new Node();
         node.setValue(value);
-        this.last.setNext(node);
+        last.setNext(node);
 
         if (isEmpty()) {
-            this.first = node;
-            this.last = node;
+            first = node;
+            last = node;
         }
 
-        this.last = node;
-        this.size++;
+        last = node;
+        size++;
     }
 
     /**
-     * Delete the first item in the list.
+     * Remove the first item in the list.
      */
-    public void deleteFirst() {
-        this.check();
-        Node second = this.first.getNext();
-        this.first = null;
-        this.first = second;
-        this.size--;
+    public void removeFirst() {
+        check();
+        Node second = first.getNext();
+        first = null;
+        first = second;
+        size--;
     }
 
     /**
-     * Delete the last item in the list.
+     * Remove the last item in the list.
      */
-    public void deleteLast() {
-        this.check();
-        Node node = secondToLastNode(this.first, this.last);
+    public void removeLast() {
+        check();
+        Node node = secondToLastNode(first, last);
         node.setNext(null);
-        this.last = null;
-        this.last = node;
-        this.size--;
+        last = null;
+        last = node;
+        size--;
     }
 
     /**
      * @param value
      * @return index of the given value.
      */
-    public int indexOf(int value) {
+    public int indexOf(T value) {
         Node node = first;
         int index = 0;
 
@@ -134,18 +134,15 @@ public class LinkedList {
      * @param index
      * @return the item in the given index.
      */
-    public int get(int index) {
+    public T get(int index) {
         Node node;
 
-        if (index < 0) {
+        if (index < 0)
             index = size + index;
-        }
 
-        node = this.first;
-
-        for (int i = 0; i < index; i++) {
+        node = first;
+        for (int i = 0; i < index; i++)
             node = node.getNext();
-        }
 
         return node.getValue();
     }
@@ -154,7 +151,7 @@ public class LinkedList {
      * @param value
      * @return true if the list contains the given value, else false.
      */
-    public boolean contains(int value) {
+    public boolean contains(T value) {
         return indexOf(value) != -1;
     }
 
@@ -162,15 +159,16 @@ public class LinkedList {
      * @return true if the list is empty, else false.
      */
     public boolean isEmpty() {
-        return this.size == 0;
+        return size == 0;
     }
 
     /**
      * @return array of the items in the list.
      */
-    public int[] toArray() {
-        int[] array = new int[this.size];
-        Node node = this.first;
+    @SuppressWarnings("unchecked")
+    public T[] toArray() {
+        T[] array = (T[]) new Object[size];
+        Node node = first;
 
         for (int i = 0; i < array.length; i++) {
             array[i] = node.getValue();
@@ -185,57 +183,54 @@ public class LinkedList {
      */
     public void reverse() {
         Node node = new Node();
-        Node second_to_last;
+        Node secondToLast;
         int counter = 0;
 
         while (counter++ < size - 1) {
-            second_to_last = secondToLastNode(this.first, this.last);
-            this.last.setNext(second_to_last);
+            secondToLast = secondToLastNode(first, last);
+            last.setNext(secondToLast);
 
             if (counter == 1)
-                node = this.last;
+                node = last;
 
-            this.last = second_to_last;
+            last = secondToLast;
         }
 
-        this.first = node;
+        first = node;
     }
 
     /**
      * @return an array of the items in the middle of the list.
      */
-    public int[] middle() {
-        if (this.size < 3) {
-            return this.toArray();
-        }
+    @SuppressWarnings("unchecked")
+    public T[] middle() {
+        if (size < 3)
+            return toArray();
 
-        Node n1 = this.first;
-        Node n2 = this.first.getNext();
+        Node n1 = first;
+        Node n2 = first.getNext();
 
         int counter = 2;
-
         while (true) {
             n1 = n1.getNext();
 
-            for (int i = 0; i < counter; i++) {
+            for (int i = 0; i < counter; i++)
                 n2 = n2.getNext();
-            }
 
             if (n2 == null) {
-                int[] middle = new int[1];
+                T[] middle = (T[]) new Object[1];
                 middle[0] = n1.getValue();
 
                 return middle;
             }
 
             if (n2.getNext() == null) {
-                int[] middle = new int[2];
+                T[] middle = (T[]) new Object[2];
                 middle[0] = n1.getValue();
                 middle[1] = n1.getNext().getValue();
 
                 return middle;
             }
-
         }
     }
 
@@ -243,16 +238,15 @@ public class LinkedList {
      * @return true if the list has a loop, else false.
      */
     public boolean hasLoop() {
-        Node n1 = this.first;
-        Node n2 = this.first.getNext().getNext();
+        Node n1 = first;
+        Node n2 = first.getNext().getNext();
 
         while (n2 != null) {
             n1 = n1.getNext();
             n2 = n2.getNext();
 
-            if (n1 == n2) {
+            if (n1 == n2)
                 return true;
-            }
         }
 
         return false;
@@ -291,9 +285,9 @@ public class LinkedList {
     private void check() {
         checkEmpty();
 
-        if (this.size == 1) {
-            this.first = this.last = null;
-            this.size = 0;
+        if (size == 1) {
+            first = last = null;
+            size = 0;
         }
     }
 
@@ -308,6 +302,6 @@ public class LinkedList {
 
     @Override
     public String toString() {
-        return Arrays.toString(this.toArray());
+        return Arrays.toString(toArray());
     }
 }
