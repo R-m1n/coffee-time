@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 /**
- * A Java implementation of Linked List data structure.
+ * A Java implementation of Doubly Linked List data structure.
  * 
  * @author R-m1n
  */
@@ -12,12 +12,20 @@ public class LinkedList<T> {
     private class Node {
         private T value;
         private Node next;
+        private Node previous;
 
         /**
          * @return the reference of the next Node.
          */
         public Node getNext() {
             return next;
+        }
+
+        /**
+         * @return the reference of the previous Node.
+         */
+        public Node getPrevious() {
+            return previous;
         }
 
         /**
@@ -34,6 +42,15 @@ public class LinkedList<T> {
          */
         public void setNext(Node next) {
             this.next = next;
+        }
+
+        /**
+         * Set the reference of the previous Node.
+         * 
+         * @param next
+         */
+        public void setPrevious(Node previous) {
+            this.previous = previous;
         }
 
         /**
@@ -65,6 +82,7 @@ public class LinkedList<T> {
             last = node;
         }
 
+        first.setPrevious(node);
         first = node;
         size++;
     }
@@ -77,6 +95,7 @@ public class LinkedList<T> {
     public void addLast(T value) {
         Node node = new Node();
         node.setValue(value);
+        node.setPrevious(last);
         last.setNext(node);
 
         if (isEmpty()) {
@@ -104,7 +123,7 @@ public class LinkedList<T> {
      */
     public void removeLast() {
         check();
-        Node node = secondToLastNode(first, last);
+        Node node = last.getPrevious();
         node.setNext(null);
         last = null;
         last = node;
@@ -187,7 +206,7 @@ public class LinkedList<T> {
         int counter = 0;
 
         while (counter++ < size - 1) {
-            secondToLast = secondToLastNode(first, last);
+            secondToLast = last.getPrevious();
             last.setNext(secondToLast);
 
             if (counter == 1)
@@ -250,24 +269,6 @@ public class LinkedList<T> {
         }
 
         return false;
-    }
-
-    /**
-     * @param first_node
-     * @param last_node
-     * @return the second to last node.
-     */
-    private Node secondToLastNode(Node first_node, Node last_node) {
-        Node node = first_node;
-
-        while (!isNull(node)) {
-            if (node.getNext() == last_node)
-                return node;
-
-            node = node.getNext();
-        }
-
-        return null;
     }
 
     /**
