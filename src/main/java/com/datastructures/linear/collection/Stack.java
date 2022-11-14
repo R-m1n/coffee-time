@@ -5,23 +5,23 @@ package src.main.java.com.datastructures.linear.collection;
  * 
  * @author R-m1n
  */
-public interface Stack {
+public interface Stack<T> {
     /**
      * Add an item at the top of the stack.
      * 
      * @param item
      */
-    public void push(int item);
+    public void push(T item);
 
     /**
      * @return the last item in the stack.
      */
-    public int peek();
+    public T peek();
 
     /**
      * @return and remove the last item in the stack.
      */
-    public int pop();
+    public T pop();
 
     /**
      * @return true if the stack is empty, else false.

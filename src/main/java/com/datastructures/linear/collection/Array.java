@@ -8,8 +8,8 @@ import java.util.Arrays;
  * @author R-m1n
  */
 public class Array<T> {
-    private int size;
     private T[] array;
+    private int size;
     private int curr_index;
 
     public Array() {
@@ -101,6 +101,37 @@ public class Array<T> {
                 return true;
 
         return false;
+    }
+
+    /**
+     * @return size of the array.
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
+     * @return true if the array is empty, else false.
+     */
+    public boolean isEmpty() {
+        return curr_index == 0;
+    }
+
+    /**
+     * @param from
+     * @param to
+     * @return a slice of the Array in a given range.
+     */
+    public Array<T> range(int from, int to) {
+        Array<T> sliced = new Array<>();
+        for (int i = from; i < to; i++)
+            sliced.append(array[i]);
+
+        return sliced;
+    }
+
+    public Array<T> range(int from) {
+        return range(from, size);
     }
 
     /**

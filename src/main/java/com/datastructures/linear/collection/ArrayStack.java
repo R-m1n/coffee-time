@@ -1,6 +1,5 @@
 package src.main.java.com.datastructures.linear.collection;
 
-import java.util.Arrays;
 import java.util.EmptyStackException;
 
 /**
@@ -8,20 +7,26 @@ import java.util.EmptyStackException;
  * 
  * @author R-m1n
  */
-public class ArrayStack implements Stack {
-    private int[] stack;
-    private int[] max_pointers;
-    private int[] min_pointers;
-    private int count = 0;
-    private int max_count = 0;
-    private int min_count = 0;
-    private int max = Integer.MIN_VALUE;
-    private int min = Integer.MAX_VALUE;
+public class ArrayStack<T> implements Stack<T> {
+    private Array<T> array;
+    private Array<Integer> max_list;
+    private Array<Integer> min_list;
+    private Integer curr_index = 0;
+    private Integer max_index = 0;
+    private Integer min_index = 0;
+    private Integer max = Integer.MIN_VALUE;
+    private Integer min = Integer.MAX_VALUE;
+
+    public ArrayStack() {
+        array = new Array<>();
+        max_list = new Array<>();
+        min_list = new Array<>();
+    }
 
     public ArrayStack(int size) {
-        this.stack = new int[size];
-        this.max_pointers = new int[size];
-        this.min_pointers = new int[size];
+        array = new Array<>(size);
+        max_list = new Array<>(size);
+        min_list = new Array<>(size);
     }
 
     /**
@@ -29,32 +34,36 @@ public class ArrayStack implements Stack {
      * 
      * @param item
      */
-    public void push(int item) {
-        this.checkFull();
-        this.setExtremum(item);
-        this.stack[this.count++] = item;
+    public void push(T item) {
+        if (item instanceof Integer)
+            setExtremum((Integer) item);
+
+        array.append(item);
+        curr_index++;
     }
 
     /**
      * @return the last item in the stack.
      */
-    public int peek() {
-        this.checkEmpty();
-        return this.stack[this.count - 1];
+    public T peek() {
+        checkEmpty();
+        return array.get(curr_index - 1);
     }
 
     /**
      * @return and remove the last item in the stack.
      */
-    public int pop() {
-        this.checkEmpty();
-        int top = this.stack[--this.count];
+    public T pop() {
+        checkEmpty();
+        T top = array.get(--curr_index);
 
-        if (top == this.max())
-            max_count--;
+        if (top instanceof Integer) {
+            if (top == max())
+                max_index--;
 
-        if (top == this.min())
-            min_count--;
+            if (top == min())
+                min_index--;
+        }
 
         return top;
     }
@@ -62,24 +71,30 @@ public class ArrayStack implements Stack {
     /**
      * @return the maximum value in the stack.
      */
-    public int max() {
-        int pointer = max_pointers[max_count - 1];
-        return stack[pointer];
+    public T max() {
+        if (max_list.isEmpty())
+            throw new IllegalStateException("Items in the stack should be integers.");
+
+        int pointer = max_list.get(max_index - 1);
+        return array.get(pointer);
     }
 
     /**
      * @return the minimum value in the stack.
      */
-    public int min() {
-        int pointer = min_pointers[min_count - 1];
-        return stack[pointer];
+    public T min() {
+        if (min_list.isEmpty())
+            throw new IllegalStateException("Items in the stack should be integers.");
+
+        int pointer = min_list.get(min_index - 1);
+        return array.get(pointer);
     }
 
     /**
      * @return true if the stack is empty, else false.
      */
     public boolean isEmpty() {
-        return this.count == 0;
+        return curr_index == 0;
     }
 
     /**
@@ -87,25 +102,25 @@ public class ArrayStack implements Stack {
      * 
      * @param item
      */
-    private void setExtremum(int item) {
-        if (item >= this.max) {
-            this.max = item;
+    private void setExtremum(Integer item) {
+        if (item >= max) {
+            max = item;
 
             /*
              * Capture the current index at which the value is
              * the maximum in the stack.
              */
-            max_pointers[max_count++] = count;
+            max_list.insertAt(curr_index, max_index++);
         }
 
-        if (item <= this.min) {
-            this.min = item;
+        if (item <= min) {
+            min = item;
 
             /*
              * Capture the current index at which the value is
              * the minimum in the stack.
              */
-            min_pointers[min_count++] = count;
+            min_list.insertAt(curr_index, min_index++);
         }
     }
 
@@ -117,17 +132,8 @@ public class ArrayStack implements Stack {
             throw new EmptyStackException();
     }
 
-    /**
-     * @throws StackOverflowError if the stack is full.
-     */
-    private void checkFull() {
-        if (this.count == stack.length)
-            throw new StackOverflowError();
-    }
-
     @Override
     public String toString() {
-        var content = Arrays.copyOfRange(this.stack, 0, this.count);
-        return Arrays.toString(content);
+        return array.range(0, curr_index).toString();
     }
 }

@@ -9,9 +9,9 @@ import java.util.Queue;
  * 
  * @author R-m1n
  */
-public class Quack implements Stack {
-    private Queue<Integer> q1 = new ArrayDeque<>();
-    private Queue<Integer> q2 = new ArrayDeque<>();
+public class Quack<T> implements Stack<T> {
+    private Queue<T> q1 = new ArrayDeque<>();
+    private Queue<T> q2 = new ArrayDeque<>();
     private int count = 0;
 
     /**
@@ -19,7 +19,7 @@ public class Quack implements Stack {
      * 
      * @param item
      */
-    public void push(int item) {
+    public void push(T item) {
         q1.add(item);
         count++;
     }
@@ -27,14 +27,14 @@ public class Quack implements Stack {
     /**
      * @return the item at the top of the stack.
      */
-    public int peek() {
+    public T peek() {
         return getTop();
     }
 
     /**
      * @return and remove the item at the top of the stack.
      */
-    public int pop() {
+    public T pop() {
         checkEmpty();
         return removeTop();
     }
@@ -56,18 +56,14 @@ public class Quack implements Stack {
     /**
      * @return and remove the item at the top of the first queue.
      */
-    private int removeTop() {
-        int top;
-
-        for (int i = 0; i < count - 1; i++) {
+    private T removeTop() {
+        for (int i = 0; i < count - 1; i++)
             q2.add(q1.remove());
-        }
 
-        top = q1.remove();
+        T top = q1.remove();
 
-        while (!q2.isEmpty()) {
+        while (!q2.isEmpty())
             q1.add(q2.remove());
-        }
 
         count--;
 
@@ -77,18 +73,14 @@ public class Quack implements Stack {
     /**
      * @return the item at the top of the first queue.
      */
-    private int getTop() {
-        int top;
-
-        for (int i = 0; i < count - 1; i++) {
+    private T getTop() {
+        for (int i = 0; i < count - 1; i++)
             q2.add(q1.remove());
-        }
 
-        top = q1.peek();
+        T top = q1.peek();
 
-        while (!q2.isEmpty()) {
+        while (!q2.isEmpty())
             q1.add(q2.remove());
-        }
 
         q1.add(q1.remove());
 
@@ -99,7 +91,7 @@ public class Quack implements Stack {
      * @throws EmptyStackException if the stack is empty.
      */
     private void checkEmpty() {
-        if (this.isEmpty())
+        if (isEmpty())
             throw new EmptyStackException();
     }
 }
