@@ -108,26 +108,48 @@ public class LinkedList<T> {
     }
 
     /**
-     * Remove the first item in the list.
+     * @return and remove the first item in the list.
      */
-    public void removeFirst() {
+    public T removeFirst() {
         check();
+        T temp = first.getValue();
         Node second = first.getNext();
         first = null;
         first = second;
         size--;
+
+        return temp;
     }
 
     /**
-     * Remove the last item in the list.
+     * @return and remove the last item in the list.
      */
-    public void removeLast() {
+    public T removeLast() {
         check();
+        T temp = last.getValue();
         Node node = last.getPrevious();
         node.setNext(null);
         last = null;
         last = node;
         size--;
+
+        return temp;
+    }
+
+    /**
+     * @return the first item in the list.
+     */
+    public T getFirst() {
+        check();
+        return first.getValue();
+    }
+
+    /**
+     * @return the last item in the list.
+     */
+    public T getLast() {
+        check();
+        return last.getValue();
     }
 
     /**
@@ -136,8 +158,8 @@ public class LinkedList<T> {
      */
     public int indexOf(T value) {
         Node node = first;
-        int index = 0;
 
+        int index = 0;
         while (!isNull(node)) {
             if (value == node.getValue())
                 return index;
@@ -154,14 +176,19 @@ public class LinkedList<T> {
      * @return the item in the given index.
      */
     public T get(int index) {
-        Node node;
+        Node node = new Node();
 
-        if (index < 0)
-            index = size + index;
+        if (index < 0) {
+            node = last;
+            for (int i = 0; i < Math.abs(index) - 1; i++)
+                node = node.getPrevious();
+        }
 
-        node = first;
-        for (int i = 0; i < index; i++)
-            node = node.getNext();
+        else {
+            node = first;
+            for (int i = 0; i < index; i++)
+                node = node.getNext();
+        }
 
         return node.getValue();
     }
@@ -184,9 +211,8 @@ public class LinkedList<T> {
     /**
      * @return array of the items in the list.
      */
-    @SuppressWarnings("unchecked")
     public T[] toArray() {
-        T[] array = (T[]) new Object[size];
+        T[] array = newArrayInstance(size);
         Node node = first;
 
         for (int i = 0; i < array.length; i++) {
@@ -221,7 +247,6 @@ public class LinkedList<T> {
     /**
      * @return an array of the items in the middle of the list.
      */
-    @SuppressWarnings("unchecked")
     public T[] middle() {
         if (size < 3)
             return toArray();
@@ -237,14 +262,14 @@ public class LinkedList<T> {
                 n2 = n2.getNext();
 
             if (n2 == null) {
-                T[] middle = (T[]) new Object[1];
+                T[] middle = newArrayInstance(1);
                 middle[0] = n1.getValue();
 
                 return middle;
             }
 
             if (n2.getNext() == null) {
-                T[] middle = (T[]) new Object[2];
+                T[] middle = newArrayInstance(2);
                 middle[0] = n1.getValue();
                 middle[1] = n1.getNext().getValue();
 
@@ -293,12 +318,16 @@ public class LinkedList<T> {
     }
 
     /**
-     * @throws NoSuchElementException if the list is empty.
+     * Throw NoSuchElementException if the list is empty.
      */
     private void checkEmpty() {
-        if (isEmpty()) {
+        if (isEmpty())
             throw new NoSuchElementException();
-        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private T[] newArrayInstance(int size) {
+        return (T[]) new Object[size];
     }
 
     @Override
