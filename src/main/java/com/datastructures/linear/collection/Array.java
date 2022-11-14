@@ -19,7 +19,7 @@ public class Array<T> {
     }
 
     public Array(int initCap) {
-        this.size = initCap > 0 ? initCap : 1;
+        this.size = initCap > 0 ? initCap : 10;
         this.array = newArrayInstance(size);
         this.curr_index = 0;
     }
@@ -108,6 +108,13 @@ public class Array<T> {
      */
     public int size() {
         return size;
+    }
+
+    /**
+     * @return number of items in the array.
+     */
+    public int length() {
+        return curr_index;
     }
 
     /**
