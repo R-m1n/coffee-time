@@ -7,29 +7,23 @@ import java.util.Stack;
  * 
  * @author R-m1n
  */
-public class Sueue implements Queue {
-    private class EmptyQueueException extends IllegalStateException {
-        public EmptyQueueException(String errMessage) {
-            super(errMessage);
-        }
-    }
-
-    private Stack<Integer> s1 = new Stack<>();;
-    private Stack<Integer> s2 = new Stack<>();
+public class Sueue<T> implements Queue<T> {
+    private Stack<T> s1 = new Stack<>();
+    private Stack<T> s2 = new Stack<>();
 
     /**
      * Add an item to the back of the queue.
      * 
      * @param item
      */
-    public void enqueue(int item) {
+    public void enqueue(T item) {
         s1.push(item);
     }
 
     /**
      * @return and remove an item from the front of the queue.
      */
-    public int dequeue() {
+    public T dequeue() {
         checkEmpty();
         changeStack();
         return s2.pop();
@@ -38,7 +32,7 @@ public class Sueue implements Queue {
     /**
      * @return an item from the front of the queue.
      */
-    public int peek() {
+    public T peek() {
         changeStack();
         return s2.peek();
     }
@@ -59,11 +53,8 @@ public class Sueue implements Queue {
                 s2.push(s1.pop());
     }
 
-    /**
-     * @throws EmptyQueueException if the queue is empty.
-     */
     private void checkEmpty() {
         if (this.isEmpty())
-            throw new EmptyQueueException("The Queue is Empty.");
+            throw new IllegalStateException("The Queue is Empty.");
     }
 }

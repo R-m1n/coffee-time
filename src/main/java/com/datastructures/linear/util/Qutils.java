@@ -16,7 +16,7 @@ public class Qutils {
      * @param k
      * @param queue
      */
-    public static void reverseFirst(int k, Queue queue) {
+    public static void reverseFirst(int k, Queue<Integer> queue) {
         Stack<Integer> stack = new Stack<>();
         int front;
 

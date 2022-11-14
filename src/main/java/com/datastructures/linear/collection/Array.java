@@ -168,18 +168,7 @@ public class Array<T> {
      * @param index
      */
     public void insertAt(T item, int index) {
-        T[] temp = newArrayInstance(size);
-
-        for (int i = 0; i < array.length; i++) {
-            if (i == index) {
-                temp[i] = item;
-                continue;
-            }
-
-            temp[i] = array[i];
-        }
-
-        array = temp;
+        array[index] = item;
     }
 
     @Override

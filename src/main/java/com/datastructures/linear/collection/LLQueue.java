@@ -1,6 +1,5 @@
 package src.main.java.com.datastructures.linear.collection;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -8,29 +7,29 @@ import java.util.LinkedList;
  * 
  * @author R-m1n
  */
-public class LLQueue implements Queue {
-    LinkedList<Integer> ll = new LinkedList<>();
+public class LLQueue<T> implements Queue<T> {
+    LinkedList<T> ll = new LinkedList<>();
 
     /**
      * Add an item to the back of the queue.
      * 
      * @param item
      */
-    public void enqueue(int item) {
+    public void enqueue(T item) {
         ll.addLast(item);
     }
 
     /**
      * @return and remove an item from the beginning of the queue.
      */
-    public int dequeue() {
+    public T dequeue() {
         return ll.removeFirst();
     }
 
     /**
      * @return an item from the beginning of the queue.
      */
-    public int peek() {
+    public T peek() {
         return ll.getFirst();
     }
 
@@ -57,7 +56,7 @@ public class LLQueue implements Queue {
 
     @Override
     public String toString() {
-        return Arrays.toString(this.toArray());
+        return ll.toString();
     }
 
 }
