@@ -12,17 +12,15 @@ public class Array<T> {
     private T[] array;
     private int curr_index;
 
-    @SuppressWarnings("unchecked")
     public Array() {
-        this.size = 1;
-        this.array = (T[]) new Object[size];
+        this.size = 10;
+        this.array = newArrayInstance(size);
         this.curr_index = 0;
     }
 
-    @SuppressWarnings("unchecked")
-    public Array(int size) {
-        this.size = size > 0 ? size : 1;
-        this.array = (T[]) new Object[size];
+    public Array(int initCap) {
+        this.size = initCap > 0 ? initCap : 1;
+        this.array = newArrayInstance(size);
         this.curr_index = 0;
     }
 
@@ -32,14 +30,13 @@ public class Array<T> {
      * 
      * @param value
      */
-    @SuppressWarnings("unchecked")
     public void append(T value) {
-        if (curr_index != size)
+        if (curr_index < size)
             array[curr_index++] = value;
 
         else {
             size *= 2;
-            T[] temp = (T[]) new Object[size];
+            T[] temp = newArrayInstance(size);
 
             int counter = 0;
             for (T item : array)
@@ -55,17 +52,19 @@ public class Array<T> {
      * 
      * @param index
      */
-    @SuppressWarnings("unchecked")
-    public void removeAt(int index) {
-        T[] temp = (T[]) new Object[--size];
+    public T removeAt(int index) {
+        T[] newArray = newArrayInstance(size);
+        T temp = get(index);
 
         int counter = 0;
         for (T item : array)
             if (item != array[index])
-                temp[counter++] = item;
+                newArray[counter++] = item;
 
         curr_index--;
-        array = temp;
+        array = newArray;
+
+        return temp;
     }
 
     /**
@@ -74,13 +73,9 @@ public class Array<T> {
      */
     public int indexOf(T value) {
 
-        int counter = 0;
-        for (T item : array) {
-            if (value == item)
-                return counter;
-
-            counter++;
-        }
+        for (int i = 0; i < array.length; i++)
+            if (array[i] == value)
+                return i;
 
         return -1;
     }
@@ -90,6 +85,9 @@ public class Array<T> {
      * @return the item at a given index.
      */
     public T get(int index) {
+        if (index < 0)
+            index = size + index;
+
         return array[index];
     }
 
@@ -122,13 +120,12 @@ public class Array<T> {
     /**
      * Reverse the array inplace.
      */
-    @SuppressWarnings("unchecked")
     public void reverse() {
-        T[] temp = (T[]) new Object[size];
-        int index = 0;
+        T[] temp = newArrayInstance(size);
 
-        for (int counter = size - 1; counter >= 0; counter--)
-            temp[index++] = array[counter];
+        int counter = 0;
+        for (int i = size - 1; i >= 0; i--)
+            temp[counter++] = array[i];
 
         array = temp;
     }
@@ -139,17 +136,16 @@ public class Array<T> {
      * @param item
      * @param index
      */
-    @SuppressWarnings("unchecked")
     public void insertAt(T item, int index) {
-        T[] temp = (T[]) new Object[size];
+        T[] temp = newArrayInstance(size);
 
-        for (int counter = 0; counter < array.length; counter++) {
-            if (counter == index) {
-                temp[counter] = item;
+        for (int i = 0; i < array.length; i++) {
+            if (i == index) {
+                temp[i] = item;
                 continue;
             }
 
-            temp[counter] = array[counter];
+            temp[i] = array[i];
         }
 
         array = temp;
@@ -160,4 +156,8 @@ public class Array<T> {
         return Arrays.toString(Arrays.copyOfRange(array, 0, curr_index));
     }
 
+    @SuppressWarnings("unchecked")
+    private T[] newArrayInstance(int size) {
+        return (T[]) new Object[size];
+    }
 }
