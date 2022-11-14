@@ -5,7 +5,7 @@ package src.main.java.com.datastructures.linear.collection;
  * 
  * @author R-m1n
  */
-public interface Map {
+public interface Map<K, V> {
 
     /**
      * Add a key-value pair in the hash table.
@@ -13,26 +13,25 @@ public interface Map {
      * @param key
      * @param value
      */
-    public void put(int key, String value);
+    public void put(K key, V value);
 
     /**
      * @param key
      * @return the value stored with the key, null if not found.
      */
-    public String get(int key);
+    public V get(K key);
 
     /**
      * @param key
      * @param defaultValue
      * @return the value stored with the key, defaultValue if not found.
      */
-    public String get(int key, String defaultValue);
+    public V get(K key, V defaultValue);
 
     /**
      * Remove the key-value pair in the hash table stored with the key.
      * 
      * @param key
      */
-    public void remove(int key);
-
+    public void remove(K key);
 }

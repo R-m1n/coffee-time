@@ -6,45 +6,25 @@ package src.main.java.com.datastructures.linear.collection;
  * 
  * @author R-m1n
  */
-public class HashMap implements Map {
-    private class FullMapException extends IllegalStateException {
-        public FullMapException(String errMessage) {
-            super(errMessage);
-        }
-    }
-
-    /**
-     * A container for the key-value pair.
-     */
+public class HashMap<K, V> implements Map<K, V> {
     private class Entry {
-        private int key;
-        private String value;
+        private K key;
+        private V value;
 
-        public Entry(int key, String value) {
+        public Entry(K key, V value) {
             this.key = key;
             this.value = value;
         }
 
-        public int getKey() {
-            return key;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
+        public void setValue(V value) {
             this.value = value;
         }
-
     }
 
-    private Entry[] entries;
-    private int size;
+    private Array<Entry> entries;
 
     public HashMap(int size) {
-        this.entries = new Entry[size];
-        this.size = size;
+        entries = new Array<>(size);
     }
 
     /**
@@ -53,7 +33,7 @@ public class HashMap implements Map {
      * @param key
      * @param value
      */
-    public void put(int key, String value) {
+    public void put(K key, V value) {
         var entry = getEntry(key);
 
         if (entry != null) {
@@ -61,15 +41,15 @@ public class HashMap implements Map {
             return;
         }
 
-        entries[getIndex(key)] = new Entry(key, value);
+        entries.insertAt(new Entry(key, value), getIndex(key));
     }
 
     /**
      * @param key
      * @return the value stored with the key, null if not found.
      */
-    public String get(int key) {
-        return getEntry(key) == null ? null : getEntry(key).getValue();
+    public V get(K key) {
+        return getEntry(key) == null ? null : getEntry(key).value;
     }
 
     /**
@@ -77,8 +57,8 @@ public class HashMap implements Map {
      * @param defaultValue
      * @return the value stored with the key, defaultValue if not found.
      */
-    public String get(int key, String defaultValue) {
-        return getEntry(key) == null ? defaultValue : getEntry(key).getValue();
+    public V get(K key, V defaultValue) {
+        return getEntry(key) == null ? defaultValue : getEntry(key).value;
     }
 
     /**
@@ -86,25 +66,28 @@ public class HashMap implements Map {
      * 
      * @param key
      */
-    public void remove(int key) {
-        for (int i = 0; i < entries.length; i++) {
-            if (entries[i] == null) {
+    public void remove(K key) {
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries.get(i) == null)
                 continue;
-            }
 
-            if (entries[i].getKey() == key) {
-                entries[i] = null;
+            if (entries.get(i).key == key) {
+                entries.insertAt(null, i);
                 return;
             }
         }
+    }
+
+    public boolean contains(K key) {
+        return getEntry(key) != null;
     }
 
     /**
      * @param key
      * @return hash value of key.
      */
-    private int hash(int key) {
-        return key % size;
+    private int hash(K key) {
+        return key.hashCode() % entries.size();
     }
 
     /**
@@ -112,22 +95,21 @@ public class HashMap implements Map {
      * @param step
      * @return linear probing value of a step.
      */
-    private int probe(int key, int step) {
-        return (hash(key) + step) % size;
+    private int probe(K key, int step) {
+        return (hash(key) + step) % entries.size();
     }
 
     /**
      * @param key
      * @return entry, null if not found.
      */
-    private Entry getEntry(int key) {
-        for (Entry entry : entries) {
-            if (entry == null)
+    private Entry getEntry(K key) {
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries.get(i) == null)
                 continue;
 
-            if (entry.getKey() == key) {
-                return entry;
-            }
+            if (entries.get(i).key == key)
+                return entries.get(i);
         }
 
         return null;
@@ -135,16 +117,15 @@ public class HashMap implements Map {
 
     /**
      * @param key
-     * @throws FullMapException if there's no empty slots in the hash table.
      * @return index of an empty slot in the hash table.
      */
-    private int getIndex(int key) {
+    private int getIndex(K key) {
         var index = hash(key);
         var step = 1;
 
-        while (entries[index] != null) {
-            if (step == size)
-                throw new FullMapException("There's no empty slot in the hash table.");
+        while (entries.get(index) != null) {
+            if (step == entries.size())
+                throw new IllegalStateException("There's no empty slot in the hash table.");
 
             index = probe(key, step++);
         }

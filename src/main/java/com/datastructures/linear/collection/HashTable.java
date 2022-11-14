@@ -8,42 +8,22 @@ import java.util.LinkedList;
  * 
  * @author R-m1n
  */
-public class HashTable implements Map {
-
-    /**
-     * A container for the key-value pair.
-     */
+public class HashTable<K, V> implements Map<K, V> {
     private class Entry {
-        private int key;
-        private String value;
+        private K key;
+        private V value;
 
-        public Entry(int key, String value) {
+        public Entry(K key, V value) {
             this.key = key;
             this.value = value;
         }
 
-        public int getKey() {
-            return key;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
+        public void setValue(V value) {
             this.value = value;
         }
-
     }
 
-    private LinkedList<Entry>[] entries;
-    private int size;
-
-    @SuppressWarnings("unchecked")
-    public HashTable(int size) {
-        this.entries = new LinkedList[size];
-        this.size = size;
-    }
+    private Array<LinkedList<Entry>> entries = new Array<>();
 
     /**
      * Add a key-value pair in the hash table.
@@ -51,7 +31,7 @@ public class HashTable implements Map {
      * @param key
      * @param value
      */
-    public void put(int key, String value) {
+    public void put(K key, V value) {
         var entry = getEntry(key);
 
         if (entry != null) {
@@ -67,8 +47,8 @@ public class HashTable implements Map {
      * @param key
      * @return the value stored with the key, null if not found.
      */
-    public String get(int key) {
-        return (getEntry(key) == null) ? null : getEntry(key).getValue();
+    public V get(K key) {
+        return (getEntry(key) == null) ? null : getEntry(key).value;
     }
 
     /**
@@ -76,8 +56,8 @@ public class HashTable implements Map {
      * @param defaultValue
      * @return the value stored with the key, defaultValue if not found.
      */
-    public String get(int key, String defaulValue) {
-        return (getEntry(key) == null) ? defaulValue : getEntry(key).getValue();
+    public V get(K key, V defaulValue) {
+        return (getEntry(key) == null) ? defaulValue : getEntry(key).value;
     }
 
     /**
@@ -85,36 +65,42 @@ public class HashTable implements Map {
      * 
      * @param key
      */
-    public void remove(int key) {
+    public void remove(K key) {
         var entry = getEntry(key);
 
         if (entry == null)
-            throw new IllegalStateException();
+            return;
 
         getBucket(key).remove(entry);
     }
 
     /**
      * @param key
+     * @return true if hashtable contains key, else false.
+     */
+    public boolean contains(K key) {
+        return getEntry(key) != null;
+    }
+
+    /**
+     * @param key
      * @return hash value of key.
      */
-    private int hash(int key) {
-        return Math.abs(key) % size;
+    private int hash(K key) {
+        return key.hashCode() % entries.size();
     }
 
     /**
      * @param key
      * @return entry, null if not found.
      */
-    private Entry getEntry(int key) {
+    private Entry getEntry(K key) {
         var bucket = getBucket(key);
 
-        if (bucket != null) {
-            for (Entry entry : bucket) {
-                if (entry.getKey() == key)
+        if (bucket != null)
+            for (Entry entry : bucket)
+                if (entry.key == key)
                     return entry;
-            }
-        }
 
         return null;
     }
@@ -123,8 +109,8 @@ public class HashTable implements Map {
      * @param key
      * @return bucket, null if not initialized.
      */
-    private LinkedList<Entry> getBucket(int key) {
-        return entries[hash(key)];
+    private LinkedList<Entry> getBucket(K key) {
+        return entries.get(hash(key));
     }
 
     /**
@@ -132,10 +118,10 @@ public class HashTable implements Map {
      * 
      * @param key
      */
-    private void initNullBucket(int key) {
+    private void initNullBucket(K key) {
         int index = hash(key);
 
-        if (entries[index] == null)
-            entries[index] = new LinkedList<>();
+        if (entries.get(index) == null)
+            entries.insertAt(new LinkedList<>(), index);
     }
 }
