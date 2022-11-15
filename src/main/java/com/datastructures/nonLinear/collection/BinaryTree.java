@@ -142,7 +142,7 @@ public class BinaryTree extends Tree {
      *         principle (Left < Root < Right), else false.
      */
     public boolean validate() {
-        return validate(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return validate(root, min(), max());
     }
 
     /**
@@ -204,9 +204,8 @@ public class BinaryTree extends Tree {
     public List<Integer> levelOrder() {
         List<Integer> list = new ArrayList<>();
 
-        for (int i = 0; i <= height(); i++) {
+        for (int i = 0; i <= height(); i++)
             list.addAll(nodesAt(i));
-        }
 
         return list;
     }
@@ -281,9 +280,8 @@ public class BinaryTree extends Tree {
             throw new NullTreeException();
 
         int value = node.getValue();
-        if (root.getValue() == value) {
+        if (root.getValue() == value)
             return root;
-        }
 
         Node current = root;
         while (current != null) {
@@ -305,15 +303,12 @@ public class BinaryTree extends Tree {
     }
 
     protected boolean contains(Node node) {
-        if (find(node) != null)
-            return true;
-
-        return false;
+        return find(node) != null;
     }
 
     protected void exists(Node node) {
         if (find(node) == null)
-            throw new NodeNotFoundException();
+            throw new NodeNotFoundException(String.format("%d does not exist.", node.getValue()));
     }
 
     protected void remove(Node node, int value) {
@@ -370,6 +365,10 @@ public class BinaryTree extends Tree {
         return 1 + Math.max(height(node.getLeft()), height(node.getRight()));
     }
 
+    protected int depth(Node node) {
+        return depth(root, node);
+    }
+
     protected int depth(Node root, Node node) {
         if (root.getValue() > node.getValue())
             return 1 + depth(root.getLeft(), node);
@@ -378,10 +377,6 @@ public class BinaryTree extends Tree {
             return 1 + depth(root.getRight(), node);
 
         return 0;
-    }
-
-    protected int depth(Node node) {
-        return depth(root, node);
     }
 
     protected int max(Node node) {
@@ -435,8 +430,8 @@ public class BinaryTree extends Tree {
                 && validate(node.getRight(), node.getValue(), max);
     }
 
-    protected boolean balanced(Node node) {
-        return Math.abs(height(node.getLeft()) - height(node.getRight())) <= 1;
+    protected boolean balanced(Node root) {
+        return Math.abs(height(root.getLeft()) - height(root.getRight())) <= 1;
     }
 
     protected boolean isBalanced(Node node) {

@@ -95,8 +95,8 @@ public abstract class Tree {
     }
 
     protected class NodeNotFoundException extends NullPointerException {
-        public NodeNotFoundException() {
-            super();
+        public NodeNotFoundException(String errMsg) {
+            super(errMsg);
         }
     }
 
