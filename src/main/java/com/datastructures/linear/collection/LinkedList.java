@@ -209,6 +209,13 @@ public class LinkedList<T> {
     }
 
     /**
+     * @return size of the linked list.
+     */
+    public int size() {
+        return size;
+    }
+
+    /**
      * @return array of the items in the list.
      */
     public T[] toArray() {
